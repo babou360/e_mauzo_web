@@ -1,0 +1,529 @@
+@import '../global.scss';
+
+.dashboard {
+  padding: 2rem;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+  @media #{$sm} {
+    padding: 1rem;
+  }
+}
+
+// Modal Overlay
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.modalContent {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  max-width: 90%;
+  max-height: 90%;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  .closeBtn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: #ef4444;
+    color: white;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.2s;
+    &:hover {
+      background: #dc2626;
+    }
+  }
+
+  .modalHeader {
+    margin-bottom: 1.5rem;
+    h3 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #1e293b;
+    }
+  }
+}
+
+// Header
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 25px;
+  @include mobile {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .durations_wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    @include mobile {
+      width: 100%;
+    }
+
+    .durations {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+
+      .duration {
+        padding: 12px 22px;
+        border-radius: 14px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 14px;
+        color: white;
+        background: rgba(30, 41, 59, 0.3);
+        backdrop-filter: blur(6px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.25s ease;
+
+        &:hover {
+          transform: translateY(-2px);
+          background: linear-gradient(135deg, #1e3a8a 0%, #5b21b6 100%);
+          box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+        }
+
+        &.active {
+          background: linear-gradient(135deg, #1e3a8a 0%, $secondColor 100%);
+          box-shadow: 0 6px 18px rgba(91, 33, 182, 0.4);
+          transform: translateY(-3px);
+        }
+      }
+    }
+
+    .date_picker {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      margin-top: 10px;
+      gap: 10px;
+      flex-wrap: wrap;
+
+      .one {
+        input {
+          padding: 10px;
+          border-radius: 12px;
+          border: 1px solid #dcdcdc;
+          background: #fff;
+          font-size: 15px;
+          color: #222;
+          outline: none;
+          transition: 0.25s ease;
+
+          &::-webkit-calendar-picker-indicator {
+            filter: invert(0);
+            opacity: 0.6;
+            cursor: pointer;
+          }
+
+          &:hover {
+            border-color: #bdbdbd;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+          }
+
+          &:focus {
+            border-color: #6a4df5;
+            box-shadow: 0 0 0 3px rgba(106, 77, 245, 0.2);
+          }
+        }
+      }
+    }
+  }
+
+  .exact_duration {
+    width: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 10px 16px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: all 0.25s ease;
+    @include mobile {
+      width: 100%;
+      justify-content: center;
+      margin-top: 10px;
+    }
+
+    &:hover {
+      box-shadow: 0 6px 18px rgba(91, 33, 182, 0.18);
+      transform: translateY(-2px);
+    }
+
+    .icon {
+      color: $secondColor;
+      flex-shrink: 0;
+    }
+
+    p {
+      font-size: 14px;
+      font-weight: 600;
+      color: $mainColor;
+      margin: 0;
+      letter-spacing: 0.3px;
+      span {
+        color: $secondColor;
+        margin-left: 4px;
+      }
+    }
+  }
+}
+
+// Metrics Grid
+.metricsGrid {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  gap: 1rem;
+  flex-wrap: wrap;
+  @include mobile {
+    flex-direction: column;
+  }
+
+  .card {
+    flex: 1;
+    min-width: 180px;
+    height: 150px;
+    border-radius: 18px;
+    padding: 18px;
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(12px);
+    border: 1.5px solid rgba(91, 33, 182, 0.25);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.25s ease;
+    cursor: pointer;
+
+    &:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 14px 28px rgba(91, 33, 182, 0.25);
+      border-color: $secondColor;
+    }
+
+    .title {
+      font-size: 16px;
+      font-weight: 600;
+      color: $mainColor;
+      text-align: left;
+    }
+
+    .other {
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+
+      p {
+        font-size: 28px;
+        font-weight: 800;
+        color: $secondColor;
+        margin: 0;
+        letter-spacing: 0.5px;
+        text-shadow: 0 0 8px rgba(91, 33, 182, 0.25);
+      }
+    }
+  }
+
+  .skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.8s infinite;
+  }
+}
+
+@keyframes loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+// Table Section (used for tables + chart)
+.tableSection,
+.chartSection {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+
+  h2 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 1.5rem;
+    position: relative;
+    padding-bottom: 0.5rem;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 70px;
+      height: 4px;
+      background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+      border-radius: 2px;
+    }
+  }
+
+  .tableLoading {
+    text-align: center;
+    padding: 3rem;
+    color: #94a3b8;
+    font-style: italic;
+  }
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+
+  thead {
+    background: #f8fafc;
+    th {
+      text-align: left;
+      padding: 1rem 1.25rem;
+      font-weight: 600;
+      color: #475569;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid #e2e8f0;
+    }
+  }
+
+  tbody {
+    tr {
+      transition: background 0.2s;
+      td {
+        padding: 1rem 1.25rem;
+        border-bottom: 1px solid #f1f5f9;
+        color: #334155;
+      }
+      &:last-child td {
+        border-bottom: none;
+      }
+      &:hover {
+        background: #f8fafc;
+      }
+    }
+  }
+
+  .eyeIcon {
+    color: #3b82f6;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1.1rem;
+  }
+
+  .emptyRow {
+    text-align: center;
+    padding: 3rem !important;
+    color: #94a3b8;
+    font-style: italic;
+  }
+}
+
+// CUSTOM MONTHLY BAR CHART (Pure SCSS – No Libraries)
+.customBarChart {
+  background: #f8fafc;
+  border-radius: 14px;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+  min-height: 460px;
+}
+
+.barsContainer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 360px;
+  padding: 0 1rem;
+  gap: 1rem;
+}
+
+.barGroup {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  max-width: 80px;
+}
+
+.barWrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 5px;
+  padding: 0 6px;
+}
+
+.barRevenue,
+.barProfit,
+.barCost {
+  flex: 1;
+  background: linear-gradient(to top, #3b82f6, #60a5fa);
+  border-radius: 8px 8px 0 0;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  min-height: 4px;
+
+  &::after {
+    content: attr(data-value);
+    position: absolute;
+    top: -32px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #1e293b;
+    background: white;
+    padding: 4px 8px;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    z-index: 10;
+  }
+
+  &:hover::after {
+    opacity: 1;
+  }
+}
+
+.barProfit {
+  background: linear-gradient(to top, #10b981, #34d399);
+}
+
+.barCost {
+  background: linear-gradient(to top, #f59e0b, #fbbf24);
+}
+
+.barLabel {
+  font-size: 0.85rem;
+  color: #64748b;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 8px;
+}
+
+// Shimmer Loading Bars
+.shimmerBars {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 360px;
+  padding: 0 1rem;
+  gap: 1rem;
+}
+
+.shimmerBar {
+  flex: 1;
+  max-width: 80px;
+  height: 60%;
+  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+  border-radius: 8px;
+  opacity: 0.7;
+  animation-delay: var(--delay, 0s);
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+// Chart Legend
+.chartLegend {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+  padding-top: 1rem;
+  border-top: 1px solid #e2e8f0;
+
+  span {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.95rem;
+    color: #475569;
+    font-weight: 500;
+
+    i {
+      width: 18px;
+      height: 18px;
+      border-radius: 6px;
+    }
+
+    .revenue { background: #3b82f6; }
+    .profit { background: #10b981; }
+    .cost { background: #f59e0b; }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .barsContainer,
+  .shimmerBars {
+    gap: 0.5rem;
+    padding: 0 0.5rem;
+  }
+  .barGroup {
+    max-width: 60px;
+  }
+  .barLabel {
+    font-size: 0.75rem;
+  }
+}

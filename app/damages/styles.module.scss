@@ -1,0 +1,618 @@
+@import '../../global.scss';
+
+$main: #505BE3;
+$bold: #2E3674;
+$light: #ECEFF7;
+$border: #E2E8F0;
+$bg: #F8FAFC;
+$white: #FFFFFF;
+$shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+$radius: 16px;
+
+/* ── ROOT ── */
+.damaged {
+  background: linear-gradient(135deg, $bg, #edf2f7);
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+}
+
+/* ── SCROLL CONTAINER ── */
+.scrollContainer {
+  height: 100vh;
+  overflow-y: auto;
+  padding: 0 3rem;
+
+  @media (max-width: 768px) {
+    padding: 0 1rem;
+  }
+}
+
+/* ── HEADER ── */
+.header {
+  padding: 2rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  .title_container {
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: $bold;
+      margin-bottom: 0.5rem;
+    }
+    .subtitle {
+      font-size: 1rem;
+      color: #718096;
+    }
+  }
+
+  .add_btn {
+    background: linear-gradient(135deg, $main, darken($main, 10%));
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 4px 12px rgba($main, 0.2);
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba($main, 0.3);
+    }
+  }
+}
+
+/* ── DURATION CHIPS ── */
+.durations {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+
+  .chip {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    border: 1px solid $border;
+    background: $white;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &.active {
+      background: $main;
+      color: white;
+      border-color: $main;
+      box-shadow: 0 2px 8px rgba($main, 0.2);
+    }
+
+    &:hover:not(.active) {
+      background: $main;
+      color: white;
+      border-color: $main;
+    }
+  }
+}
+
+/* ── STATS CARDS ── */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+
+  .card {
+    background: $white;
+    padding: 1.5rem;
+    border-radius: $radius;
+    box-shadow: $shadow;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba($main, 0.1);
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 6px;
+      height: 100%;
+      background: linear-gradient(to bottom, $main, lighten($main, 20%));
+    }
+
+    .card_icon {
+      width: 3rem;
+      height: 3rem;
+      background: rgba($main, 0.1);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      color: $main;
+
+      .spin {
+        animation: spin 1s linear infinite;
+      }
+    }
+
+    h2 {
+      font-size: 0.9rem;
+      color: #718096;
+      margin-bottom: 0.5rem;
+    }
+    p {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: $bold;
+    }
+  }
+}
+
+/* ── TABLE WRAPPER ── */
+.tableWrapper {
+  background: $white;
+  border-radius: $radius;
+  box-shadow: $shadow;
+  overflow: hidden;
+
+  .tableHeader {
+    background: linear-gradient(135deg, $main, darken($main, 10%));
+    color: white;
+    padding: 1rem 1.5rem;
+    display: flex;
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  .row {
+    display: flex;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid $border;
+    transition: all 0.3s ease;
+
+    &:nth-child(even) {
+      background: #f9f9f9;
+    }
+    &:hover {
+      background: $light;
+    }
+
+    .eye_btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: $main;
+      &:hover {
+        color: darken($main, 10%);
+      }
+    }
+  }
+
+  .pagination {
+    padding: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+
+    button {
+      width: 40px;
+      height: 40px;
+      border: 1px solid $border;
+      background: $white;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+
+      &:disabled {
+        background: $light;
+        color: #aaa;
+        cursor: not-allowed;
+      }
+      &:not(:disabled):hover {
+        background: $main;
+        color: white;
+      }
+    }
+  }
+
+  .loading {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .shimmer {
+      height: 60px;
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 12px;
+    }
+  }
+
+  .empty {
+    padding: 3rem;
+    text-align: center;
+    color: #718096;
+
+    svg {
+      color: $light;
+      margin-bottom: 1rem;
+    }
+    h3 {
+      font-size: 1.5rem;
+      color: $bold;
+      margin-bottom: 0.5rem;
+    }
+  }
+}
+
+/* ── MODALS (ADD & GALLERY) ── */
+.modal,
+.gallery_modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* ── Add Damage Modal ── */
+.modal_content {
+  background: $white;
+  border-radius: $radius;
+  width: 95%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.2);
+
+  .modal_header {
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid $border;
+    background: linear-gradient(135deg, #f7fafc, #edf2f7);
+
+    h2 {
+      font-size: 1.875rem;
+      font-weight: 700;
+      color: $bold;
+    }
+    button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #718096;
+    }
+  }
+
+  .image_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 1rem;
+    padding: 1.5rem 2rem;
+
+    .image_wrapper {
+      position: relative;
+      img {
+        width: 100%;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 12px;
+      }
+      .remove {
+        position: absolute;
+        top: 4px;
+        right: 4px;
+        background: rgba(255, 0, 0, 0.7);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+    }
+
+    .image_picker {
+      width: 80px;
+      height: 80px;
+      border: 2px dashed $main;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: $main;
+      cursor: pointer;
+      input {
+        display: none;
+      }
+    }
+  }
+
+  .dropdown {
+    margin: 0 2rem 1rem;
+    position: relative;
+
+    input {
+      width: 100%;
+      padding: 0.875rem;
+      border: 1px solid $border;
+      border-radius: 12px;
+      background: $light;
+    }
+
+    .dropdown_list {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: white;
+      border: 1px solid $border;
+      border-radius: 12px;
+      margin-top: 0.5rem;
+      max-height: 200px;
+      overflow-y: auto;
+      box-shadow: $shadow;
+
+      .dropdown_item {
+        padding: 0.75rem 1rem;
+        cursor: pointer;
+        &:hover,
+        &.selected {
+          background: $main;
+          color: white;
+        }
+      }
+    }
+  }
+
+  .input,
+  .textarea {
+    width: calc(100% - 4rem);
+    margin: 0 2rem 1rem;
+    padding: 0.875rem;
+    border: 1px solid $border;
+    border-radius: 12px;
+    background: $white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+
+  .modal_actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    padding: 1.5rem 2rem;
+    border-top: 1px solid $border;
+
+    .cancel,
+    .close {
+      padding: 0.875rem 2rem;
+      border-radius: 16px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .cancel {
+      background: $white;
+      color: #718096;
+      border: 1px solid $border;
+      &:hover {
+        background: $light;
+      }
+    }
+
+    .submit {
+      background: $main;
+      color: white;
+      border: none;
+      &:hover {
+        background: darken($main, 10%);
+      }
+    }
+  }
+}
+
+/* ── IMAGE GALLERY MODAL (FIXED 900×600) ── */
+.gallery_modal {
+  .gallery_content {
+    background: white;
+    border-radius: $radius;
+    padding: 2rem;
+    width: 900px;          /* ← change size here */
+    height: 600px;         /* ← change size here */
+    max-width: none;
+    max-height: none;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.2);
+
+    h3 {
+      text-align: center;
+      color: $main;
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .image_frame {
+      position: relative;
+      flex: 1;
+      margin: 0;
+      border-radius: $radius;
+      overflow: hidden;
+      box-shadow: $shadow;
+    }
+
+    .mainImageWrapper {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: $light;
+      overflow: hidden;
+    }
+
+    .mainImage {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      &:hover {
+        transform: scale(1.03);
+      }
+    }
+
+    .shimmer {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+    }
+
+    .prev,
+    .next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.5);
+      color: white;
+      border: none;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.5rem;
+      transition: background 0.3s ease;
+      z-index: 10;
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.7);
+      }
+    }
+    .prev {
+      left: 1rem;
+    }
+    .next {
+      right: 1rem;
+    }
+
+    .thumbnailWrapper {
+      display: flex;
+      gap: 0.75rem;
+      overflow-x: auto;
+      padding: 0.75rem 0;
+      margin-top: 1rem;
+      height: 96px;
+    }
+
+    .thumbItem {
+      flex: 0 0 80px;
+      height: 80px;
+      border: 2px solid transparent;
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: border 0.2s ease;
+
+      &.active {
+        border-color: $main;
+      }
+    }
+
+    .thumbInner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .thumbShimmer {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+    }
+
+    .thumbnail {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .close_gallery {
+      margin-top: 1rem;
+      align-self: flex-end;
+      background: $main;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.3s ease;
+
+      &:hover {
+        background: darken($main, 10%);
+      }
+    }
+
+    .fullView {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.95);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      cursor: pointer;
+
+      img {
+        max-width: 95%;
+        max-height: 95%;
+        object-fit: contain;
+        border-radius: $radius;
+        box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5);
+      }
+    }
+  }
+}
+
+/* ── ANIMATIONS ── */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

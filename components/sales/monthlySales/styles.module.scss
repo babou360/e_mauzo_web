@@ -1,0 +1,176 @@
+.graphContainer {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e2e8f0;
+  font-family: 'Inter', sans-serif;
+}
+
+.chartTitle {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 1.5rem;
+  text-align: start;
+  position: relative;
+  padding-bottom: 0.5rem;
+  margin: 0;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+    border-radius: 2px;
+  }
+}
+
+.filters {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+
+  .filterBtn {
+    padding: 10px 20px;
+    border-radius: 12px;
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    font-weight: 600;
+    color: #475569;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: #e2e8f0;
+    }
+
+    &.active {
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      color: white;
+      border-color: transparent;
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+  }
+}
+
+.graphArea {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.yAxis {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 320px; // Increased for better visibility
+  padding: 10px 0;
+  width: 60px;
+}
+
+.yLabel {
+  font-size: 0.8rem;
+  color: #64748b;
+  font-weight: 500;
+  text-align: right;
+}
+
+.scrollArea {
+  flex: 1;
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+
+.barRow {
+  display: flex;
+  gap: 1.5rem;
+  min-width: max-content;
+  padding: 0 1rem;
+}
+
+.barGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 80px;
+}
+
+.labelTop {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 8px;
+  white-space: nowrap;
+}
+
+.bars {
+  display: flex;
+  justify-content: center;
+  height: 300px; // Increased height for visibility
+  align-items: flex-end;
+  width: 40px; // Single bar width
+}
+
+.metricBar {
+  width: 100%;
+  border-radius: 8px 8px 0 0;
+  min-height: 20px; // Min height for visibility
+  transition: all 0.3s ease;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+
+  &:hover {
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  }
+}
+
+.monthLabel {
+  margin-top: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #475569;
+  text-align: center;
+  transform: rotate(-45deg);
+  white-space: nowrap;
+}
+
+.legend {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  padding-top: 1rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: #475569;
+}
+
+.colorBox {
+  width: 18px;
+  height: 18px;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.noData {
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #94a3b8;
+  font-style: italic;
+  font-size: 1.1rem;
+}

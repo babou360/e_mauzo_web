@@ -1,0 +1,109 @@
+@import '../../global.scss';
+
+.sign_in {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 40px 30px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+
+    .round_logo {
+      width: 60px;
+      height: 60px;
+      background: $mainColor;
+      border-radius: 50%;
+    }
+
+    .round_name {
+      margin-left: 15px;
+      font-size: 32px;
+      font-weight: 700;
+      color: $secondColor;
+    }
+  }
+
+  .title {
+    text-align: center;
+    margin-bottom: 30px;
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 26px;
+      color: #333;
+    }
+
+    p {
+      margin: 0;
+      font-size: 16px;
+      color: #666;
+    }
+  }
+
+  form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    input {
+      width: 100%;
+      padding: 14px 18px;
+      margin-bottom: 20px;
+      border: 2px solid #eee;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: border-color 0.3s, box-shadow 0.3s;
+
+      &:focus {
+        border-color: $mainColor;
+        box-shadow: 0 0 0 3px rgba($mainColor, 0.1);
+        outline: none;
+      }
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      background: $mainColor;
+      color: #fff;
+      font-size: 18px;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s, opacity 0.3s;
+
+      &:hover:not(.disabled) {
+        background: darken($mainColor, 8%);
+      }
+
+      &.disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  @include mobile {
+    max-width: 100%;
+    padding: 30px 20px;
+
+    .round_name {
+      font-size: 28px;
+    }
+
+    .title h1 {
+      font-size: 22px;
+    }
+  }
+}

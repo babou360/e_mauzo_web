@@ -1,0 +1,421 @@
+@import '../../global.scss';
+
+$primary: #482691;
+$light-bg: #ede7f6;
+$white: #ffffff;
+$bg: #fafafa;
+$border: #e2e8f0;
+$shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+$radius: 24px;
+$radius-sm: 14px;
+
+/* Root */
+.container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, $light-bg, $bg);
+  font-family: 'Inter', sans-serif;
+}
+
+/* Header */
+.header {
+  background: $primary;
+  color: white;
+  padding: 1.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba($primary, 0.2);
+
+  .title {
+    font-size: 1.5rem;
+    font-weight: 800;
+  }
+
+  .actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .iconBtn {
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+    }
+  }
+}
+
+/* Main */
+.main {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.content {
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.loader {
+  display: flex;
+  justify-content: center;
+  padding: 3rem;
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+  color: $primary;
+}
+
+/* Hero Card */
+.heroCard {
+  background: $white;
+  border-radius: $radius;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: $shadow;
+  border: 1px solid rgba($primary, 0.1);
+  background: linear-gradient(135deg, $white, #f3f0fa);
+
+  .businessName {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #2d1b69;
+    margin: 0 0 0.5rem;
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+
+    .chip {
+      background: #ede7f6;
+      color: $primary;
+      padding: 0.5rem 1rem;
+      border-radius: 24px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .statusDot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+  }
+
+  .address,
+  .created {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #555;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+
+    svg { color: $primary; }
+  }
+}
+
+/* Info Grid */
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+
+  @media (min-width: 600px) { grid-template-columns: repeat(2, 1fr); }
+  @media (min-width: 900px) { grid-template-columns: repeat(3, 1fr); }
+}
+
+.glassTile {
+  background: rgba(255, 255, 255, 0.86);
+  border-radius: 20px;
+  padding: 1rem;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.03);
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+  }
+
+  .tileIcon {
+    width: 42px;
+    height: 42px;
+    background: rgba($primary, 0.1);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $primary;
+    flex-shrink: 0;
+  }
+
+  .tileText {
+    margin-left: 0.75rem;
+    flex: 1;
+
+    .tileLabel {
+      font-size: 0.75rem;
+      color: #6b7280;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.25rem;
+    }
+
+    .tileValue {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1f2937;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}
+
+/* Modal */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.modal {
+  background: $white;
+  border-radius: $radius;
+  width: 100%;
+  max-width: 400px;
+  max-height: 90vh;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+
+  .modalHeader {
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid $border;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, #f8f9fa, #f1f3f5);
+
+    h3 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #2d1b69;
+    }
+
+    .closeBtn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #718096;
+      padding: 0.5rem;
+      border-radius: 8px;
+      transition: background 0.2s;
+
+      &:hover { background: #e2e8f0; }
+    }
+  }
+
+  .modalBody {
+    padding: 1.5rem 2rem;
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+
+  .modalFooter {
+    padding: 1.5rem 2rem;
+    border-top: 1px solid $border;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+  }
+}
+
+.inputGroup,
+.dropdown {
+  margin-bottom: 1rem;
+
+  label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #4a5568;
+    margin-bottom: 0.5rem;
+  }
+
+  .input {
+    width: 100%;
+    padding: 0.875rem;
+    border: 1px solid $border;
+    border-radius: $radius-sm;
+    background: #f7f6fb;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+
+    &:focus {
+      outline: none;
+      border-color: $primary;
+      box-shadow: 0 0 0 3px rgba($primary, 0.1);
+    }
+  }
+}
+
+.dropdownBtn {
+  width: 100%;
+  padding: 0.875rem;
+  border: 1px solid $border;
+  border-radius: $radius-sm;
+  background: #f7f6fb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover { border-color: $primary; }
+
+  .rotate { transform: rotate(180deg); }
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid $border;
+  border-radius: $radius-sm;
+  margin-top: 0.5rem;
+  max-height: 200px;
+  overflow: auto;
+  box-shadow: $shadow;
+  z-index: 10;
+
+  .searchInput {
+    position: sticky;
+    top: 0;
+    padding: 0.75rem;
+    background: white;
+    border-bottom: 1px solid $border;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-size: 0.9rem;
+    }
+  }
+
+  .dropdownItem {
+    width: 100%;
+    text-align: left;
+    padding: 0.75rem 1rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:hover {
+      background: rgba($primary, 0.05);
+      color: $primary;
+    }
+  }
+}
+
+.cancelBtn {
+  background: $white;
+  color: #718096;
+  border: 1px solid $border;
+  padding: 0.75rem 1.5rem;
+  border-radius: $radius-sm;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover { background: #f7f6fb; }
+}
+
+.submitBtn,
+.deleteBtn {
+  background: $primary;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: $radius-sm;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: darken($primary, 8%);
+    transform: translateY(-1px);
+  }
+}
+
+.deleteBtn {
+  background: #ef4444;
+
+  &:hover { background: darken(#ef4444, 8%); }
+}
+
+.deleteDialog {
+  background: white;
+  padding: 2rem;
+  border-radius: $radius;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: $shadow;
+
+  h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1a202c;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    color: #718096;
+    margin-bottom: 1.5rem;
+  }
+
+  .dialogActions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

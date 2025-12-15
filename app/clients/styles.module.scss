@@ -1,0 +1,445 @@
+@import '../../global.scss';
+
+$mainColor: #505BE3;
+$mainBold: #2E3674;
+$divColor: #ECEFF7;
+$textColor: #C7C8CC;
+$border: #E2E8F0;
+$bg: #F8FAFC;
+$white: #FFFFFF;
+$shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+$shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+$shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+$radius: 16px;
+$transition: all 0.3s ease;
+
+.clients {
+  padding: 2rem 3rem;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: linear-gradient(135deg, $bg, #edf2f7);
+  color: $mainBold;
+  min-height: 100vh;
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+
+  .title_container {
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: $mainBold;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      color: $textColor;
+      font-weight: 400;
+    }
+  }
+
+  .right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+
+    .search {
+      position: relative;
+      width: 300px;
+
+      input {
+        padding: 0.75rem 1rem 0.75rem 2.5rem;
+        border: 1px solid $border;
+        border-radius: 12px;
+        font-size: 0.95rem;
+        width: 100%;
+        background: $white;
+        box-shadow: $shadow-sm;
+        transition: $transition;
+
+        &:focus {
+          border-color: $mainColor;
+          outline: none;
+          box-shadow: 0 0 0 4px rgba($mainColor, 0.15);
+        }
+
+        &::placeholder {
+          color: $textColor;
+        }
+      }
+
+      .search_icon {
+        position: absolute;
+        left: 0.75rem;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 1.2rem;
+        height: 1.2rem;
+        color: $textColor;
+      }
+    }
+
+    .sms_btn {
+      background: linear-gradient(135deg, $mainColor, darken($mainColor, 10%));
+      color: $white;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 4px 12px rgba($mainColor, 0.2);
+      transition: $transition;
+      position: relative;
+      overflow: hidden;
+
+      &:hover {
+        background: linear-gradient(135deg, darken($mainColor, 5%), darken($mainColor, 15%));
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba($mainColor, 0.3);
+      }
+
+      .pulse {
+        position: absolute;
+        inset: 0;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        animation: pulse 2s infinite;
+      }
+    }
+
+    @media (max-width: 768px) {
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      .search { width: 100%; }
+    }
+  }
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+
+  .stats {
+    display: flex;
+    gap: 1.5rem;
+
+    .card {
+      background: $white;
+      padding: 1.5rem;
+      border-radius: $radius;
+      box-shadow: $shadow-md;
+      transition: $transition;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba($mainColor, 0.1);
+      min-width: 180px;
+
+      &:hover {
+        transform: translateY(-4px);
+        box-shadow: $shadow-lg;
+      }
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0;
+        width: 6px; height: 100%;
+        background: linear-gradient(to bottom, $mainColor, lighten($mainColor, 20%));
+      }
+
+      .card_icon {
+        width: 3rem; height: 3rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba($mainColor, 0.1);
+        border-radius: 12px;
+        margin-bottom: 1rem;
+        color: $mainColor;
+
+        .spin { animation: spin 1s linear infinite; }
+      }
+
+      h2 {
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: $textColor;
+        margin-bottom: 0.5rem;
+      }
+
+      p {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: $mainBold;
+      }
+    }
+  }
+
+  .selectAll {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    user-select: none;
+    font-size: 0.95rem;
+    color: $mainBold;
+
+    input { opacity: 0; position: absolute; cursor: pointer; }
+    .checkmark {
+      width: 20px; height: 20px;
+      border: 2px solid $border;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: $transition;
+      background: $white;
+
+      svg { color: white; opacity: 0; transition: $transition; }
+    }
+    input:checked ~ .checkmark {
+      background: $mainColor;
+      border-color: $mainColor;
+      svg { opacity: 1; }
+    }
+  }
+}
+
+.tableWrapper {
+  background: $white;
+  border-radius: $radius;
+  box-shadow: $shadow-md;
+  overflow: hidden;
+
+  .table {
+    .row {
+      display: grid;
+      grid-template-columns: 60px 60px 1fr 180px 120px;
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid $border;
+      transition: $transition;
+      cursor: pointer;
+
+      &:hover { background: $divColor; }
+
+      &.selected {
+        background: rgba($mainColor, 0.05);
+        border-left: 4px solid $mainColor;
+      }
+
+      .cell {
+        display: flex;
+        align-items: center;
+        font-size: 0.95rem;
+
+        strong { color: $mainBold; }
+      }
+
+      .checkbox {
+        position: relative;
+        input { opacity: 0; position: absolute; cursor: pointer; }
+        .checkmark {
+          width: 20px; height: 20px;
+          border: 2px solid $border;
+          border-radius: 6px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: $transition;
+          background: $white;
+
+          svg { color: white; opacity: 0; transition: $transition; }
+        }
+        input:checked ~ .checkmark {
+          background: $mainColor;
+          border-color: $mainColor;
+          svg { opacity: 1; }
+        }
+      }
+    }
+  }
+
+  .pagination {
+    padding: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.95rem;
+    color: $mainBold;
+
+    button {
+      width: 40px; height: 40px;
+      border: 1px solid $border;
+      background: $white;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: $transition;
+
+      &:disabled {
+        background: $divColor;
+        color: $textColor;
+        cursor: not-allowed;
+      }
+
+      &:not(:disabled):hover {
+        background: $mainColor;
+        color: white;
+        border-color: $mainColor;
+      }
+    }
+  }
+
+  .loading_state,
+  .empty_state {
+    padding: 3rem;
+    text-align: center;
+    color: $textColor;
+
+    .spinner {
+      width: 2.5rem; height: 2.5rem;
+      border: 3px solid rgba($mainColor, 0.2);
+      border-top-color: $mainColor;
+      border-radius: 50%;
+      animation: spin 1s ease-in-out infinite;
+      margin: 0 auto 1rem;
+    }
+
+    .empty_icon {
+      width: 4rem; height: 4rem;
+      margin: 0 auto 1rem;
+      color: $divColor;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    h3 { font-size: 1.5rem; font-weight: 600; color: $mainBold; margin: 0 0 0.5rem; }
+    p { margin: 0; max-width: 400px; margin: 0 auto; }
+  }
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+
+  .modal_content {
+    background: $white;
+    border-radius: $radius;
+    max-width: 500px;
+    width: 95%;
+    box-shadow: $shadow-lg;
+    animation: slideUp 0.4s ease-out;
+
+    .modal_header {
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid $border;
+      background: linear-gradient(135deg, #f7fafc, #edf2f7);
+
+      h2 { font-size: 1.875rem; font-weight: 700; color: $mainBold; }
+
+      .close_button {
+        background: none; border: none; cursor: pointer; color: $textColor;
+        &:hover { color: $mainBold; transform: scale(1.1); }
+        svg { width: 1.5rem; height: 1.5rem; }
+      }
+    }
+
+    .modal_body {
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+
+      .modal_subtitle { color: $textColor; font-size: 0.95rem; }
+
+      textarea {
+        padding: 1rem;
+        border: 1px solid $border;
+        border-radius: 12px;
+        font-size: 1rem;
+        resize: none;
+        background: $divColor;
+        transition: $transition;
+
+        &:focus {
+          outline: none;
+          border-color: $mainColor;
+          box-shadow: 0 0 0 4px rgba($mainColor, 0.1);
+        }
+      }
+
+      .modal_actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+
+        .cancel_btn,
+        .submit_button {
+          padding: 0.875rem 2rem;
+          border-radius: 16px;
+          font-weight: 600;
+          font-size: 1rem;
+          cursor: pointer;
+          transition: $transition;
+        }
+
+        .cancel_btn {
+          background: $white;
+          color: $textColor;
+          border: 1px solid $border;
+
+          &:hover {
+            background: $divColor;
+            color: $mainBold;
+          }
+        }
+
+        .submit_button {
+          background: $mainColor;
+          color: white;
+          border: none;
+
+          &:hover {
+            background: darken($mainColor, 10%);
+            transform: translateY(-2px);
+          }
+        }
+      }
+    }
+  }
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes pulse { 0% { transform: scale(0.95); opacity: 1; } 70% { transform: scale(1.1); opacity: 0; } 100% { transform: scale(0.95); opacity: 0; } }

@@ -1,0 +1,125 @@
+@import '../../global.scss';
+
+.splash {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
+  overflow: hidden;
+  position: relative;
+
+  // Subtle animated background gradient
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(45deg, 
+      rgba($mainColor, 0.1), 
+      rgba(#4a00e0, 0.15), 
+      rgba($mainColor, 0.1)
+    );
+    background-size: 300% 300%;
+    animation: gradientShift 12s ease infinite;
+    z-index: 0;
+  }
+
+  .logo {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: $mainColor;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+    box-shadow: 
+      0 0 40px rgba($mainColor, 0.4),
+      0 0 80px rgba($mainColor, 0.2),
+      inset 0 0 30px rgba(255, 255, 255, 0.1);
+    
+    // Entrance animation
+    animation: 
+      logoEntrance 1.8s cubic-bezier(0.25, 0.8, 0.25, 1) forwards,
+      logoPulse 3s ease-in-out infinite 2s;
+
+    // Inner glow ring
+    &::after {
+      content: '';
+      position: absolute;
+      top: -20px; left: -20px; right: -20px; bottom: -20px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      background: linear-gradient(45deg, transparent, rgba($mainColor, 0.6), transparent) border-box;
+      -webkit-mask: 
+        linear-gradient(#fff 0 0) padding-box, 
+        linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0;
+      animation: glowRing 3s ease-in-out infinite 2s;
+    }
+
+    img {
+      width: 92%;
+      height: 92%;
+      object-fit: contain;
+      border-radius: 50%;
+      animation: 
+        float 4s ease-in-out infinite 2s,
+        subtleRotate 20s linear infinite;
+      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+      z-index: 2;
+    }
+  }
+}
+
+// Keyframe Animations
+@keyframes logoEntrance {
+  0% {
+    opacity: 0;
+    transform: scale(0.6) translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes logoPulse {
+  0%, 100% {
+    box-shadow: 
+      0 0 40px rgba($mainColor, 0.4),
+      0 0 80px rgba($mainColor, 0.2),
+      inset 0 0 30px rgba(255, 255, 255, 0.1);
+  }
+  50% {
+    box-shadow: 
+      0 0 60px rgba198 rgba($mainColor, 0.6),
+      0 0 120px rgba($mainColor, 0.35),
+      inset 0 0 40px rgba(255, 255, 255, 0.15);
+  }
+}
+
+@keyframes glowRing {
+  0%, 100% { opacity: 0; transform: scale(0.9); }
+  50% { opacity: 0.6; transform: scale(1.1); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes subtleRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}

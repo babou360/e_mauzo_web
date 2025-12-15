@@ -1,0 +1,245 @@
+@import '../../global.scss';
+
+$main: #505BE3;
+$bold: #2E3674;
+$light: #ECEFF7;
+$border: #E2E8F0;
+$bg: #F8FAFC;
+$white: #FFFFFF;
+$shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+$radius: 16px;
+
+/* ── ROOT ── */
+.container {
+  background: linear-gradient(135deg, $bg, #edf2f7);
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+  padding-bottom: 3rem;
+}
+
+/* ── APP BAR ── */
+.appBar {
+  padding: 2rem 3rem;
+  background: $white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+
+  @media (max-width: 768px) {
+    padding: 1.5rem 1rem;
+  }
+}
+
+.titleContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+
+  .title {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: $bold;
+    margin: 0 0 0.5rem;
+    background: linear-gradient(135deg, $main, darken($main, 10%));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+    color: #718096;
+    margin: 0;
+  }
+}
+
+/* ── TAB BAR ── */
+.tabBar {
+  position: relative;
+  display: flex;
+  background: $white;
+  border-bottom: 1px solid $border;
+  max-width: 1200px;
+  margin: 0 auto;
+  overflow: hidden;
+
+  .tab {
+    flex: 1;
+    padding: 1rem 0.5rem;
+    background: none;
+    border: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #718096;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    transition: color 0.3s ease;
+
+    svg {
+      color: #94A3B8;
+      transition: color 0.3s ease;
+    }
+
+    &:hover:not(.active) {
+      color: $main;
+
+      svg {
+        color: $main;
+      }
+    }
+
+    &.active {
+      color: $main;
+
+      svg {
+        color: $main;
+      }
+    }
+  }
+
+  .indicator {
+    position: absolute;
+    bottom: 0;
+    height: 3px;
+    background: linear-gradient(90deg, $main, lighten($main, 10%));
+    border-radius: 2px;
+    box-shadow: 0 2px 6px rgba($main, 0.3);
+    transition: none;
+  }
+}
+
+/* ── WARNING BANNER ── */
+.banner {
+  max-width: 1200px;
+  margin: 1.5rem auto;
+  padding: 0.875rem 1.5rem;
+  background: linear-gradient(135deg, #FFF4E5, #FFE8CC);
+  border: 1px solid #FFD8A8;
+  border-radius: $radius;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #D97706;
+  font-weight: 500;
+  font-size: 0.95rem;
+  box-shadow: 0 2px 8px rgba(255, 193, 7, 0.1);
+
+  svg {
+    flex-shrink: 0;
+    color: #F59E0B;
+  }
+
+  @media (max-width: 768px) {
+    margin: 1rem 1rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* ── CONTENT ── */
+.content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 3rem;
+
+  @media (max-width: 768px) {
+    padding: 0 1rem;
+  }
+}
+
+/* ── LIST & CARD ── */
+.list {
+  display: grid;
+  gap: 1.25rem;
+  margin-top: 1rem;
+}
+
+.card {
+  background: $white;
+  border-radius: $radius;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid rgba($main, 0.1);
+  box-shadow: $shadow;
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    border-color: rgba($main, 0.2);
+  }
+
+  .cardContent {
+    .itemName {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: $bold;
+      margin: 0 0 0.5rem;
+    }
+
+    .meta {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      font-size: 0.875rem;
+      color: #64748B;
+
+      .deletedDate {
+        font-weight: 500;
+      }
+
+      .timeAgo {
+        font-size: 0.8rem;
+        color: #94A3B8;
+        font-style: italic;
+      }
+    }
+  }
+
+  .restoreBtn {
+    background: linear-gradient(135deg, $main, darken($main, 10%));
+    color: white;
+    border: none;
+    padding: 0.625rem 1.25rem;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 4px 12px rgba($main, 0.25);
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba($main, 0.35);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+
+    svg {
+      transition: transform 0.2s ease;
+    }
+
+    &:hover svg {
+      transform: rotate(90deg);
+    }
+  }
+}
+
+/* ── ANIMATIONS ── */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}

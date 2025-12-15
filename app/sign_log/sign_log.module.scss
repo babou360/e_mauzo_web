@@ -1,0 +1,383 @@
+@import '../../global.scss';
+
+.authContainer {
+  display: flex;
+  min-height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+
+  @include mobile {
+    flex-direction: column;
+  }
+}
+
+.heroSection {
+  flex: 0 0 55%;
+  background: linear-gradient(135deg, rgba($mainColor, 0.9), rgba($secondColor, 0.9));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem;
+  position: relative;
+  overflow: hidden;
+  color: white;
+
+  @include mobile {
+    flex: 0 0 auto;
+    padding: 2rem 1.5rem;
+    min-height: 40vh;
+  }
+
+  .contentWrapper {
+    max-width: 600px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: opacity 0.5s ease;
+
+    &.fadeOut {
+      opacity: 0;
+    }
+  }
+
+  .textContent {
+    text-align: center;
+    margin-bottom: 3rem;
+
+    @include mobile {
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  .heroTitle {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    animation: slideUp 0.8s ease;
+
+    @include mobile {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+  }
+
+  .heroDescription {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    line-height: 1.6;
+    max-width: 80%;
+    margin: 0 auto;
+    animation: slideUp 0.8s ease 0.1s forwards;
+    opacity: 0;
+
+    @include mobile {
+      font-size: 1rem;
+      max-width: 100%;
+    }
+  }
+
+  .illustration {
+    width: 100%;
+    max-width: 400px;
+    margin: 2rem 0;
+    animation: fadeInScale 0.8s ease 0.2s forwards;
+    opacity: 0;
+    transform: scale(0.95);
+
+    @include mobile {
+      max-width: 250px;
+      margin: 1rem 0;
+    }
+  }
+
+  .heroImage {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .indicators {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 2rem;
+
+    @include mobile {
+      margin-top: 1rem;
+    }
+
+    .indicator {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: rgba(white, 0.3);
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: all 0.3s ease;
+      outline: none;
+
+      &.active {
+        background-color: white;
+        transform: scale(1.3);
+      }
+    }
+  }
+}
+
+.authFormSection {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  padding: 2rem;
+
+  @include mobile {
+    padding: 1.5rem;
+  }
+
+  .formContainer {
+    max-width: 420px;
+    width: 100%;
+    animation: fadeIn 0.6s ease;
+
+    .formHeader {
+      margin-bottom: 2.5rem;
+      text-align: center;
+
+      h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: $mainColor;
+        margin-bottom: 0.5rem;
+
+        @include mobile {
+          font-size: 1.7rem;
+        }
+      }
+
+      p {
+        color: #666;
+        font-size: 1rem;
+      }
+    }
+  }
+
+  .authForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    .formGroup {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .inputLabel {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #444;
+    }
+
+    .formInput {
+      padding: 0.9rem 1rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      background-color: #f9f9f9;
+
+      &:focus {
+        border-color: $mainColor;
+        box-shadow: 0 0 0 3px rgba($mainColor, 0.1);
+        outline: none;
+        background-color: white;
+      }
+
+      &::placeholder {
+        color: #999;
+      }
+    }
+
+    .formOptions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.9rem;
+
+      .rememberMe {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #666;
+        cursor: pointer;
+
+        input {
+          accent-color: $mainColor;
+        }
+      }
+
+      .forgotPassword {
+        color: $mainColor;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.2s;
+
+        &:hover {
+          color: darken($mainColor, 10%);
+        }
+      }
+    }
+
+    .submitButton {
+      background-color: $mainColor;
+      color: white;
+      padding: 1rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 0.5rem;
+
+      &:hover {
+        background-color: darken($mainColor, 8%);
+        transform: translateY(-1px);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+      &.disabled{
+        opacity: .5;
+      }
+    }
+  }
+
+  .socialAuth {
+    margin-top: 2rem;
+
+    .socialDivider {
+      position: relative;
+      text-align: center;
+      color: #777;
+      font-size: 0.9rem;
+      margin: 1.5rem 0;
+
+      &::before,
+      &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        width: 30%;
+        height: 1px;
+        background-color: #ddd;
+      }
+
+      &::before {
+        left: 0;
+      }
+
+      &::after {
+        right: 0;
+      }
+    }
+
+    .socialButtons {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+
+      @include mobile {
+        flex-direction: column;
+      }
+    }
+
+    .socialButton {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.8rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 1px solid #ddd;
+      background-color: white;
+
+      &:hover {
+        background-color: #f5f5f5;
+      }
+
+      &.google {
+        color: #4285F4;
+      }
+
+      &.apple {
+        color: #000;
+      }
+    }
+  }
+
+  .authToggle {
+    text-align: center;
+    margin-top: 2rem;
+    color: #666;
+    font-size: 0.95rem;
+
+    .toggleButton {
+      background: none;
+      border: none;
+      color: $mainColor;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0.2rem 0.4rem;
+      transition: all 0.2s ease;
+
+      &:hover {
+        color: darken($mainColor, 10%);
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

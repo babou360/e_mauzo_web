@@ -1,0 +1,24 @@
+.errorMessage{
+    width: 100vw;
+    position: fixed;
+    top: -100px;
+    background: green;
+    padding: 20px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all .5s ease-in-out;
+    z-index: 104;
+    &.active{
+        top: 0;
+    }
+    p{
+        color: white;
+        font-size: 20px;
+        font-weight: 600;
+    }
+    &.error{
+        background: red;
+    }
+}

@@ -1,0 +1,279 @@
+@use '../../../global.scss' as *;
+
+$main: #505BE3;
+$bold: #2E3674;
+$light: #ECEFF7;
+$border: #E2E8F0;
+$bg: #F8FAFC;
+$white: #FFFFFF;
+$shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+$radius: 16px;
+
+/* ── ROOT ── */
+.deletedBusiness {
+  padding: 1.5rem 0;
+  min-height: 60vh;
+}
+
+/* ── LOADING SHIMMER ── */
+.loading {
+  display: grid;
+  gap: 1.25rem;
+  padding: 0 1rem;
+}
+
+.shimmerCard {
+  height: 100px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.8s infinite;
+  border-radius: $radius;
+}
+
+/* ── EMPTY STATE ── */
+.empty {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #718096;
+
+  svg {
+    color: $light;
+    margin-bottom: 1rem;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+    color: $bold;
+    margin: 0 0 0.5rem;
+  }
+
+  p {
+    font-size: 0.95rem;
+  }
+}
+
+/* ── LIST & CARD ── */
+.list {
+  display: grid;
+  gap: 1.25rem;
+  padding: 0 1rem;
+}
+
+.card {
+  background: $white;
+  border-radius: $radius;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid rgba($main, 0.1);
+  box-shadow: $shadow;
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+    border-color: rgba($main, 0.25);
+  }
+
+  .cardContent {
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+
+      .icon {
+        color: $main;
+      }
+
+      .name {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: $bold;
+        margin: 0;
+      }
+    }
+
+    .meta {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      font-size: 0.875rem;
+      color: #64748B;
+
+      .dateRow {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        svg {
+          color: #94A3B8;
+          flex-shrink: 0;
+        }
+      }
+
+      .timeAgo {
+        font-style: italic;
+        color: #94A3B8;
+        font-size: 0.8rem;
+      }
+    }
+  }
+
+  .restoreBtn {
+    background: linear-gradient(135deg, $main, darken($main, 10%));
+    color: white;
+    border: none;
+    padding: 0.65rem 1.3rem;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 4px 12px rgba($main, 0.25);
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 18px rgba($main, 0.35);
+
+      svg {
+        transform: rotate(90deg);
+      }
+    }
+
+    svg {
+      transition: transform 0.25s ease;
+    }
+  }
+}
+
+/* ── CONFIRMATION MODAL ── */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.modal {
+  background: $white;
+  border-radius: $radius;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.22);
+  overflow: hidden;
+
+  .modalHeader {
+    padding: 1.5rem 2rem;
+    background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid $border;
+
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: $bold;
+      margin: 0;
+    }
+
+    .closeBtn {
+      background: none;
+      border: none;
+      font-size: 1.75rem;
+      color: #94A3B8;
+      cursor: pointer;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: all 0.2s;
+
+      &:hover {
+        background: $light;
+        color: $bold;
+      }
+    }
+  }
+
+  .modalBody {
+    padding: 1.5rem 2rem;
+
+    p {
+      margin: 0 0 0.75rem;
+      font-size: 1rem;
+      color: #4B5563;
+
+      strong {
+        color: $bold;
+      }
+    }
+
+    .note {
+      font-size: 0.9rem;
+      color: #64748B;
+      font-style: italic;
+    }
+  }
+
+  .modalActions {
+    padding: 1.25rem 2rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    background: #f8fafc;
+    border-top: 1px solid $border;
+
+    .cancelBtn,
+    .confirmBtn {
+      padding: 0.75rem 1.5rem;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .cancelBtn {
+      background: $white;
+      color: #718096;
+      border: 1px solid $border;
+
+      &:hover {
+        background: $light;
+      }
+    }
+
+    .confirmBtn {
+      background: linear-gradient(135deg, $main, darken($main, 10%));
+      color: white;
+      border: none;
+      box-shadow: 0 4px 12px rgba($main, 0.2);
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba($main, 0.3);
+      }
+    }
+  }
+}
+
+/* ── ANIMATIONS ── */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}

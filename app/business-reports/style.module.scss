@@ -1,0 +1,449 @@
+/* ===================================================== */
+/*           SALES REPORT – ULTIMATE FINAL SCSS          */
+/* ===================================================== */
+
+.salesReport {
+  padding: 2rem;
+  max-width: 1450px;
+  margin: 0 auto;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #f9f9fc;
+  min-height: 100vh;
+
+  /* ================= HEADER ================= */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #eee;
+
+    .title {
+      font-size: 2.3rem;
+      font-weight: 800;
+      margin: 0 0 0.5rem 0;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      color: #666;
+      font-size: 1.12rem;
+      margin: 0;
+      font-weight: 500;
+    }
+
+    .exportButtons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .excelBtn {
+      background: linear-gradient(135deg, #1e7e34, #2a9d4f);
+      color: white;
+      border: none;
+      padding: 0.95rem 1.9rem;
+      border-radius: 16px;
+      font-weight: 600;
+      font-size: 1.02rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      box-shadow: 0 8px 25px rgba(46, 125, 50, 0.4);
+      transition: all 0.3s ease;
+
+      &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 14px 35px rgba(46, 125, 50, 0.55);
+      }
+    }
+
+    .pdfBtn {
+      background: linear-gradient(135deg, #c62828, #e53935);
+      color: white;
+      border: none;
+      padding: 0.95rem 1.9rem;
+      border-radius: 16px;
+      font-weight: 600;
+      font-size: 1.02rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      box-shadow: 0 8px 25px rgba(211, 47, 47, 0.4);
+      transition: all 0.3s ease;
+
+      &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 14px 35px rgba(211, 47, 47, 0.55);
+      }
+    }
+  }
+
+  /* ================= FILTERS CARD ================= */
+  .filtersCard {
+    background: white;
+    border-radius: 22px;
+    padding: 2.2rem;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.09);
+    border: 1px solid #f0f0f0;
+
+    .filterChips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2rem;
+
+      .chip {
+        padding: 0.75rem 1.6rem;
+        border-radius: 50px;
+        border: none;
+        background: #f5f5f5;
+        color: #555;
+        font-weight: 600;
+        font-size: 0.98rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        &:hover {
+          background: #e0e0e0;
+          transform: translateY(-2px);
+        }
+
+        &.chipActive {
+          background: linear-gradient(135deg, #667eea, #764ba2);
+          color: white;
+          box-shadow: 0 6px 22px rgba(102, 126, 234, 0.4);
+          transform: translateY(-3px);
+        }
+      }
+    }
+
+    /* Custom Date Picker – Only appears when Custom is selected */
+    .dateRangePicker {
+      display: flex;
+      align-items: end;
+      gap: 1.5rem;
+      padding: 2rem;
+      background: linear-gradient(to right, #f8f9ff, #f0f0ff);
+      border-radius: 18px;
+      border: 2.5px dashed #667eea;
+      margin: 1.8rem 0;
+
+      .dateField {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 0.7rem;
+
+        label {
+          font-weight: 600;
+          color: #444;
+          font-size: 1rem;
+        }
+
+        input {
+          padding: 1.1rem 1.3rem;
+          border: 2px solid #ddd;
+          border-radius: 14px;
+          font-size: 1.02rem;
+          transition: all 0.25s;
+
+          &:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 5px rgba(102, 126, 234, 0.18);
+          }
+        }
+      }
+
+      .applyBtn {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        border: none;
+        padding: 1.1rem 2.2rem;
+        border-radius: 14px;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.35);
+
+        &:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+
+        &:not(:disabled):hover {
+          transform: translateY(-3px);
+        }
+      }
+    }
+
+    .selectedRange {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      padding: 0.9rem 1.8rem;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 600;
+      display: inline-block;
+      margin: 1rem 0 1.8rem;
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.35);
+    }
+
+    .selectGroup {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+
+      @media (max-width: 640px) {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .select {
+      padding: 1.1rem 1.3rem;
+      border: 2px solid #e0e0e0;
+      border-radius: 14px;
+      font-size: 1rem;
+      background: white;
+      transition: all 0.25s ease;
+
+      &:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 5px rgba(102, 126, 234, 0.18);
+      }
+    }
+  }
+
+  /* ================= STATES ================= */
+  .loader {
+    text-align: center;
+    padding: 6rem 2rem;
+    color: #666;
+
+    .spinner {
+      width: 60px;
+      height: 60px;
+      border: 6px solid #f0f0f0;
+      border-top: 6px solid #667eea;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 2rem;
+    }
+
+    p {
+      font-size: 1.3rem;
+      font-weight: 500;
+    }
+  }
+
+  .empty {
+    text-align: center;
+    padding: 7rem 2rem;
+    background: white;
+    border-radius: 24px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.09);
+    color: #888;
+    font-size: 1.4rem;
+    font-weight: 500;
+  }
+
+  /* ================= REPORT CARD ================= */
+  .reportCard {
+    background: white;
+    border-radius: 26px;
+    overflow: hidden;
+    box-shadow: 0 14px 45px rgba(0, 0, 0, 0.13);
+    border: 1px solid #f0f0f0;
+
+    .summarySection {
+      padding: 2.8rem;
+      background: linear-gradient(to bottom, #fafafa, white);
+      border-bottom: 1px dashed #e0e0e0;
+
+      .shopInfo {
+        margin-bottom: 2.2rem;
+
+        h3 {
+          font-size: 1.45rem;
+          margin: 0 0 1rem 0;
+          color: #333;
+          font-weight: 600;
+        }
+
+        .shopName {
+          font-size: 1.5rem;
+          font-weight: 700;
+          margin: 0.7rem 0;
+          color: #1a1a1a;
+        }
+
+        .address {
+          color: #666;
+          font-size: 1.05rem;
+          margin: 0.5rem 0;
+        }
+      }
+
+      .summaryGrid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 1.8rem;
+      }
+
+      .summaryItem {
+        display: flex;
+        align-items: center;
+        gap: 1.4rem;
+        background: #f8f9ff;
+        padding: 1.8rem 2rem;
+        border-radius: 18px;
+        border: 1.8px solid #eef0ff;
+
+        .icon {
+          width: 60px;
+          height: 60px;
+          background: linear-gradient(135deg, #667eea, #764ba2);
+          color: white;
+          border-radius: 16px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: bold;
+          font-size: 1.1rem;
+          flex-shrink: 0;
+        }
+
+        p {
+          margin: 0 0 0.5rem 0;
+          font-size: 0.98rem;
+          color: #666;
+        }
+
+        strong {
+          font-size: 1.45rem;
+          color: #1a1a1a;
+          font-weight: 700;
+        }
+
+        .profit {
+          color: #27ae60;
+        }
+      }
+    }
+
+    .tableContainer {
+      overflow-x: auto;
+      padding: 0 2.8rem 2.8rem;
+
+      &::-webkit-scrollbar {
+        height: 10px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: #c0c0c0;
+        border-radius: 10px;
+      }
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 2.2rem;
+      font-size: 1.02rem;
+
+      th {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        padding: 1.5rem 1.3rem;
+        text-align: left;
+        font-weight: 600;
+        letter-spacing: 0.7px;
+      }
+
+      td {
+        padding: 1.4rem 1.3rem;
+        border-bottom: 1px solid #f0f0f0;
+        color: #444;
+      }
+
+      tr:hover {
+        background: #f8f9ff;
+      }
+
+      tr:nth-child(even) {
+        background: #fcfcff;
+      }
+
+      .total {
+        font-weight: 700;
+        color: #27ae60;
+        font-size: 1.15rem;
+      }
+    }
+  }
+}
+
+/* ================= ANIMATIONS ================= */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+  .salesReport {
+    padding: 1.5rem;
+
+    .header {
+      flex-direction: column;
+      align-items: stretch;
+      text-align: center;
+      gap: 1.5rem;
+
+      .exportButtons {
+        justify-content: center;
+      }
+    }
+
+    .reportCard {
+      .summarySection {
+        padding: 2rem;
+      }
+
+      .summaryGrid {
+        grid-template-columns: 1fr;
+      }
+
+      .tableContainer {
+        padding: 0 1.5rem 2rem;
+      }
+    }
+
+    .filtersCard {
+      padding: 1.8rem;
+
+      .dateRangePicker {
+        flex-direction: column;
+        padding: 1.8rem;
+
+        .applyBtn {
+          width: 100%;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,122 @@
+.graphContainer {
+  background: #fff;
+  max-height: 100vh;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hourTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #482691;
+  margin-bottom: 1rem;
+}
+
+.noData {
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+  p {
+    color: #555;
+    font-size: 1rem;
+  }
+}
+
+.graphArea {
+  display: flex;
+  width: 100%;
+  max-width: 900px;
+  margin-top: 1rem;
+  align-items: flex-end;
+}
+
+.yAxis {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 260px;
+  width: 40px;
+  text-align: right;
+
+  .yLabel {
+    font-size: 0.75rem;
+    color: #444;
+  }
+}
+
+.scrollArea {
+  flex: 1;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+}
+
+.barRow {
+  display: flex;
+  align-items: flex-end;
+  height: 260px;
+  padding-left: 0.5rem;
+}
+
+.barGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 1rem;
+}
+
+.labelTop {
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.countBar,
+.quantityBar {
+  width: 20px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  transition: height 0.3s ease;
+}
+
+.productLabel {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  text-align: center;
+  width: 60px;
+  line-height: 1rem;
+  color: #333;
+  word-wrap: break-word;
+}
+
+.legend {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  gap: 1.5rem;
+
+  .legendItem {
+    display: flex;
+    align-items: center;
+    font-size: 0.85rem;
+    gap: 6px;
+
+    .colorBox {
+      width: 14px;
+      height: 14px;
+      border-radius: 3px;
+    }
+  }
+}

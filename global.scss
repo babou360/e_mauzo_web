@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100;0,200;0,300;0,900;1,100;1,200;1,300;1,600&family=Roboto:wght@100;300;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+$mainColor: #505BE3;
+// $mainColor: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+$mainBold: #2E3674;
+$divColor: #ECEFF7;
+$textColor: #C7C8CC;
+$secondColor: #FF5D00;
+$errorColor: #F65656;
+$goldColor: #B09900;
+$merry: 'Merriweather', serif;
+$lg:  "(max-width:9000px)"; //Arbitrary to be huge
+$md:  "(max-width:1000px)";
+$sm:  "(max-width:800px)";
+$xsm:  "(max-width:500px)";
+
+//Variables
+$maxWidth: 1182px + 36px + 36px;
+$min-lg:  "(min-width:9000px)"; //Arbitrary to be huge
+$min-md:  "(min-width:1000px)";
+$min-sm:  "(min-width:800px)";
+$min-xsm:  "(min-width:500px)";
+$width: 600px;
+
+@mixin mobile {
+    @media (max-width: #{$width}){
+        @content
+    }
+}
