@@ -86,7 +86,7 @@ const DamagedProducts: React.FC = () => {
   const { selected } = useSelectedBusinessStore();
 
   const { data: allProducts = [], loading: prodLoading } = useFetch(
-    'http://62.169.30.105:5000/products/get_all_products',
+    `${process.env.NEXT_PUBLIC_HOST}/products/get_all_products`,
     { business_id: selected?.id ?? '' }
   );
 
@@ -111,7 +111,7 @@ const DamagedProducts: React.FC = () => {
   const [searchProduct, setSearchProduct] = useState('');
   const [showTitle, setShowTitle] = useState(false);
 
-  const { data: damagas, loading: damLoading } = useFetch('http://62.169.30.105:5000/damages/get_damages', {
+  const { data: damagas, loading: damLoading } = useFetch(`${process.env.NEXT_PUBLIC_HOST}/damages/get_damages`, {
     page,
     pageSize: 10,
     duration: fields.duration,
@@ -188,7 +188,7 @@ const DamagedProducts: React.FC = () => {
 
   /* -------------------------- Multipart request ------------------- */
   const { sendRequest, loading: createLoading } = useSendMultipartRequest({
-    url: 'http://62.169.30.105:5000/damages/register_damage',
+    url: `${process.env.NEXT_PUBLIC_HOST}/damages/register_damage`,
     method: 'POST',
     body: {
       product_id: fields.product.id,

@@ -17,16 +17,17 @@ type SelectedBusinessState = {
     email: string,
     status: string,
     pricingCategory: string,
-    createdAt: string
+    createdAt: string,
+    lastPaid: string
   }
   setSelected: (selected: any) => void
   clearBusiness: () => void
 }
 
 const useSelectedBusinessStore = create<SelectedBusinessState>((set) => ({
-  selected: {id:0,name: "",category: '',type: '',country: '',city: '',district: '',ward: '',street: '',latlong: '',phone: '',email: '',status:'',pricingCategory:'',createdAt:''},
+  selected: {id:0,name: "",category: '',type: '',country: '',city: '',district: '',ward: '',street: '',latlong: '',phone: '',email: '',status:'',pricingCategory:'',createdAt:'',lastPaid: ''},
   setSelected: (message) => set({ selected: message }),
-  clearBusiness: () => set({ selected: {id:0,name: "",category: '',type: '',country: '',city: '',district: '',ward: '',street: '',latlong: '',phone: '',email: '',status:'',pricingCategory:'',createdAt:''}}),
+  clearBusiness: () => set({ selected: {id:0,name: "",category: '',type: '',country: '',city: '',district: '',ward: '',street: '',latlong: '',phone: '',email: '',status:'',pricingCategory:'',createdAt:'',lastPaid:''}}),
 }))
 
 export default useSelectedBusinessStore

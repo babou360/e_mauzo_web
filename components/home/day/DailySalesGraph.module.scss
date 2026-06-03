@@ -1,0 +1,704 @@
+.graphContainer {
+  position: relative;
+  width: 100%;
+  min-width: 1000px;
+  padding: 40px;
+  background: linear-gradient(135deg, #ffffff 0%, #faf9ff 100%);
+  border-radius: 48px;
+  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(72, 38, 145, 0.05);
+  overflow: hidden;
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 35px 70px -20px rgba(0, 0, 0, 0.3);
+  }
+}
+
+// Decorative Background Elements
+.decorativeBlob1 {
+  position: absolute;
+  top: -20%;
+  right: -10%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(72, 38, 145, 0.03) 0%, rgba(72, 38, 145, 0) 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.decorativeBlob2 {
+  position: absolute;
+  bottom: -20%;
+  left: -10%;
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(255, 152, 0, 0.03) 0%, rgba(255, 152, 0, 0) 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.decorativeBlob3 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(142, 68, 173, 0.02) 0%, rgba(142, 68, 173, 0) 80%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+// Header Section
+.header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 48px;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, #482691, #6C4AB6);
+  border-radius: 20px;
+  box-shadow: 0 10px 20px -5px rgba(72, 38, 145, 0.3);
+}
+
+.headerIcon {
+  font-size: 32px;
+  color: white;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.title {
+  flex: 1;
+  font-size: 32px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #482691, #8E44AD, #FF9800);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.trendBadge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: white;
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  
+  &.positive {
+    color: #10b981;
+    
+    svg {
+      color: #10b981;
+    }
+  }
+  
+  &.negative {
+    color: #ef4444;
+    
+    svg {
+      color: #ef4444;
+    }
+  }
+}
+
+// Chart Container
+.chartContainer {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 40px;
+  min-height: 450px;
+}
+
+// Y-Axis Sections
+.yAxisSection {
+  display: flex;
+  flex-direction: column;
+  width: 100px;
+}
+
+.yAxisLabel {
+  font-size: 11px;
+  font-weight: 700;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+  text-align: right;
+  padding-right: 12px;
+}
+
+.yAxis {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 300px;
+  margin-top: 20px;
+}
+
+.yTick {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  position: relative;
+}
+
+.yTickValue {
+  font-size: 11px;
+  font-weight: 600;
+  color: #6b7280;
+  font-family: 'Courier New', monospace;
+}
+
+.yTickLine {
+  width: 30px;
+  height: 1px;
+  background: linear-gradient(90deg, #e5e7eb, transparent);
+}
+
+// Bar Chart Wrapper
+.barChartWrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.barChart {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+  gap: 16px;
+  flex: 1;
+  padding: 20px 0;
+  min-height: 320px;
+}
+
+.barColumn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.barContainer {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bars {
+  position: relative;
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  height: 300px;
+  justify-content: center;
+  width: 100%;
+}
+
+.salesBar {
+  position: relative;
+  width: 100%;
+  max-width: 60px;
+  background: linear-gradient(180deg, #482691, #6C4AB6);
+  border-radius: 12px 12px 8px 8px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(72, 38, 145, 0.2);
+  
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 20px rgba(72, 38, 145, 0.4);
+    
+    .barTooltip {
+      opacity: 1;
+      transform: translateY(-10px);
+      visibility: visible;
+    }
+  }
+  
+  &.highest {
+    background: linear-gradient(180deg, #5b2ea8, #8B5CF6);
+    box-shadow: 0 4px 12px rgba(72, 38, 145, 0.4);
+    
+    &::after {
+      content: '🏆';
+      position: absolute;
+      top: -25px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 16px;
+      animation: bounce 2s infinite;
+    }
+  }
+}
+
+.revenueBar {
+  position: relative;
+  width: 100%;
+  max-width: 60px;
+  background: linear-gradient(180deg, #FF9800, #FFB74D);
+  border-radius: 12px 12px 8px 8px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(255, 152, 0, 0.2);
+  
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 20px rgba(255, 152, 0, 0.4);
+    
+    .barTooltip {
+      opacity: 1;
+      transform: translateY(-10px);
+      visibility: visible;
+    }
+  }
+  
+  &.highest {
+    background: linear-gradient(180deg, #FFB74D, #FFD54F);
+    box-shadow: 0 4px 12px rgba(255, 152, 0, 0.4);
+  }
+}
+
+.barTooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-5px);
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
+  padding: 8px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  pointer-events: none;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.85) transparent transparent transparent;
+  }
+}
+
+.tooltipLabel {
+  color: #9ca3af;
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.tooltipValue {
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.barLabels {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 8px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.salesLabel {
+  color: #6C4AB6;
+  background: rgba(108, 74, 182, 0.1);
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-family: 'Courier New', monospace;
+}
+
+.revenueLabel {
+  color: #FF9800;
+  background: rgba(255, 152, 0, 0.1);
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-family: 'Courier New', monospace;
+}
+
+// Day Info
+.dayInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.dayLabel {
+  font-size: 14px;
+  font-weight: 700;
+  color: #374151;
+  text-align: center;
+  padding: 6px 12px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.activeIndicator {
+  position: relative;
+}
+
+.pulseDot {
+  width: 6px;
+  height: 6px;
+  background: #10b981;
+  border-radius: 50%;
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 12px;
+    background: rgba(16, 185, 129, 0.4);
+    border-radius: 50%;
+    animation: pulse 1.5s infinite;
+  }
+}
+
+// X-Axis Label
+.xAxisLabel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding-top: 20px;
+  margin-top: 10px;
+  border-top: 1px solid #f0f0f0;
+  color: #9ca3af;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  
+  svg {
+    font-size: 14px;
+  }
+}
+
+// Legend
+.legend {
+  display: flex;
+  justify-content: center;
+  gap: 48px;
+  margin-bottom: 40px;
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.legendIcon {
+  display: flex;
+  align-items: center;
+}
+
+.legendColorSales {
+  width: 40px;
+  height: 4px;
+  background: linear-gradient(90deg, #482691, #6C4AB6);
+  border-radius: 2px;
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    right: -4px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    background: #6C4AB6;
+    border-radius: 50%;
+  }
+}
+
+.legendColorRevenue {
+  width: 40px;
+  height: 4px;
+  background: linear-gradient(90deg, #FF9800, #FFB74D);
+  border-radius: 2px;
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    right: -4px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    background: #FFB74D;
+    border-radius: 50%;
+  }
+}
+
+.legendContent {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.legendLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.legendValue {
+  font-size: 18px;
+  font-weight: 800;
+  color: #374151;
+}
+
+// Stats Grid
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.statCard {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  background: white;
+  border-radius: 24px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  }
+}
+
+.statIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, rgba(72, 38, 145, 0.1), rgba(108, 74, 182, 0.1));
+  border-radius: 16px;
+  color: #482691;
+  font-size: 24px;
+}
+
+.statInfo {
+  flex: 1;
+}
+
+.statLabel {
+  font-size: 11px;
+  font-weight: 700;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.statValue {
+  font-size: 28px;
+  font-weight: 800;
+  color: #1f2937;
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+
+.statSubtext {
+  font-size: 11px;
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+.statTrend {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 12px;
+  
+  &.positive {
+    color: #10b981;
+    background: rgba(16, 185, 129, 0.1);
+  }
+  
+  &.negative {
+    color: #ef4444;
+    background: rgba(68, 68, 68, 0.1);
+  }
+  
+  svg {
+    font-size: 10px;
+  }
+}
+
+// Animations
+@keyframes bounce {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-3px);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(2);
+  }
+}
+
+// Responsive Design
+@media (max-width: 1100px) {
+  .graphContainer {
+    min-width: auto;
+    padding: 30px;
+  }
+  
+  .yAxisSection {
+    width: 80px;
+  }
+  
+  .yTickLine {
+    width: 20px;
+  }
+}
+
+@media (max-width: 900px) {
+  .graphContainer {
+    padding: 24px;
+  }
+  
+  .title {
+    font-size: 24px;
+  }
+  
+  .statsGrid {
+    gap: 12px;
+  }
+  
+  .statValue {
+    font-size: 20px;
+  }
+  
+  .barChart {
+    gap: 8px;
+  }
+  
+  .bars {
+    gap: 4px;
+  }
+  
+  .salesBar, .revenueBar {
+    max-width: 40px;
+  }
+  
+  .yAxisSection {
+    width: 70px;
+  }
+  
+  .yTickValue {
+    font-size: 9px;
+  }
+}
+
+@media (max-width: 700px) {
+  .legend {
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .chartContainer {
+    flex-direction: column;
+  }
+  
+  .yAxisSection {
+    flex-direction: row;
+    width: auto;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .yAxisLabel {
+    text-align: left;
+    margin-bottom: 0;
+  }
+  
+  .yAxis {
+    flex-direction: row;
+    height: auto;
+    width: 100%;
+    margin-top: 0;
+    justify-content: space-around;
+  }
+  
+  .yTick {
+    flex-direction: column-reverse;
+  }
+  
+  .yTickLine {
+    width: 1px;
+    height: 20px;
+  }
+}

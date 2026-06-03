@@ -25,7 +25,7 @@ function AddBusiness() {
     isLocation: false
   })
   const {sendRequest,loading} = useSendRequest({
-    url: "http://62.169.30.105:5000/business/register",
+    url: `${process.env.NEXT_PUBLIC_HOST}/business/register`,
     params: {},
     body: {
         name: fields.name,

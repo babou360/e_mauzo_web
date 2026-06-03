@@ -1,0 +1,218 @@
+.graphContainer {
+  width: 100%;
+  padding: 24px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+  border-radius: 24px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+}
+
+.title {
+  text-align: center;
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 30px;
+
+  background: linear-gradient(
+    135deg,
+    #482691,
+    #8e44ad
+  );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.graphArea {
+  display: flex;
+  gap: 15px;
+}
+
+.yAxis {
+  width: 45px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-bottom: 60px;
+}
+
+.yLabel {
+  color: #666;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.scrollArea {
+  flex: 1;
+  overflow-x: auto;
+  padding-bottom: 10px;
+
+  &::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: linear-gradient(
+      135deg,
+      #482691,
+      #8e44ad
+    );
+    border-radius: 10px;
+  }
+}
+
+.barRow {
+  display: flex;
+  align-items: flex-end;
+  gap: 28px;
+  min-width: max-content;
+  padding: 15px;
+}
+
+.barGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 90px;
+}
+
+.revenueBadge {
+  margin-bottom: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #2e7d32;
+  background: rgba(46, 125, 50, 0.1);
+  border: 1px solid rgba(46, 125, 50, 0.2);
+  padding: 5px 10px;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+.bars {
+  height: 240px;
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.salesBar,
+.productsBar {
+  width: 32px;
+  border-radius: 12px 12px 4px 4px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.salesBar:hover,
+.productsBar:hover {
+  transform: translateY(-6px);
+}
+
+.salesBar {
+  position: relative;
+
+  &:hover {
+    box-shadow: 0 10px 20px
+      rgba(72, 38, 145, 0.3);
+
+    .tooltip {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+}
+
+.productsBar:hover {
+  box-shadow: 0 10px 20px
+    rgba(255, 152, 0, 0.3);
+}
+
+.tooltip {
+  position: absolute;
+  bottom: 110%;
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: 260px;
+
+  background: white;
+  border-radius: 16px;
+  padding: 12px;
+
+  box-shadow: 0 15px 30px
+    rgba(0, 0, 0, 0.15);
+
+  opacity: 0;
+  visibility: hidden;
+
+  transition: 0.25s ease;
+
+  z-index: 100;
+  font-size: 12px;
+  text-align: left;
+
+  hr {
+    margin: 8px 0;
+    border: none;
+    border-top: 1px solid #eee;
+  }
+}
+
+.productsTitle {
+  font-weight: 700;
+  margin-bottom: 5px;
+  color: #482691;
+}
+
+.hourLabel {
+  margin-top: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #333;
+}
+
+.bottomValues {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+
+  span {
+    font-size: 11px;
+    font-weight: 600;
+    color: #777;
+  }
+}
+
+.legend {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  font-size: 14px;
+  font-weight: 600;
+  color: #555;
+}
+
+.colorBox {
+  width: 18px;
+  height: 18px;
+  border-radius: 6px;
+}
+
+.noData {
+  padding: 60px 20px;
+  text-align: center;
+  color: #888;
+  font-size: 16px;
+  background: white;
+  border-radius: 20px;
+}

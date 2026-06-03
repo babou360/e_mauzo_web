@@ -24,13 +24,13 @@ export default function DeletedSales() {
   const { language } = useLanguageStore();
   const { selected } = useSelectedBusinessStore();
   const { data: products = [], loading: prodLoading } = useFetch<Sale[]>(
-    'http://62.169.30.105:5000/sales/get_inactive_sales',{
+    `${process.env.NEXT_PUBLIC_HOST}/sales/get_inactive_sales`,{
       business_id: selected?.id,
     }
   );
 
   const { sendRequest, loading: restoreLoading } = useSendRequest({
-  url: "http://62.169.30.105:5000/sales/enable_disable",
+  url: `${process.env.NEXT_PUBLIC_HOST}/sales/enable_disable`,
   method: "POST",
   body: {
     id: fields.id,

@@ -101,6 +101,23 @@ $border-color: #e2e8f0;
         }
       }
     }
+    .order_no{
+      input{
+        padding: 0.75rem 1rem;
+        border-radius: 12px;
+        border: 1px solid $border-color;
+        background: #ffffff;
+        font-size: 0.95rem;
+        color: $text-color;
+        transition: all 0.3s ease;
+
+        &:focus {
+          border-color: $primary-color;
+          outline: none;
+          box-shadow: 0 0 0 4px rgba($primary-color, 0.15);
+        }
+      }
+    }
 
     .add_btn,
     .qr_btn {

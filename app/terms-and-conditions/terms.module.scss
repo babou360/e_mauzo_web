@@ -1,0 +1,235 @@
+@import '../../global.scss';
+
+$primary: #505BE3;
+
+.termsPage {
+  width: 100%;
+  min-height: 100vh;
+  background: #f5f7ff;
+}
+
+.heroSection {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(
+    135deg,
+    #505BE3 0%,
+    #414ddf 45%,
+    #6974ff 100%
+  );
+  padding: 5rem 2rem 8rem;
+  color: white;
+
+  @include mobile {
+    padding: 4rem 1.2rem 7rem;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 520px;
+    height: 520px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    top: -220px;
+    right: -120px;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    width: 340px;
+    height: 340px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.06);
+    bottom: -140px;
+    left: -100px;
+  }
+
+  .heroOverlay {
+    position: absolute;
+    inset: 0;
+    backdrop-filter: blur(2px);
+  }
+
+  .heroContent {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    margin: auto;
+
+    .badge {
+      width: fit-content;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.85rem 1.2rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.14);
+      backdrop-filter: blur(14px);
+      font-size: 0.92rem;
+      font-weight: 700;
+      margin-bottom: 1.7rem;
+    }
+
+    h1 {
+      font-size: 4rem;
+      font-weight: 800;
+      line-height: 1.05;
+      margin-bottom: 1rem;
+
+      @include mobile {
+        font-size: 2.5rem;
+      }
+    }
+
+    > p {
+      max-width: 650px;
+      font-size: 1.08rem;
+      line-height: 1.9;
+      opacity: 0.92;
+      margin-bottom: 3rem;
+    }
+
+    .topCards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+
+      @include mobile {
+        grid-template-columns: 1fr;
+      }
+
+      .topCard {
+        padding: 1.3rem;
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        backdrop-filter: blur(16px);
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        .topIcon {
+          width: 52px;
+          height: 52px;
+          min-width: 52px;
+          border-radius: 16px;
+          background: rgba(255, 255, 255, 0.14);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        h3 {
+          font-size: 1rem;
+          margin-bottom: 0.35rem;
+          font-weight: 700;
+        }
+
+        p {
+          font-size: 0.88rem;
+          opacity: 0.88;
+          line-height: 1.5;
+        }
+      }
+    }
+  }
+}
+
+.contentWrapper {
+  max-width: 1200px;
+  margin: -4rem auto 0;
+  position: relative;
+  z-index: 5;
+  padding: 0 1.5rem 4rem;
+
+  @include mobile {
+    padding: 0 1rem 3rem;
+  }
+
+  .sectionCard {
+    background: white;
+    border-radius: 32px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.06);
+
+    @include mobile {
+      padding: 1.4rem;
+      border-radius: 24px;
+    }
+
+    .sectionHeader {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+
+      .sectionLine {
+        width: 6px;
+        height: 38px;
+        border-radius: 999px;
+        background: linear-gradient(
+          180deg,
+          #505BE3,
+          #7a84ff
+        );
+      }
+
+      h2 {
+        font-size: 2rem;
+        font-weight: 800;
+        color: #111827;
+
+        @include mobile {
+          font-size: 1.5rem;
+        }
+      }
+    }
+
+    .itemsContainer {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+
+      .termItem {
+        padding: 1.5rem;
+        border-radius: 24px;
+        background: #fafbff;
+        border: 1px solid #eef2ff;
+        transition: 0.3s ease;
+
+        &:hover {
+          transform: translateY(-2px);
+          border-color: rgba(80, 91, 227, 0.25);
+          box-shadow: 0 15px 35px rgba(80, 91, 227, 0.08);
+        }
+
+        .termTitle {
+          display: flex;
+          align-items: center;
+          gap: 0.7rem;
+          margin-bottom: 0.9rem;
+
+          svg {
+            color: $primary;
+          }
+
+          h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #111827;
+            line-height: 1.5;
+          }
+        }
+
+        p {
+          font-size: 0.97rem;
+          line-height: 1.9;
+          color: #4b5563;
+        }
+      }
+    }
+  }
+}

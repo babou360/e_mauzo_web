@@ -23,7 +23,7 @@ export default function DeletedProducts() {
   const { language } = useLanguageStore();
   const { selected } = useSelectedBusinessStore();
   const { data: products = [], loading: prodLoading } = useFetch<Product[]>(
-    'http://62.169.30.105:5000/products/get_deleted_products',{
+    `${process.env.NEXT_PUBLIC_HOST}/products/get_deleted_products`,{
       page: 1,
       pageSize: 10,
       business_id: selected?.id,
@@ -32,7 +32,7 @@ export default function DeletedProducts() {
   );
 
   const { sendRequest, loading: restoreLoading } = useSendRequest({
-  url: "http://62.169.30.105:5000/products/restore_product",
+  url: `${process.env.NEXT_PUBLIC_HOST}/products/restore_product`,
   method: "POST",
   body: {
     id: fields.id,

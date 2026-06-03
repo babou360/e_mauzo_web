@@ -59,6 +59,7 @@ interface Fields {
   clientType: string;
   isPaid: string;
   paymentMethod: string;
+  order_no: string;
 }
 
 interface Duration {
@@ -91,6 +92,7 @@ const Sales: React.FC = () => {
     clientType: 'old',
     isPaid: 'Cash',
     paymentMethod: '',
+    order_no: ''
   });
   const [sellerId, setSellerId] = useState<string>('all');
   const [paymentFilter, setPaymentFilter] = useState<'all' | 'cash' | 'loan'>('all');
@@ -110,10 +112,11 @@ const Sales: React.FC = () => {
     pageSize: fields.pageSize,
     business_id: selected?.id,
     seller_id: sellerId !== 'all' ? sellerId : undefined,
-    paymentFilter: paymentFilter,
+    payment_filter: paymentFilter,
     duration: selectedDuration,
     start: selectedDuration === 'custom' ? customStartDate : undefined,
     end: selectedDuration === 'custom' ? customEndDate : undefined,
+    order_no: fields.order_no
   };
 
   // Fetch parameters for products in the modal
@@ -127,21 +130,21 @@ const Sales: React.FC = () => {
   const { data: productsData, loading: productsLoading } = useFetch<{
     data: Product[];
     totalItems: number;
-  }>('http://62.169.30.105:5000/products/get_products', productsFetchParams);
+  }>(`${process.env.NEXT_PUBLIC_HOST}/products/get_products`, productsFetchParams);
 
   const { data: salesData, loading: salesLoading } = useFetch<{
     rows: Sale[];
     count: number;
-  }>('http://62.169.30.105:5000/sales/get_sales', salesFetchParams);
+  }>(`${process.env.NEXT_PUBLIC_HOST}/sales/get_sales`, salesFetchParams);
 
-  const { data: totalsData } = useFetch<Totals>('http://62.169.30.105:5000/sales/get_totals', salesFetchParams);
+  const { data: totalsData } = useFetch<Totals>(`${process.env.NEXT_PUBLIC_HOST}/sales/get_totals`, salesFetchParams);
 
   const { data: attendantsData, loading: attendantsLoading } = useFetch<{
     data: Attendant[];
-  }>('http://62.169.30.105:5000/attendant/get_attendants', { business_id: selected?.id });
+  }>(`${process.env.NEXT_PUBLIC_HOST}/attendant/get_attendants`, { business_id: selected?.id });
 
   const { sendRequest: sell, loading: sellLoading } = useSendRequest({
-    url: fields.saleId ? `http://62.169.30.105:5000/sales/update_sale/${fields.saleId}` : 'http://62.169.30.105:5000/sales/sale',
+    url: fields.saleId ? `${process.env.NEXT_PUBLIC_HOST}/sales/update_sale/${fields.saleId}` : `${process.env.NEXT_PUBLIC_HOST}/sales/sale`,
     method: fields.saleId ? 'PUT' : 'POST',
     body: {
       products: fields.products,
@@ -340,6 +343,14 @@ const Sales: React.FC = () => {
                 ))}
               </select>
             )}
+          </div>
+          <div className={styles.order_no}>
+            <input 
+              type="text" 
+              value={fields.order_no}
+              onChange={e => setFields({...fields,order_no: e.target.value})}
+              placeholder={language==="Swahili"?"Ingiza Namba ya oda":"Enter Order Number"}
+            />
           </div>
           <button
             className={styles.add_btn}

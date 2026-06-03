@@ -84,7 +84,7 @@ export default function ProductsPage() {
     pageSize: 10,
   });
   const { selected } = useSelectedBusinessStore();
-  const { data, loading } = useFetch('http://62.169.30.105:5000/products/get_products', {
+  const { data, loading } = useFetch(`${process.env.NEXT_PUBLIC_HOST}/products/get_products`, {
     page: formData.page,
     pageSize: formData.pageSize,
     name,
@@ -92,16 +92,16 @@ export default function ProductsPage() {
   });
 
   const { data: categories, loading: catLoading } = useFetch(
-    'http://62.169.30.105:5000/ms-cats/get_ms_cats',
+    `${process.env.NEXT_PUBLIC_HOST}/ms-cats/get_ms_cats`,
     { page: 1, pageSize: 100 }
   );
   const { data: measurements, loading: measureLoading } = useFetch(
-    'http://62.169.30.105:5000/ms-cats/get_measurements',
+    `${process.env.NEXT_PUBLIC_HOST}/ms-cats/get_measurements`,
     { page: 1, pageSize: 100 }
   );
   
   const { sendRequest, loading: createLoading } = useSendMultipartRequest({
-  url: "http://62.169.30.105:5000/products/create_product",
+  url: `${process.env.NEXT_PUBLIC_HOST}/products/create_product`,
   method: "POST",
   body: {
     business_id: selected?.id,
@@ -128,7 +128,7 @@ export default function ProductsPage() {
   },
 });
   const { sendRequest: addStock, loading: stockLoading } = useSendRequest({
-  url: "http://62.169.30.105:5000/products/add_stock",
+  url: `${process.env.NEXT_PUBLIC_HOST}/products/add_stock`,
   method: "POST",
   body: {
     product_id: fields.item.id,
@@ -138,7 +138,7 @@ export default function ProductsPage() {
   },
 });
   const { sendRequest: deleteProduct, loading: deleteLoading } = useSendRequest({
-  url: "http://62.169.30.105:5000/products/disable_product",
+  url: `${process.env.NEXT_PUBLIC_HOST}/products/disable_product`,
   method: "POST",
   body: {
     id: fields.item.id

@@ -143,7 +143,7 @@ mauzo/
 
 ```bash
 # API Configuration (inferred from codebase)
-NEXT_PUBLIC_API_URL=http://62.169.30.105:5000  # Backend API endpoint
+NEXT_PUBLIC_HOST=http://62.169.30.105:5000  # Backend API endpoint
 JWT_SECRET=                                # JWT signing secret (backend)
 DATABASE_URL=                              # Database connection string (backend)
 

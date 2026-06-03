@@ -129,7 +129,7 @@ const ClientsPage: React.FC = () => {
    const { data: clientsData, loading: clientsLoading } = useFetch<{
     data: Client[];
     totalItems: number;
-  }>('http://62.169.30.105:5000/buyers/get_buyers', {page,pageSize:10,business_id: business?.id,search});
+  }>(`${process.env.NEXT_PUBLIC_HOST}/buyers/get_buyers`, {page,pageSize:10,business_id: business?.id,search});
 
   return (
     <div className={styles.clients}>

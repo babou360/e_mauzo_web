@@ -62,8 +62,8 @@ function useSendMultipartRequest<T>({ url, params, body, method }: Props) {
 
       // ✅ Save token on login/register
       if (
-        url === 'http://62.169.30.105:5000/users/login' ||
-        url === 'http://62.169.30.105:5000/users/register'
+        url === `${process.env.NEXT_PUBLIC_HOST}/users/login` ||
+        url === `${process.env.NEXT_PUBLIC_HOST}/users/register`
       ) {
         localStorage.setItem('mauzo_token', response.data.token);
         localStorage.setItem('user_status', response.data.status);

@@ -29,7 +29,7 @@ export default function MeasurementCategoriesPage() {
   });
 
   const { sendRequest } = useSendRequest({
-    url: "http://62.169.30.105:5000/ms-cats/create_ms_cat",
+    url: `${process.env.NEXT_PUBLIC_HOST}/ms-cats/create_ms_cat`,
     method: "POST",
     body: {
       name: {
@@ -40,7 +40,7 @@ export default function MeasurementCategoriesPage() {
     }
   });
 
-  const { data, loading } = useFetch("http://62.169.30.105:5000/ms-cats/get_ms_cats", { page });
+  const { data, loading } = useFetch(`${process.env.NEXT_PUBLIC_HOST}/ms-cats/get_ms_cats`, { page });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;

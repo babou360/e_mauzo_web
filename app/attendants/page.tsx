@@ -40,7 +40,7 @@ export default function AttendantsPage() {
   });
   const { selected } = useSelectedBusinessStore();
 
-  const { data, loading } = useFetch('http://62.169.30.105:5000/attendant/get_attendants', {
+  const { data, loading } = useFetch(`${process.env.NEXT_PUBLIC_HOST}/attendant/get_attendants`, {
     page: formData.page,
     pageSize: formData.pageSize,
     name,
@@ -69,7 +69,7 @@ export default function AttendantsPage() {
 
   const totalPages = data?.totalItems ? Math.ceil(data.totalItems / formData.pageSize) : 0;
   const {sendRequest, loading: createLoading} = useSendRequest({
-    url: "http://62.169.30.105:5000/attendant/register_attendant",
+    url: `${process.env.NEXT_PUBLIC_HOST}/attendant/register_attendant`,
     body: {
         name: formData.name,
         phone: formData.phone,
@@ -81,7 +81,7 @@ export default function AttendantsPage() {
     method: "POST"
   })
   const {sendRequest: deleteAttendant, loading: deleteLoading} = useSendRequest({
-    url: "http://62.169.30.105:5000/attendant/deactivate_attendant",
+    url: `${process.env.NEXT_PUBLIC_HOST}/attendant/deactivate_attendant`,
     body: {
         id: formData.delete_id
     },

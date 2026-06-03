@@ -10,7 +10,7 @@ function SignIn() {
     password: ""
   })
   const { sendRequest, loading } = useSendRequest({
-    url: "http://62.169.30.105:5000/users/login",
+    url: `${process.env.NEXT_PUBLIC_HOST}/users/login`,
     params: {},
     body: { phone: fields.phone, password: fields.password },
     method: "POST"

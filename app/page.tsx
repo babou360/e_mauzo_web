@@ -1,20 +1,44 @@
 'use client';
+
 import useFetch from '@/utils/fetch';
-import React, { JSX, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styles from './page.module.scss';
 import cx from 'classnames';
 import useSelectedBusinessStore from '@/store/atoms/selected_business';
 import useLanguageStore from '@/store/atoms/language';
-import HourlyProductsGraph from '@/components/sales/hourlySales';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaTimes, FaEye } from 'react-icons/fa';
-import { Calendar, ChartNoAxesCombined, ShieldCheck, ShoppingBasket, Waypoints, Cable } from 'lucide-react';
-import MonthlySalesBarChart from '@/components/sales/monthlySales';
+import { 
+  FaTimes, 
+  FaEye, 
+  FaShoppingCart, 
+  FaBoxes, 
+  FaBusinessTime, 
+  FaFigma, 
+  FaHandSparkles, 
+  FaLayerGroup, 
+  FaShopify, 
+  FaSlack,
+  FaCalendarAlt,
+  FaArrowRight,
+  FaChartBar,
+  FaChartLine,
+  FaArrowCircleRight
+} from 'react-icons/fa';
+import HourlyProductsGraph from '../components/home/hour/HourlyProductsGraph';
+import TopProductsModal from '../components/home/top/TopProductsModal';
+import DailySalesGraph from '../components/home/day/DailySalesGraph';
+import MonthlySalesGraph from '../components/home/month/MonthlySalesGraph';
+import AllHours from '../components/home/allHours/allHours';
+import AllHoursGraph from '../components/home/allHours/allHours';
 
 const Home = () => {
   const { selected } = useSelectedBusinessStore();
   const { language } = useLanguageStore();
   const [selectedHour, setSelectedHour] = useState<any>(null);
+  const [showHourlyGraph, setShowHourlyGraph] = useState<any>(null);
+  const [showTopProductsModal, setShowTopProductsModal] = useState(false);
+  const [showDailyGraph, setShowDailyGraph] = useState(false);
+  const [showMonthlyGraph, setShowMonthlyGraph] = useState(false);
   const [fields, setFields] = useState({
     duration: "day",
     start_date: "",
@@ -23,7 +47,7 @@ const Home = () => {
   });
 
   const { data, loading } = useFetch(
-    'http://62.169.30.105:5000/sales-analytics/sales_analytics',
+    `${process.env.NEXT_PUBLIC_HOST}/sales-analytics/sales_analytics`,
     {
       duration: fields.duration,
       start_date: fields.start_date,
@@ -32,8 +56,14 @@ const Home = () => {
     }
   );
 
-  const formatCurrency = (amount: string | number) => {
-    return parseFloat(amount?.toString() || '0').toLocaleString('en-US');
+  const formatCurrency = (amount: any): string => {
+    const num = parseFloat(amount?.toString() || '0');
+    return num.toLocaleString('en-US');
+  };
+
+  const formatNumber = (amount: any): string => {
+    const num = parseFloat(amount?.toString() || '0');
+    return num.toLocaleString('en-US');
   };
 
   function dayTrans(day: string) {
@@ -45,192 +75,663 @@ const Home = () => {
     return map[day] || day;
   }
 
-  function formatDate(dateString: string) {
+  function formatDisplayDate(dateString: string) {
+    if (!dateString) return "-";
     const date = new Date(dateString);
-    const day = String(date.getUTCDate()).padStart(2, '0');
-    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
-    const year = date.getUTCFullYear();
-    return `${day}-${month}-${year}`;
-  }
-
-  function handleFields(duration: string) {
-    setFields(prev => {
-      if (duration === "custom") {
-        return { ...prev, duration: "custom", isCustom: true };
-      } else {
-        return { ...prev, duration, isCustom: false, start_date: "", end_date: "" };
-      }
+    return date.toLocaleDateString(language === "Swahili" ? 'sw-TZ' : 'en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
     });
   }
 
+  function handleFields(duration: string) {
+    if (duration === "custom") {
+      setFields(prev => ({ ...prev, duration: "custom", isCustom: true }));
+    } else {
+      setFields(prev => ({ 
+        ...prev, 
+        duration, 
+        isCustom: false, 
+        start_date: "", 
+        end_date: "" 
+      }));
+    }
+  }
+
+  const handleCustomDateChange = (type: 'start' | 'end', value: string) => {
+    setFields(prev => ({ ...prev, [type === 'start' ? 'start_date' : 'end_date']: value }));
+  };
+
   const t = {
-    totalSales: language === "Swahili" ? "Jumla ya Mauzo" : "Total Sales",
-    totalProducts: language === "Swahili" ? "Jumla ya Bidhaa" : "Total Products",
-    totalRevenue: language === "Swahili" ? "Mapato Yote" : "Total Revenue",
-    netProfit: language === "Swahili" ? "Faida Halisi" : "Net Profit",
+    totalSales: language === "Swahili" ? "Mauzo" : "Total Sales",
+    totalProducts: language === "Swahili" ? "Bidhaa" : "Total Products",
+    totalRevenue: language === "Swahili" ? "Mapato" : "Total Revenue",
+    netProfit: language === "Swahili" ? "Faida" : "Profit",
     damages: language === "Swahili" ? "Uharibifu" : "Damages",
-    hourlyBreakdown: language === "Swahili" ? "Mgawanyiko wa Saa" : "Hourly Sales Breakdown",
+    avgOrderValue: language === "Swahili" ? "Wastani wa Oda" : "Avg Order Value",
+    profitMargin: language === "Swahili" ? "Uwiano wa Faida" : "Profit Margin",
+    expenses: language === "Swahili" ? "Matumizi" : "Expenses",
+    hourlyBreakdown: language === "Swahili" ? "Mauzo Kwa Saa" : "Hourly Sales",
     hour: language === "Swahili" ? "Saa" : "Hour",
     sales: language === "Swahili" ? "Mauzo" : "Sales",
     revenue: language === "Swahili" ? "Mapato" : "Revenue",
     products: language === "Swahili" ? "Bidhaa" : "Products",
-    action: language === "Swahili" ? "Tendo" : "Action",
-    dailyTrend: language === "Swahili" ? "Mwelekeo wa Kila Siku" : "Daily Sales Trend",
-    monthlyTrend: language === "Swahili" ? "Mwelekeo wa Mauzo ya Kila Mwezi" : "Monthly Sales Trend",
+    action: language === "Swahili" ? "Tazama" : "View",
+    dailyTrend: language === "Swahili" ? "Mauzo Kwa Siku" : "Daily Sales",
+    monthlyTrend: language === "Swahili" ? "Mauzo Kwa Mwezi" : "Monthly Sales",
     day: language === "Swahili" ? "Siku" : "Day",
-    topProducts: language === "Swahili" ? "Bidhaa Zilizovuma" : "Top Products",
+    month: language === "Swahili" ? "Mwezi" : "Month",
+    topProducts: language === "Swahili" ? "Bidhaa Zilizouzwa" : "Products Sold",
     product: language === "Swahili" ? "Bidhaa" : "Product",
-    soldCount: language === "Swahili" ? "Idadi" : "Sold Count",
-    quantity: language === "Swahili" ? "Kiasi" : "Quantity",
-    noProducts: language === "Swahili" ? "Hakuna bidhaa zilizopatikana" : "No products found",
+    quantity: language === "Swahili" ? "Idadi" : "Quantity",
+    unit: language === "Swahili" ? "Kiasi" : "Quantity",
+    reportPeriod: language === "Swahili" ? "Muda wa Ripoti" : "Report Period",
+    viewChart: language === "Swahili" ? "Tazama Chati" : "View Chart",
+    viewAll: language === "Swahili" ? "Tazama Zote" : "View All",
+    profit: language === "Swahili" ? "Faida" : "Profit",
+    freeTrial: language === "Swahili" ? "Jaribio Bure" : "Free Trial",
+    subscriptionActive: language === "Swahili" ? "Usajili Upo Hai" : "Subscription Active",
+    subscriptionExpired: language === "Swahili" ? "Usajili Umeisha" : "Subscription Expired",
+    noSubscription: language === "Swahili" ? "Hakuna Usajili" : "No Subscription",
+    upgrade: language === "Swahili" ? "Boresha" : "Upgrade",
+    trialEndsIn: language === "Swahili" ? "Jaribio linaisha baada ya siku" : "Your trial ends in",
+    nextPaymentIn: language === "Swahili" ? "Malipo yajayo baada ya siku" : "Next payment in",
+    days: language === "Swahili" ? "siku" : "day(s)",
+    pleaseRenew: language === "Swahili" ? "Tafadhali fanya malipo upya" : "Please renew your subscription",
+    pleaseSubscribe: language === "Swahili" ? "Tafadhali jiunge ili kuendelea" : "Please subscribe to continue",
+    hourlySalesChart: language === "Swahili" ? "Chati ya Mauzo Kwa Saa" : "Hourly Sales Chart",
+    dailySalesChart: language === "Swahili" ? "Chati ya Mauzo Kwa Siku" : "Daily Sales Chart",
+    monthlySalesChart: language === "Swahili" ? "Chati ya Mauzo Kwa Mwezi" : "Monthly Sales Chart",
   };
 
-  const container = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.1 } } };
-  const item = { hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } };
-  const row = { hidden: { opacity: 0, x: -20 }, visible: (i: number) => ({ opacity: 1, x: 0, transition: { delay: i * 0.05 } }) };
+  const primaryColor = "#482691";
+  const secondaryColor = "#6C4AB6";
+  const accentColor = "#8E44AD";
+  const backgroundColor = "#F8F9FF";
 
-  const formatMonth = (month: string) => {
-    const [y, m] = month.split('-');
-    const monthsEn = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    const monthsSw = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Ago", "Sep", "Okt", "Nov", "Des"];
-    const list = language === "Swahili" ? monthsSw : monthsEn;
-    return `${list[parseInt(m) - 1]} ${y}`;
+  const summary = data?.summary || {};
+  const hourlySales = data?.hourly_sales || [];
+  const dailySales = data?.daily_sales || [];
+  const monthlySales = data?.monthly_sales || [];
+  const displayProducts = summary.display_products || [];
+  const topProducts = summary.top_products || [];
+
+  const metrics = [
+    { 
+      title: t.totalSales, 
+      value: formatNumber(summary.total_orders),
+      icon: FaShoppingCart,
+      gradient: ["#6C4AB6", "#8E44AD"],
+    },
+    { 
+      title: t.totalProducts, 
+      value: formatNumber(summary.total_products),
+      icon: FaBoxes,
+      gradient: ["#3498DB", "#2ECC71"],
+    },
+    { 
+      title: t.totalRevenue, 
+      value: formatCurrency(summary.total_revenue),
+      icon: FaBusinessTime,
+      gradient: ["#E74C3C", "#F39C12"],
+    },
+    { 
+      title: t.expenses, 
+      value: formatCurrency(summary.total_expenses),
+      icon: FaFigma,
+      gradient: ["#1DA1A4", "#F39C12"],
+    },
+    { 
+      title: t.damages, 
+      value: formatCurrency(summary.damages),
+      icon: FaHandSparkles,
+      gradient: ["#A83CE7", "#F39C12"],
+    },
+    { 
+      title: t.netProfit, 
+      value: formatCurrency(summary.net_profit),
+      icon: FaLayerGroup,
+      gradient: ["#1ABC9C", "#4B0B4E"],
+    },
+    { 
+      title: t.avgOrderValue, 
+      value: formatCurrency(summary.average_order_value),
+      icon: FaShopify,
+      gradient: ["#325B53", "#16A085"],
+    },
+    { 
+      title: t.profitMargin, 
+      value: `${summary.profit_margin || 0}%`,
+      icon: FaSlack,
+      gradient: ["#1ABC9C", "#FF6F01"],
+    },
+  ];
+
+  const durations = [
+    { value: 'day', english: 'Day', swahili: 'Siku' },
+    { value: 'week', english: 'Week', swahili: 'Wiki' },
+    { value: 'month', english: 'Month', swahili: 'Mwezi' },
+    { value: 'year', english: 'Year', swahili: 'Mwaka' },
+    { value: 'all', english: 'All Time', swahili: 'Muda Wote' },
+    { value: 'custom', english: 'Custom', swahili: 'Maalum' },
+  ];
+
+  // Calculate subscription status (mock - replace with actual logic)
+  const getSubscriptionStatus = () => {
+    // Mock data - replace with actual business subscription data
+    const createdAt = selected?.createdAt ? new Date(selected.createdAt) : new Date();
+    const now = new Date();
+    const daysSinceCreation = Math.floor((now.getTime() - createdAt.getTime()) / (1000 * 60 * 60 * 24));
+    const isTrial = daysSinceCreation <= 3;
+    const lastPaid = selected?.lastPaid ? new Date(selected.lastPaid) : null;
+    
+    if (isTrial) {
+      const remainingDays = Math.max(0, 3 - daysSinceCreation);
+      return {
+        title: t.freeTrial,
+        subtitle: `${t.trialEndsIn} ${remainingDays} ${t.days}`,
+        color: "#FF9800"
+      };
+    }
+    
+    if (lastPaid) {
+      const remainingDays = Math.floor((lastPaid.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+      if (remainingDays > 0) {
+        return {
+          title: t.subscriptionActive,
+          subtitle: `${t.nextPaymentIn} ${remainingDays} ${t.days}`,
+          color: "#4CAF50"
+        };
+      } else {
+        return {
+          title: t.subscriptionExpired,
+          subtitle: t.pleaseRenew,
+          color: "#F44336"
+        };
+      }
+    }
+    
+    return {
+      title: t.noSubscription,
+      subtitle: t.pleaseSubscribe,
+      color: "#F44336"
+    };
   };
+
+  const subscription = getSubscriptionStatus();
+
+  if (loading) {
+    return (
+      <div className={styles.loadingContainer} style={{ backgroundColor }}>
+        <div className={styles.loadingSpinner}>
+          <div className={styles.spinnerInner}></div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
-      {/* MODAL */}
       <AnimatePresence>
         {selectedHour && (
-          <motion.div className={styles.modalOverlay} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setSelectedHour(null)}>
-            <motion.div className={styles.modalContent} initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.8, opacity: 0 }} transition={{ type: "spring", stiffness: 300, damping: 30 }} onClick={e => e.stopPropagation()}>
-              <motion.button className={styles.closeBtn} whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={() => setSelectedHour(null)}>
+          <motion.div 
+            className={styles.modalOverlay} 
+            initial={{ opacity: 0 }} 
+            animate={{ opacity: 1 }} 
+            exit={{ opacity: 0 }} 
+            onClick={() => setSelectedHour(null)}
+          >
+            <motion.div 
+              className={styles.modalContent} 
+              initial={{ scale: 0.8, opacity: 0 }} 
+              animate={{ scale: 1, opacity: 1 }} 
+              exit={{ scale: 0.8, opacity: 0 }} 
+              transition={{ type: "spring", stiffness: 300, damping: 30 }} 
+              onClick={e => e.stopPropagation()}
+            >
+              <motion.button 
+                className={styles.closeBtn} 
+                whileHover={{ scale: 1.1 }} 
+                whileTap={{ scale: 0.9 }} 
+                onClick={() => setSelectedHour(null)}
+              >
                 <FaTimes />
               </motion.button>
-              <div className={styles.modalHeader}><h3>{t.hour}: {selectedHour.hour}</h3></div>
-              <HourlyProductsGraph topProducts={selectedHour.products} hour={selectedHour.hour} language={language} />
+              <HourlyProductsGraph topProducts={selectedHour.products} hour={selectedHour.hour}/>
+            </motion.div>
+          </motion.div>
+        )}
+
+        {/* Hourly Products Graph Modal */}
+        {showHourlyGraph && (
+          <motion.div 
+            className={styles.modalOverlay} 
+            initial={{ opacity: 0 }} 
+            animate={{ opacity: 1 }} 
+            exit={{ opacity: 0 }} 
+            onClick={() => setShowHourlyGraph(null)}
+          >
+            <motion.div 
+              className={styles.graphModalContent} 
+              initial={{ scale: 0.8, opacity: 0, y: 50 }} 
+              animate={{ scale: 1, opacity: 1, y: 0 }} 
+              exit={{ scale: 0.8, opacity: 0, y: 50 }} 
+              transition={{ type: "spring", stiffness: 300, damping: 30 }} 
+              onClick={e => e.stopPropagation()}
+            >
+              <motion.button 
+                className={styles.closeBtn} 
+                whileHover={{ scale: 1.1 }} 
+                whileTap={{ scale: 0.9 }} 
+                onClick={() => setShowHourlyGraph(null)}
+              >
+                <FaTimes />
+              </motion.button>
+              <AllHoursGraph 
+                hourly_sales={showHourlyGraph}
+                language={language}
+              />
+              {/* <HourlyProductsGraph 
+                topProducts={showHourlyGraph.products} 
+                hour={showHourlyGraph.hour}
+                language={language}
+              /> */}
+            </motion.div>
+          </motion.div>
+        )}
+
+        {/* Top Products Modal */}
+        {showTopProductsModal && (
+          <motion.div 
+            className={styles.modalOverlay} 
+            initial={{ opacity: 0 }} 
+            animate={{ opacity: 1 }} 
+            exit={{ opacity: 0 }} 
+            onClick={() => setShowTopProductsModal(false)}
+          >
+            <motion.div 
+              className={styles.fullModalContent} 
+              initial={{ scale: 0.8, opacity: 0, y: 50 }} 
+              animate={{ scale: 1, opacity: 1, y: 0 }} 
+              exit={{ scale: 0.8, opacity: 0, y: 50 }} 
+              transition={{ type: "spring", stiffness: 300, damping: 30 }} 
+              onClick={e => e.stopPropagation()}
+            >
+              <motion.button 
+                className={styles.closeBtn} 
+                whileHover={{ scale: 1.1 }} 
+                whileTap={{ scale: 0.9 }} 
+                onClick={() => setShowTopProductsModal(false)}
+              >
+                <FaTimes />
+              </motion.button>
+              <TopProductsModal 
+                topProducts={data?.summary.display_products}
+                language={language}
+                formatCurrency={formatCurrency}
+              />
+            </motion.div>
+          </motion.div>
+        )}
+
+        {/* Daily Sales Graph Modal */}
+        {showDailyGraph && (
+          <motion.div 
+            className={styles.modalOverlay} 
+            initial={{ opacity: 0 }} 
+            animate={{ opacity: 1 }} 
+            exit={{ opacity: 0 }} 
+            onClick={() => setShowDailyGraph(false)}
+          >
+            <motion.div 
+              className={styles.graphModalContent} 
+              initial={{ scale: 0.8, opacity: 0, y: 50 }} 
+              animate={{ scale: 1, opacity: 1, y: 0 }} 
+              exit={{ scale: 0.8, opacity: 0, y: 50 }} 
+              transition={{ type: "spring", stiffness: 300, damping: 30 }} 
+              onClick={e => e.stopPropagation()}
+            >
+              <motion.button 
+                className={styles.closeBtn} 
+                whileHover={{ scale: 1.1 }} 
+                whileTap={{ scale: 0.9 }} 
+                onClick={() => setShowDailyGraph(false)}
+              >
+                <FaTimes />
+              </motion.button>
+              <DailySalesGraph 
+                dailySales={dailySales}
+                formatCurrency={formatCurrency}
+                dayTrans={dayTrans}
+              />
+            </motion.div>
+          </motion.div>
+        )}
+
+        {/* Monthly Sales Graph Modal */}
+        {showMonthlyGraph && (
+          <motion.div 
+            className={styles.modalOverlay} 
+            initial={{ opacity: 0 }} 
+            animate={{ opacity: 1 }} 
+            exit={{ opacity: 0 }} 
+            onClick={() => setShowMonthlyGraph(false)}
+          >
+            <motion.div 
+              className={styles.graphModalContent} 
+              initial={{ scale: 0.8, opacity: 0, y: 50 }} 
+              animate={{ scale: 1, opacity: 1, y: 0 }} 
+              exit={{ scale: 0.8, opacity: 0, y: 50 }} 
+              transition={{ type: "spring", stiffness: 300, damping: 30 }} 
+              onClick={e => e.stopPropagation()}
+            >
+              <motion.button 
+                className={styles.closeBtn} 
+                whileHover={{ scale: 1.1 }} 
+                whileTap={{ scale: 0.9 }} 
+                onClick={() => setShowMonthlyGraph(false)}
+              >
+                <FaTimes />
+              </motion.button>
+              <MonthlySalesGraph 
+                monthlySales={monthlySales}
+                language={language}
+                formatCurrency={formatCurrency}
+              />
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      <motion.div className={styles.dashboard} variants={container} initial="hidden" animate="visible">
-
-        {/* HEADER */}
-        <motion.div className={styles.header} variants={item}>
-          <div className={styles.durations_wrapper}>
+      <div className={styles.dashboard} style={{ backgroundColor }}>
+        {/* Duration Selector */}
+        <div className={styles.durationSelector}>
+          <div className={styles.durationWrapper}>
             <div className={styles.durations}>
-              <div className={cx(styles.duration, fields.duration === 'day' && styles.active)} onClick={() => handleFields('day')}>{language === "English" ? "Day" : "Siku"}</div>
-              <div className={cx(styles.duration, fields.duration === 'week' && styles.active)} onClick={() => handleFields('week')}>{language === "English" ? "Week" : "Wiki"}</div>
-              <div className={cx(styles.duration, fields.duration === 'month' && styles.active)} onClick={() => handleFields('month')}>{language === "English" ? "Month" : "Mwezi"}</div>
-              <div className={cx(styles.duration, fields.duration === 'year' && styles.active)} onClick={() => handleFields('year')}>{language === "English" ? "Year" : "Mwaka"}</div>
-              <div className={cx(styles.duration, fields.duration === 'all' && styles.active)} onClick={() => handleFields('all')}>{language === "English" ? "All Time" : "Muda Wote"}</div>
-              <div className={cx(styles.duration, fields.isCustom && styles.active)} onClick={() => handleFields('custom')}>{language === "English" ? "Custom" : "Maalum"}</div>
+              {durations.map((item) => {
+                const isSelected = fields.duration === item.value;
+                const isCustom = item.value === 'custom';
+                return (
+                  <motion.div
+                    key={item.value}
+                    className={cx(styles.duration, isSelected && styles.active)}
+                    style={{
+                      background: isSelected ? `linear-gradient(135deg, ${primaryColor}, ${accentColor})` : 'transparent',
+                      border: isSelected ? 'none' : `1.5px solid ${primaryColor}20`,
+                    }}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => handleFields(item.value)}
+                  >
+                    <span style={{ color: isSelected ? '#fff' : '#666' }}>
+                      {language === "English" ? item.english : item.swahili}
+                    </span>
+                  </motion.div>
+                );
+              })}
             </div>
+            
             {fields.isCustom && (
-              <div className={styles.date_picker}>
-                <div className={styles.one}><input type="date" value={fields.start_date} onChange={e => setFields({ ...fields, start_date: e.target.value })} /></div>
-                <div className={styles.one}><input type="date" value={fields.end_date} onChange={e => setFields({ ...fields, end_date: e.target.value })} /></div>
+              <div className={styles.datePicker}>
+                <input 
+                  type="date" 
+                  value={fields.start_date} 
+                  onChange={e => handleCustomDateChange('start', e.target.value)}
+                  className={styles.dateInput}
+                />
+                <FaArrowRight className={styles.dateArrow} />
+                <input 
+                  type="date" 
+                  value={fields.end_date} 
+                  onChange={e => handleCustomDateChange('end', e.target.value)}
+                  className={styles.dateInput}
+                />
               </div>
             )}
           </div>
-          <div className={styles.exact_duration}>
-            <Calendar className={styles.icon} size={30} />
-            {!loading && <p>{formatDate(data.summary.start_date)} - <span>{formatDate(data.summary.end_date)}</span></p>}
+
+          {/* Date Range Card */}
+          <div className={styles.dateRangeCard}>
+            <div className={styles.dateRangeIcon}>
+              <FaCalendarAlt size={24} color="#fff" />
+            </div>
+            <div className={styles.dateRangeInfo}>
+              <span className={styles.dateRangeLabel}>{t.reportPeriod}</span>
+              <div className={styles.dateRangeDates}>
+                <span>{formatDisplayDate(summary.start_date)}</span>
+                <FaArrowRight size={14} color={primaryColor} />
+                <span>{formatDisplayDate(summary.end_date)}</span>
+              </div>
+            </div>
+            <FaArrowCircleRight size={18} color={primaryColor} />
           </div>
-        </motion.div>
+        </div>
 
-        {/* METRICS GRID */}
-        <motion.div className={styles.metricsGrid}>
-          {loading ? Array.from({ length: 5 }).map((_, i) => <motion.div key={i} className={cx(styles.card, styles.skeleton)} variants={item} />) : (
-            <>
-              <div className={styles.card}><div className={styles.title}>{t.totalSales}</div><div className={styles.other}><ChartNoAxesCombined className={styles.icon} size={35}/><p>{data?.summary?.total_orders}</p></div></div>
-              <div className={styles.card}><div className={styles.title}>{t.totalProducts}</div><div className={styles.other}><ShoppingBasket className={styles.icon} size={35}/><p>{data?.summary?.total_products}</p></div></div>
-              <div className={styles.card}><div className={styles.title}>{t.totalRevenue}</div><div className={styles.other}><ShieldCheck className={styles.icon} size={35}/><p>{formatCurrency(data?.summary?.total_revenue)}</p></div></div>
-              <div className={styles.card}><div className={styles.title}>{t.netProfit}</div><div className={styles.other}><Waypoints className={styles.icon} size={35}/><p>{formatCurrency(data?.summary?.net_profit)}</p></div></div>
-              <div className={styles.card}><div className={styles.title}>{t.damages}</div><div className={styles.other}><Cable className={styles.icon} size={35}/><p>{formatCurrency(data?.summary?.damages)}</p></div></div>
-            </>
-          )}
-        </motion.div>
+        {/* Metrics Grid */}
+        <div className={styles.metricsGrid}>
+          {metrics.map((metric, idx) => (
+            <motion.div
+              key={idx}
+              className={styles.metricCard}
+              style={{
+                background: `linear-gradient(135deg, ${metric.gradient[0]}, ${metric.gradient[1]})`,
+              }}
+              whileHover={{ y: -5, transition: { duration: 0.2 } }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: idx * 0.05 }}
+            >
+              <div className={styles.metricIconBg}>
+                <metric.icon size={20} color="#fff" />
+              </div>
+              <div className={styles.metricContent}>
+                <span className={styles.metricTitle}>{metric.title}</span>
+                <span className={styles.metricValue}>{metric.value}</span>
+              </div>
+              <div className={styles.metricBgIcon}>
+                <metric.icon size={50} opacity={0.1} color="#fff" />
+              </div>
+            </motion.div>
+          ))}
+        </div>
 
-        {/* HOURLY BREAKDOWN TABLE */}
-        <motion.div className={styles.tableSection} variants={item}>
-          <h2>{t.hourlyBreakdown}</h2>
-          {loading ? <div className={styles.tableLoading}>Loading...</div> : (
-            <Table
-              head={[<th key="h">{t.hour}</th>, <th key="s">{t.sales}</th>, <th key="r">{t.revenue}</th>, <th key="p">{t.products}</th>, <th key="a">{t.action}</th>]}
-              rows={data?.hourly_sales?.map((item: any, i: number) => (
-                <motion.tr key={i} custom={i} variants={row} initial="hidden" animate="visible">
-                  <td>{item.hour}</td>
-                  <td>{item.total_sales}</td>
-                  <td>{formatCurrency(item.total_revenue)}</td>
-                  <td>{item.total_products}</td>
-                  <td>
-                    <motion.div className={styles.eyeIcon} whileHover={{ scale: 1.2, color: '#1d4ed8' }} whileTap={{ scale: 0.9 }} onClick={() => setSelectedHour(item)}>
-                      <FaEye />
-                    </motion.div>
-                  </td>
-                </motion.tr>
-              )) ?? []}
-            />
-          )}
-        </motion.div>
+        {/* Subscription Status Card */}
+        <div className={styles.subscriptionCard} style={{ background: `linear-gradient(135deg, ${subscription.color}CC, ${subscription.color})` }}>
+          <div className={styles.subscriptionIcon}>
+            <div className={styles.subscriptionIconInner}>
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+                <path d="M12 2L15 8.5L22 9.5L17 14L18.5 21L12 17.5L5.5 21L7 14L2 9.5L9 8.5L12 2Z" fill="white" fillOpacity="0.2" stroke="white"/>
+              </svg>
+            </div>
+          </div>
+          <div className={styles.subscriptionInfo}>
+            <div className={styles.subscriptionTitle}>{subscription.title}</div>
+            <div className={styles.subscriptionSubtitle}>{subscription.subtitle}</div>
+          </div>
+          <button className={styles.subscriptionButton} style={{ color: subscription.color }}>
+            {t.upgrade}
+          </button>
+        </div>
 
-        {/* DAILY TREND TABLE */}
-        <motion.div className={styles.tableSection} variants={item}>
-          <h2>{t.dailyTrend}</h2>
-          {loading ? <div className={styles.tableLoading}>Loading...</div> : (
-            <Table
-              head={[<th key="d">{t.day}</th>, <th key="s">{t.sales}</th>, <th key="r">{t.revenue}</th>]}
-              rows={data?.daily_sales?.map((item: any, i: number) => (
-                <motion.tr key={i} custom={i} variants={row} initial="hidden" animate="visible">
-                  <td>{dayTrans(item.day)}</td>
-                  <td>{item.total_sales}</td>
-                  <td>{formatCurrency(item.total_revenue)}</td>
-                </motion.tr>
-              )) ?? []}
-            />
-          )}
-        </motion.div>
-{/* MONTHLY BAR CHART — ONLY WHEN year OR all */}
-{(fields.duration === 'year' || fields.duration === 'all') && (
-  <motion.div className={styles.tableSection} variants={item}>
-    <MonthlySalesBarChart 
-      data={data?.monthly_sales || []} 
-      language={language === "Swahili" ? "Swahili" : "English"} 
-    />
-  </motion.div>
-)}
+        {/* Products Section */}
+        <div className={styles.section}>
+          <div className={styles.sectionHeader}>
+            <h2 className={styles.sectionTitle}>{t.topProducts}</h2>
+            <motion.button 
+              className={styles.viewAllBtn}
+              style={{ background: primaryColor }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setShowTopProductsModal(true)}
+            >
+              {t.viewAll}
+            </motion.button>
+          </div>
+          
+          <div className={styles.productsCard}>
+            <div className={styles.productsHeader}>
+              <div className={styles.productCol}>{t.product}</div>
+              <div className={styles.quantityCol}>{t.quantity}</div>
+              <div className={styles.unitCol}>{t.unit}</div>
+            </div>
+            <div className={styles.productsBody}>
+              {[...displayProducts]
+              .sort((a: any, b: any) => Number(b.count) - Number(a.count))
+              .slice(0, 10)
+              .map((product: any, idx: number) => {
+                const measurement = product.measurement || {};
+                const measurementText = `${product.quantity} ${measurement.short_form}`
+                return (
+                  <div key={idx} className={cx(styles.productRow, idx % 2 === 0 ? styles.even : styles.odd)}>
+                    <div className={styles.productInfo}>
+                      <div className={styles.productRank} style={{ background: `${primaryColor}20`, color: primaryColor }}>
+                        {idx + 1}
+                      </div>
+                      <span className={styles.productName}>{product.product_name}</span>
+                    </div>
+                    <div className={styles.productQuantity}>{product.count || 0}</div>
+                    <div className={styles.productUnit}>{measurementText || (language === "Swahili" ? "Kipande" : "Piece")}</div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
 
-        {/* TOP PRODUCTS */}
-        <motion.div className={styles.tableSection} variants={item}>
-          <h2>{t.topProducts}</h2>
-          {loading ? <div className={styles.tableLoading}>Loading...</div> : (
-            <Table
-              head={[<th key="p">{t.product}</th>, <th key="c">{t.soldCount}</th>, <th key="q">{t.quantity}</th>, <th key="r">{t.revenue}</th>]}
-              rows={data?.top_products?.length ? data.top_products.map((item: any, i: number) => (
-                <motion.tr key={i} custom={i} variants={row} initial="hidden" animate="visible">
-                  <td>{item.product}</td>
-                  <td>{item.count}</td>
-                  <td>{item.total_quantity} {item.measurement}</td>
-                  <td>{formatCurrency(item.revenue || '0')}</td>
-                </motion.tr>
-              )) : [<tr key="empty"><td colSpan={4} className={styles.emptyRow}>{t.noProducts}</td></tr>]}
-            />
-          )}
-        </motion.div>
-      </motion.div>
+        {/* Hourly Sales Section */}
+        <div className={styles.section}>
+          <div className={styles.sectionHeader}>
+            <h2 className={styles.sectionTitle}>{t.hourlyBreakdown}</h2>
+            <motion.button 
+              className={styles.viewChartBtn}
+              style={{ background: primaryColor }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => {
+                const nonZeroHours = hourlySales.filter((h: any) => h.total_sales > 0);
+                if (nonZeroHours.length > 0) {
+                  setShowHourlyGraph(hourlySales);
+                }
+              }}
+            >
+              <FaChartBar size={14} />
+              {t.viewChart}
+            </motion.button>
+          </div>
+          
+          <div className={styles.hourlyCard}>
+            <div className={styles.hourlyHeader}>
+              <div className={styles.hourCol}>{t.hour}</div>
+              <div className={styles.salesCol}>{t.sales}</div>
+              <div className={styles.revenueCol}>{t.revenue}</div>
+              <div className={styles.productsCol}>{t.products}</div>
+            </div>
+            <div className={styles.hourlyBody}>
+              {hourlySales.map((item: any, idx: number) => (
+                <div 
+                  key={idx} 
+                  className={cx(styles.hourlyRow, idx % 2 === 0 ? styles.even : styles.odd)}
+                  onClick={() => setSelectedHour(item)}
+                >
+                  <div className={styles.hourBadge}>
+                    {item.hour}
+                  </div>
+                  <div className={styles.hourSales}>{item.total_sales || 0}</div>
+                  <div className={styles.hourRevenue}>{formatCurrency(item.total_revenue)}</div>
+                  <div className={styles.hourProducts}>
+                    <span>{item.total_products || 0}</span>
+                    <FaEye className={styles.viewIcon} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Daily Sales Section */}
+        <div className={styles.section}>
+          <div className={styles.sectionHeader}>
+            <h2 className={styles.sectionTitle}>{t.dailyTrend}</h2>
+            <motion.button 
+              className={styles.viewChartBtn}
+              style={{ background: primaryColor }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setShowDailyGraph(true)}
+            >
+              <FaChartLine size={14} />
+              {t.viewChart}
+            </motion.button>
+          </div>
+          
+          <div className={styles.dailyCard}>
+            <div className={styles.dailyHeader}>
+              <div className={styles.dayCol}>{t.day}</div>
+              <div className={styles.dailySalesCol}>{t.sales}</div>
+              <div className={styles.dailyRevenueCol}>{t.revenue}</div>
+            </div>
+            <div className={styles.dailyBody}>
+              {dailySales.map((item: any, idx: number) => (
+                <div key={idx} className={cx(styles.dailyRow, idx % 2 === 0 ? styles.even : styles.odd)}>
+                  <div className={styles.dayInfo}>
+                    <div className={styles.dayNumber} style={{ background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})` }}>
+                      {idx + 1}
+                    </div>
+                    <span className={styles.dayName}>{dayTrans(item.day)}</span>
+                  </div>
+                  <div className={styles.dailySales}>{item.total_sales || 0}</div>
+                  <div className={styles.dailyRevenue}>{formatCurrency(item.total_revenue)}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Monthly Sales Section */}
+        {monthlySales.length > 0 && (
+          <div className={styles.section}>
+            <div className={styles.sectionHeader}>
+              <h2 className={styles.sectionTitle}>{t.monthlyTrend}</h2>
+              <motion.button 
+                className={styles.viewChartBtn}
+                style={{ background: primaryColor }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setShowMonthlyGraph(true)}
+              >
+                <FaChartLine size={14} />
+                {t.viewChart}
+              </motion.button>
+            </div>
+            <div className={styles.monthlyCard}>
+              <div className={styles.monthlyHeader}>
+                <div className={styles.monthCol}>{t.month}</div>
+                <div className={styles.monthSalesCol}>{t.sales}</div>
+                <div className={styles.monthRevenueCol}>{t.revenue}</div>
+                <div className={styles.monthProfitCol}>{t.profit}</div>
+              </div>
+              <div className={styles.monthlyBody}>
+                {monthlySales.map((item: any, idx: number) => {
+                  const profit = item.profit || 0;
+                  return (
+                    <div key={idx} className={cx(styles.monthlyRow, idx % 2 === 0 ? styles.even : styles.odd)}>
+                      <div className={styles.monthName}>{item.month}</div>
+                      <div className={styles.monthSales}>{item.total_orders || 0}</div>
+                      <div className={styles.monthRevenue}>{formatCurrency(item.total_revenue)}</div>
+                      <div className={cx(styles.monthProfit, profit > 0 ? styles.positive : styles.negative)}>
+                        {formatCurrency(profit)}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </>
   );
 };
-
-const Table = ({ head, rows }: { head: JSX.Element[]; rows: JSX.Element[] }) => (
-  <div className={styles.tableWrapper}>
-    <table className={styles.table}>
-      <thead><tr>{head}</tr></thead>
-      <tbody>{rows.length ? rows : <tr><td colSpan={head.length} className={styles.emptyRow}>—</td></tr>}</tbody>
-    </table>
-  </div>
-);
 
 export default Home;

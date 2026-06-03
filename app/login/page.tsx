@@ -20,7 +20,7 @@ function Login() {
  })
  const { data, loading, error,sendRequest } = useSendRequest({
     method: "POST",
-    url: "http://62.169.30.105:5000/users/register",
+    url: `${process.env.NEXT_PUBLIC_HOST}/users/register`,
     body: {name:fields.name,phone:fields.phone,email:fields.email,role: fields.role,password:fields.password,language: fields.language},
     params: {}
  });

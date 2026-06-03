@@ -101,7 +101,7 @@ export default function SubscriptionPage() {
     code: 0
   })
    const { sendRequest, loading: createLoading } = useSendRequest({
-    url: "http://62.169.30.105:5000/subcodes/confirm_payment",
+    url: `${process.env.NEXT_PUBLIC_HOST}/subcodes/confirm_payment`,
     method: "POST",
     body: {
       business_id: selected?.id,

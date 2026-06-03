@@ -75,32 +75,32 @@ const Expenses: React.FC = () => {
   const { data: expensesData, loading: expLoading, } = useFetch<{
     rows: Expense[];
     count: number;
-  }>('http://62.169.30.105:5000/expenses/get_expenses', fetchParams);
+  }>(`${process.env.NEXT_PUBLIC_HOST}/expenses/get_expenses`, fetchParams);
 
   const { data: groupsData, loading: groupLoading,  } = useFetch<{
     data: ExpenseGroup[];
-  }>('http://62.169.30.105:5000/expenses/get_expense_groups', { page: pageGroups, pageSize,business_id: 1 });
+  }>(`${process.env.NEXT_PUBLIC_HOST}/expenses/get_expense_groups`, { page: pageGroups, pageSize,business_id: 1 });
 
-  const { data: totalsData } = useFetch<Totals>('http://62.169.30.105:5000/expenses/get_totals', fetchParams);
+  const { data: totalsData } = useFetch<Totals>(`${process.env.NEXT_PUBLIC_HOST}/expenses/get_totals`, fetchParams);
 
   const { sendRequest: createExpense, loading: creatingExp } = useSendRequest({
-    url: 'http://62.169.30.105:5000/expenses/create_expense',
+    url: `${process.env.NEXT_PUBLIC_HOST}/expenses/create_expense`,
     method: 'POST',
     body: { name: expenseName, amount: expenseAmount, category: selectedCategory,business_id: 1 },
   });
 
   const { sendRequest: createGroup, loading: creatingGroup } = useSendRequest({
-    url: 'http://62.169.30.105:5000/expenses/create_expense_group',
+    url: `${process.env.NEXT_PUBLIC_HOST}/expenses/create_expense_group`,
     method: 'POST',
     body: { name: groupName, description: groupDesc, business_id: 1 },
   });
   const { sendRequest: deleteGroup, loading: deleteLoading } = useSendRequest({
-    url: 'http://62.169.30.105:5000/expenses/delete_expense_group',
+    url: `${process.env.NEXT_PUBLIC_HOST}/expenses/delete_expense_group`,
     method: 'POST',
     body: { id:  selectedFields.id},
   });
   const { sendRequest: deleteExpense, loading: delexpeLoading } = useSendRequest({
-    url: 'http://62.169.30.105:5000/expenses/delete_expense',
+    url: `${process.env.NEXT_PUBLIC_HOST}/expenses/delete_expense`,
     method: 'POST',
     body: { id:  selectedFields.id},
   });

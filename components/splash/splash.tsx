@@ -6,7 +6,7 @@ export default function SplashScreen() {
   return (
     <div className={styles.splash}>
       <div className={styles.logo}>
-        <img src="/mauzo_logo.png" alt="" />
+        <img src="/white.png" alt="" />
       </div>
     </div>
   );

@@ -1,0 +1,158 @@
+.graphContainer {
+  width: 100%;
+  padding: 20px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+  border-radius: 24px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+}
+
+.hourTitle {
+  font-size: 28px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #482691, #8E44AD);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 24px;
+  text-align: center;
+  letter-spacing: -0.5px;
+}
+
+.graphArea {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  min-height: 300px;
+}
+
+.yAxis {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 40px;
+  padding: 10px 0;
+  font-size: 12px;
+  color: #666;
+}
+
+.yLabel {
+  font-weight: 500;
+}
+
+.scrollArea {
+  flex: 1;
+  overflow-x: auto;
+  padding-bottom: 16px;
+  
+  &::-webkit-scrollbar {
+    height: 8px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #482691, #8E44AD);
+    border-radius: 10px;
+  }
+}
+
+.barRow {
+  display: flex;
+  gap: 32px;
+  align-items: flex-end;
+  min-width: max-content;
+  padding: 10px;
+}
+
+.barGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  min-width: 80px;
+}
+
+.labelTop {
+  font-size: 12px;
+  font-weight: 600;
+  color: #482691;
+  background: rgba(72, 38, 145, 0.1);
+  padding: 4px 8px;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+.bars {
+  display: flex;
+  gap: 6px;
+  align-items: flex-end;
+  height: 220px;
+}
+
+.countBar {
+  width: 35px;
+  border-radius: 12px 12px 4px 4px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(72, 38, 145, 0.3);
+  }
+}
+
+.quantityBar {
+  width: 35px;
+  border-radius: 12px 12px 4px 4px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(255, 152, 0, 0.3);
+  }
+}
+
+.productLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+  text-align: center;
+  word-break: break-word;
+  max-width: 80px;
+}
+
+.legend {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #555;
+}
+
+.colorBox {
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+}
+
+.noData {
+  text-align: center;
+  padding: 60px 20px;
+  color: #999;
+  font-size: 16px;
+}

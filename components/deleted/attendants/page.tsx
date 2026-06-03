@@ -24,13 +24,13 @@ export default function DeletedAttendants() {
   const { language } = useLanguageStore();
   const { selected } = useSelectedBusinessStore();
   const { data: products = [], loading: prodLoading } = useFetch<Sale[]>(
-    'http://62.169.30.105:5000/attendant/get_deleted_attendants',{
+    `${process.env.NEXT_PUBLIC_HOST}/attendant/get_deleted_attendants`,{
       business_id: selected?.id,
     }
   );
 
   const { sendRequest, loading: restoreLoading } = useSendRequest({
-  url: "http://62.169.30.105:5000/attendant/restore_attendant",
+  url: `${process.env.NEXT_PUBLIC_HOST}/attendant/restore_attendant`,
   method: "POST",
   body: {
     id: fields.id,

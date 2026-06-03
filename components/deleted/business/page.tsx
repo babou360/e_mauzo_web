@@ -23,11 +23,11 @@ export default function DeletedBusiness() {
   const { language } = useLanguageStore();
   const { selected } = useSelectedBusinessStore();
   const { data: businesses = [], loading: biziLoading } = useFetch<Business[]>(
-    'http://62.169.30.105:5000/business/get_user_deleted_businesses'
+    `${process.env.NEXT_PUBLIC_HOST}/business/get_user_deleted_businesses`
   );
 
   const { sendRequest, loading: restoreLoading } = useSendRequest({
-  url: "http://62.169.30.105:5000/business/restore_business",
+  url: `${process.env.NEXT_PUBLIC_HOST}/business/restore_business`,
   method: "POST",
   body: {
     business_id: fields.id,

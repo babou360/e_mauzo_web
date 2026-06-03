@@ -77,11 +77,11 @@ export default function Businesses() {
     email: ''
   });
   const { data: businesses, loading } = useFetch<Business[]>(
-    'http://62.169.30.105:5000/business/get_user_businesses'
+    `${process.env.NEXT_PUBLIC_HOST}/business/get_user_businesses`
   );
 
   const { sendRequest: addBusiness, loading: addLoading } = useSendRequest({
-      url: 'http://62.169.30.105:5000/business/register',
+      url: `${process.env.NEXT_PUBLIC_HOST}/business/register`,
       method: 'POST',
       body: {
         business_id: selected?.id,
@@ -99,7 +99,7 @@ export default function Businesses() {
       },
     });
   const { sendRequest: editBusiness, loading: editLoading } = useSendRequest({
-      url: 'http://62.169.30.105:5000/business/edit_business',
+      url: `${process.env.NEXT_PUBLIC_HOST}/business/edit_business`,
       method: 'POST',
       body: {
         business_id: formData?.id,
@@ -117,7 +117,7 @@ export default function Businesses() {
       },
     });
   const { sendRequest: deleteBusiness, loading: deleteLoading } = useSendRequest({
-      url: 'http://62.169.30.105:5000/business/deactivate_business',
+      url: `${process.env.NEXT_PUBLIC_HOST}/business/deactivate_business`,
       method: 'POST',
       body: {
         business_id: formData?.id

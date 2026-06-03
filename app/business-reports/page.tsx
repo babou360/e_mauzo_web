@@ -74,7 +74,7 @@ export default function SalesReport() {
     end: '',
     name: '',
   })
-  const { data:salesData, loading: salesLoading } = useFetch('http://62.169.30.105:5000/sales/get_sales', {
+  const { data:salesData, loading: salesLoading } = useFetch(`${process.env.NEXT_PUBLIC_HOST}/sales/get_sales`, {
     page: fields.page,
     pageSize: fields.pageSize,
     business_id: selected?.id,
@@ -83,7 +83,7 @@ export default function SalesReport() {
     start: fields.start,
     end: fields.end,
   });
-  const { data:attendData, loading: attendLoading } = useFetch('http://62.169.30.105:5000/attendant/get_attendants', {
+  const { data:attendData, loading: attendLoading } = useFetch(`${process.env.NEXT_PUBLIC_HOST}/attendant/get_attendants`, {
     page: 1,
     pageSize: 10,
     name: '',

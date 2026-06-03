@@ -28,11 +28,15 @@ function useSendRequest<T>({ url, params, body,method }: Props) {
           Authorization: `Bearer ${localStorage.getItem('mauzo_token')}`
         }
       }).then((data)=> {
-        if(url ==="http://62.169.30.105:5000/users/login" || url ==="http://62.169.30.105:5000/users/register"){
+        console.log(data)
+        if (url.includes('/users/login') || url.includes('/users/register')){
           localStorage.setItem("mauzo_token",data.data.token)
           localStorage.setItem("user_status",data.data.status)
+          localStorage.setItem("bazenga_token",data.data.token)
         }
-        location.reload()
+        setTimeout(() => {
+          location.reload();
+        }, 4000);
       }).catch((error)=> {
         setError({type:"error",message: error.response.data.error})
         setTimeout(()=> {
