@@ -3,7 +3,7 @@ version: '3.8'
 services:
   nextapp:
     build: .
-    container_name: next_app
+    container_name: bazenga_pos
     ports:
-      - "3000:3000"
+      - "3001:3001"
     restart: always

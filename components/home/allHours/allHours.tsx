@@ -30,6 +30,11 @@ const AllHoursGraph: React.FC<Props> = ({
   hourly_sales,
   language = 'English',
 }) => {
+  
+  useEffect(()=> {
+    console.log('hourly sales are ',hourly_sales,language)
+  },[hourly_sales])
+
   if (!hourly_sales || hourly_sales.length === 0) {
     return (
       <div className={styles.noData}>
@@ -52,9 +57,7 @@ const AllHoursGraph: React.FC<Props> = ({
     return new Intl.NumberFormat().format(value);
   };
 
-  useEffect(()=> {
-    console.log('hourly sales are ',hourly_sales,language)
-  },[hourly_sales])
+
   return (
     <div className={styles.graphContainer}>
       <h2 className={styles.title}>
