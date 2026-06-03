@@ -43,7 +43,7 @@ jobs:
             # Run container with secrets injected from GitHub
             docker run -d \
               --name bazenga_pos \
-              -p 3000:3000 \
+              -p 3001:3001 \
               --restart unless-stopped \
               -e NEXT_PUBLIC_HOST="${{ secrets.NEXT_PUBLIC_HOST }}" \
               bazenga_pos:latest
