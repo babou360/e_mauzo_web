@@ -38,6 +38,7 @@ jobs:
 
             # Build Docker image
             docker build \
+              --build-arg NEXT_PUBLIC_HOST="${{ secrets.NEXT_PUBLIC_HOST }}" \
               -t bazenga_pos:latest .
 
             # Run container with secrets injected from GitHub
