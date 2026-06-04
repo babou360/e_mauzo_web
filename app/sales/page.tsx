@@ -13,6 +13,7 @@ import { BsEye } from 'react-icons/bs';
 import { MdQrCodeScanner } from 'react-icons/md';
 import useLanguageStore from '@/store/atoms/language';
 import { Layers, NotebookPen, PackageOpen } from 'lucide-react';
+import Head from 'next/head';
 
 interface Product {
   id: number;
@@ -321,7 +322,9 @@ const Sales: React.FC = () => {
   };
 
   return (
+    <Head>
     <div className={styles.sales}>
+      <title>Sales Page | {selected.name}</title>
       <div className={styles.header}>
         <div className={styles.title_container}>
           <h1>{language === 'Swahili' ? 'Mauzo' : 'Sales'}</h1>
@@ -1033,6 +1036,7 @@ const Sales: React.FC = () => {
         </div>
       )}
     </div>
+    </Head>
   );
 };
 
