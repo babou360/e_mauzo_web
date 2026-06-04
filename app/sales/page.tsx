@@ -324,7 +324,7 @@ const Sales: React.FC = () => {
   return (
     <Head>
     <div className={styles.sales}>
-      <title>Sales Page | {selected.name}</title>
+      {/* <title>Sales Page | {selected.name}</title> */}
       <div className={styles.header}>
         <div className={styles.title_container}>
           <h1>{language === 'Swahili' ? 'Mauzo' : 'Sales'}</h1>
