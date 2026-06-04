@@ -9,6 +9,9 @@ FROM node:18-alpine AS builder
 WORKDIR /app
 COPY . .
 COPY --from=deps /app/node_modules ./node_modules
+
+ARG NEXT_PUBLIC_HOST
+ENV NEXT_PUBLIC_HOST=$NEXT_PUBLIC_HOST
 RUN npm run build
 
 # Run the app
@@ -24,4 +27,4 @@ COPY --from=builder /app/package*.json ./
 
 EXPOSE 3001
 
-CMD ["npm", "start"]
+CMD ["npm", "run", "start"]
