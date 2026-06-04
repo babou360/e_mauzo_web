@@ -322,7 +322,7 @@ const Sales: React.FC = () => {
   };
 
   return (
-    <Head>
+    // <Head>
     <div className={styles.sales}>
       {/* <title>Sales Page | {selected.name}</title> */}
       <div className={styles.header}>
@@ -1036,7 +1036,7 @@ const Sales: React.FC = () => {
         </div>
       )}
     </div>
-    </Head>
+    // </Head>
   );
 };
 
