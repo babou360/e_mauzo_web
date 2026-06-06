@@ -538,36 +538,107 @@ export default function ProductsPage() {
                   <td>{nambaComma(item.selling_price)}</td>
                   <td>{language==="Swahili"?item.category.swahili:item.category.english}</td>
                   <td className={styles.actions}>
-                    <MdOutlineDelete
-                      onClick={() => {
-                        handleDelete(item);
-                      }} 
-                      className={styles.icon} 
-                      size={20} style={{
-                      marginRight:'10px',
-                      cursor:'pointer'
-                    }}/>
-                    <FaEye
-                    style={{
-                      marginRight:'10px',
-                      cursor:'pointer'
-                    }}
-                      size={20}
-                      className={styles.icon}
-                      onClick={() => {
-                        setSelectedProduct(item);
+                    <button 
+                      className={cx(styles.actionBtn, styles.deleteBtn)}
+                      onClick={() => handleDelete(item)}
+                      aria-label="Delete product"
+                      style={{
+                        width: '36px',
+                        height: '36px',
+                        borderRadius: '10px',
+                        border: 'none',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s ease',
+                        background: '#fee2e2',
+                        color: '#e74c3c',
+                        margin: '2px'
                       }}
-                    />
-                    <Plus 
-                    style={{
-                      cursor:'pointer'
-                    }}
-                    size={20}
-                      className={styles.icon}
-                      onClick={() => {
-                        handleStock(item);
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = '#e74c3c';
+                        e.currentTarget.style.color = 'white';
+                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(231, 76, 60, 0.3)';
+                        e.currentTarget.style.transform = 'translateY(-2px)';
                       }}
-                    />
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = '#fee2e2';
+                        e.currentTarget.style.color = '#e74c3c';
+                        e.currentTarget.style.boxShadow = 'none';
+                        e.currentTarget.style.transform = 'translateY(0)';
+                      }}
+                    >
+                      <MdOutlineDelete size={18} />
+                    </button>
+                    
+                    <button 
+                      className={cx(styles.actionBtn, styles.viewBtn)}
+                      onClick={() => setSelectedProduct(item)}
+                      aria-label="View product"
+                      style={{
+                        width: '36px',
+                        height: '36px',
+                        borderRadius: '10px',
+                        border: 'none',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s ease',
+                        background: '#ede7f6',
+                        color: '#482691',
+                        margin: '2px'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = '#482691';
+                        e.currentTarget.style.color = 'white';
+                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(72, 38, 145, 0.3)';
+                        e.currentTarget.style.transform = 'translateY(-2px)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = '#ede7f6';
+                        e.currentTarget.style.color = '#482691';
+                        e.currentTarget.style.boxShadow = 'none';
+                        e.currentTarget.style.transform = 'translateY(0)';
+                      }}
+                    >
+                      <FaEye size={18} />
+                    </button>
+                    
+                    <button 
+                      className={cx(styles.actionBtn, styles.stockBtn)}
+                      onClick={() => handleStock(item)}
+                      aria-label="Add stock"
+                      style={{
+                        width: '36px',
+                        height: '36px',
+                        borderRadius: '10px',
+                        border: 'none',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s ease',
+                        background: '#e0f2e9',
+                        color: '#27ae60',
+                        margin: '2px'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = '#27ae60';
+                        e.currentTarget.style.color = 'white';
+                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(39, 174, 96, 0.3)';
+                        e.currentTarget.style.transform = 'translateY(-2px)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = '#e0f2e9';
+                        e.currentTarget.style.color = '#27ae60';
+                        e.currentTarget.style.boxShadow = 'none';
+                        e.currentTarget.style.transform = 'translateY(0)';
+                      }}
+                    >
+                      <Plus size={18} />
+                    </button>
                   </td>
                 </tr>
               ))}

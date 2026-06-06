@@ -20,6 +20,51 @@ $shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
 $shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.15);
 $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
+// Breakpoints
+$mobile: 480px;
+$tablet: 768px;
+$desktop: 1024px;
+
+// Mixins
+@mixin mobile {
+  @media (max-width: $mobile) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (max-width: $tablet) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (max-width: $desktop) {
+    @content;
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 // Loading Container
 .loadingContainer {
   display: flex;
@@ -33,6 +78,11 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   width: 80px;
   height: 80px;
+
+  @include mobile {
+    width: 60px;
+    height: 60px;
+  }
 }
 
 .spinnerInner {
@@ -45,22 +95,17 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   animation: spin 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
 }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
 // Dashboard Container
 .dashboard {
   padding: 32px;
   min-height: 100vh;
   background: $background-color;
 
-  @media (max-width: 768px) {
+  @include tablet {
     padding: 20px;
   }
 
-  @media (max-width: 480px) {
+  @include mobile {
     padding: 16px;
   }
 }
@@ -74,7 +119,7 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   gap: 20px;
   flex-wrap: wrap;
 
-  @media (max-width: 768px) {
+  @include tablet {
     flex-direction: column;
     align-items: stretch;
   }
@@ -90,6 +135,10 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   gap: 12px;
   flex-wrap: wrap;
   margin-bottom: 16px;
+
+  @include mobile {
+    gap: 8px;
+  }
 }
 
 .duration {
@@ -101,12 +150,23 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-size: 14px;
   text-align: center;
   backdrop-filter: blur(10px);
+  background: transparent;
+  border: 1.5px solid rgba($primary-color, 0.2);
+  color: #666;
+
+  @include mobile {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
 
   &:hover {
     transform: translateY(-2px);
   }
 
   &.active {
+    background: linear-gradient(135deg, $primary-color, $accent-color);
+    color: white;
+    border: none;
     box-shadow: $shadow-md;
   }
 }
@@ -117,6 +177,12 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   gap: 12px;
   margin-top: 16px;
   flex-wrap: wrap;
+
+  @include mobile {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
 }
 
 .dateInput {
@@ -126,6 +192,10 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-size: 14px;
   transition: $transition-default;
   background: white;
+
+  @include mobile {
+    width: 100%;
+  }
 
   &:focus {
     outline: none;
@@ -137,6 +207,10 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 .dateArrow {
   color: $primary-color;
   font-size: 14px;
+
+  @include mobile {
+    transform: rotate(90deg);
+  }
 }
 
 // Date Range Card
@@ -152,6 +226,10 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   transition: $transition-default;
   cursor: pointer;
 
+  @include mobile {
+    padding: 12px 16px;
+  }
+
   &:hover {
     transform: translateY(-2px);
     box-shadow: $shadow-md;
@@ -166,6 +244,12 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
+
+  @include mobile {
+    width: 40px;
+    height: 40px;
+  }
 }
 
 .dateRangeInfo {
@@ -190,6 +274,12 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-size: 14px;
   font-weight: 500;
   color: $text-dark;
+  flex-wrap: wrap;
+
+  @include mobile {
+    font-size: 12px;
+    gap: 4px;
+  }
 }
 
 // Metrics Grid
@@ -198,6 +288,15 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 20px;
   margin-bottom: 32px;
+
+  @include tablet {
+    gap: 16px;
+  }
+
+  @include mobile {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
 }
 
 .metricCard {
@@ -208,6 +307,10 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   transition: $transition-default;
   box-shadow: $shadow-sm;
+
+  @include mobile {
+    padding: 16px;
+  }
 
   &:hover {
     transform: translateY(-5px);
@@ -224,6 +327,12 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   align-items: center;
   justify-content: center;
   margin-bottom: 16px;
+
+  @include mobile {
+    width: 36px;
+    height: 36px;
+    margin-bottom: 12px;
+  }
 }
 
 .metricContent {
@@ -240,6 +349,10 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   color: rgba(255, 255, 255, 0.9);
   text-transform: uppercase;
   letter-spacing: 0.5px;
+
+  @include mobile {
+    font-size: 12px;
+  }
 }
 
 .metricValue {
@@ -247,6 +360,10 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-weight: 800;
   color: white;
   line-height: 1.2;
+
+  @include mobile {
+    font-size: 24px;
+  }
 }
 
 .metricBgIcon {
@@ -255,6 +372,16 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   right: 10px;
   opacity: 0.15;
   pointer-events: none;
+
+  svg {
+    width: 50px;
+    height: 50px;
+
+    @include mobile {
+      width: 40px;
+      height: 40px;
+    }
+  }
 }
 
 // Subscription Card
@@ -270,6 +397,13 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   transition: $transition-default;
   flex-wrap: wrap;
 
+  @include mobile {
+    flex-direction: column;
+    text-align: center;
+    padding: 16px;
+    gap: 12px;
+  }
+
   &:hover {
     transform: translateY(-2px);
     box-shadow: $shadow-lg;
@@ -284,14 +418,12 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
   justify-content: center;
-}
+  flex-shrink: 0;
 
-.subscriptionIconInner {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include mobile {
+    width: 48px;
+    height: 48px;
+  }
 }
 
 .subscriptionInfo {
@@ -303,11 +435,19 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-weight: 700;
   color: white;
   margin-bottom: 4px;
+
+  @include mobile {
+    font-size: 16px;
+  }
 }
 
 .subscriptionSubtitle {
   font-size: 13px;
   color: rgba(255, 255, 255, 0.9);
+
+  @include mobile {
+    font-size: 12px;
+  }
 }
 
 .subscriptionButton {
@@ -320,6 +460,11 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   transition: $transition-default;
 
+  @include mobile {
+    width: 100%;
+    max-width: 200px;
+  }
+
   &:hover {
     transform: scale(1.05);
     box-shadow: $shadow-md;
@@ -329,6 +474,10 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 // Sections
 .section {
   margin-bottom: 48px;
+
+  @include mobile {
+    margin-bottom: 32px;
+  }
 }
 
 .sectionHeader {
@@ -338,22 +487,32 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   margin-bottom: 20px;
   flex-wrap: wrap;
   gap: 16px;
+
+  @include mobile {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }
 
 .sectionTitle {
   font-size: 24px;
   font-weight: 700;
-  color: $text-dark;
-  background: linear-gradient(135deg, $primary-color, $accent-color);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
   margin: 0;
+  background: linear-gradient(135deg, $primary-color, $accent-color);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+
+  @include mobile {
+    font-size: 20px;
+    text-align: center;
+  }
 }
 
 .viewAllBtn, .viewChartBtn {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   padding: 10px 20px;
   border: none;
@@ -364,6 +523,11 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   transition: $transition-default;
   box-shadow: $shadow-sm;
+  background: $primary-color;
+
+  @include mobile {
+    width: 100%;
+  }
 
   &:hover {
     transform: scale(1.05);
@@ -389,6 +553,12 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-size: 14px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+
+  @include mobile {
+    font-size: 11px;
+    padding: 12px 16px;
+    gap: 8px;
+  }
 }
 
 .productsBody {
@@ -416,13 +586,19 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   transition: background-color 0.2s ease;
   cursor: pointer;
 
+  @include mobile {
+    font-size: 12px;
+    padding: 12px 16px;
+    gap: 8px;
+  }
+
   &:hover {
     background: rgba($primary-color, 0.05);
   }
 
   &.even {
     background: #fafafa;
-    
+
     &:hover {
       background: rgba($primary-color, 0.05);
     }
@@ -430,7 +606,7 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   &.odd {
     background: white;
-    
+
     &:hover {
       background: rgba($primary-color, 0.05);
     }
@@ -441,6 +617,10 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
   gap: 12px;
+
+  @include mobile {
+    gap: 8px;
+  }
 }
 
 .productRank {
@@ -452,11 +632,20 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   justify-content: center;
   font-weight: 700;
   font-size: 14px;
+  background: rgba($primary-color, 0.2);
+  color: $primary-color;
+
+  @include mobile {
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+  }
 }
 
 .productName {
   font-weight: 500;
   color: $text-dark;
+  word-break: break-word;
 }
 
 .productQuantity, .productUnit {
@@ -484,6 +673,17 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-size: 14px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+
+  @include tablet {
+    font-size: 12px;
+    padding: 12px 16px;
+  }
+
+  @include mobile {
+    font-size: 10px;
+    padding: 10px 12px;
+    gap: 6px;
+  }
 }
 
 .hourlyBody {
@@ -512,13 +712,28 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   align-items: center;
 
+  @include tablet {
+    font-size: 12px;
+    padding: 12px 16px;
+  }
+
+  @include mobile {
+    font-size: 10px;
+    padding: 10px 12px;
+    gap: 6px;
+  }
+
   &:hover {
     background: rgba($primary-color, 0.05);
+
+    .viewIcon {
+      opacity: 1;
+    }
   }
 
   &.even {
     background: #fafafa;
-    
+
     &:hover {
       background: rgba($primary-color, 0.05);
     }
@@ -526,7 +741,7 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   &.odd {
     background: white;
-    
+
     &:hover {
       background: rgba($primary-color, 0.05);
     }
@@ -542,6 +757,11 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-size: 13px;
   display: inline-block;
   width: fit-content;
+
+  @include mobile {
+    font-size: 10px;
+    padding: 3px 8px;
+  }
 }
 
 .hourSales, .hourRevenue, .hourProducts {
@@ -557,10 +777,10 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   color: $primary-color;
   opacity: 0;
   transition: opacity 0.2s ease;
-}
 
-.hourlyRow:hover .viewIcon {
-  opacity: 1;
+  @include mobile {
+    opacity: 1;
+  }
 }
 
 // Daily Sales Card
@@ -581,6 +801,17 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-size: 14px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+
+  @include tablet {
+    font-size: 12px;
+    padding: 12px 16px;
+  }
+
+  @include mobile {
+    font-size: 11px;
+    padding: 12px 16px;
+    gap: 8px;
+  }
 }
 
 .dailyBody {
@@ -608,13 +839,24 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   transition: background-color 0.2s ease;
   align-items: center;
 
+  @include tablet {
+    font-size: 12px;
+    padding: 12px 16px;
+  }
+
+  @include mobile {
+    font-size: 11px;
+    padding: 10px 12px;
+    gap: 8px;
+  }
+
   &:hover {
     background: rgba($primary-color, 0.05);
   }
 
   &.even {
     background: #fafafa;
-    
+
     &:hover {
       background: rgba($primary-color, 0.05);
     }
@@ -622,7 +864,7 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   &.odd {
     background: white;
-    
+
     &:hover {
       background: rgba($primary-color, 0.05);
     }
@@ -633,6 +875,10 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
   gap: 12px;
+
+  @include mobile {
+    gap: 8px;
+  }
 }
 
 .dayNumber {
@@ -645,11 +891,23 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   color: white;
   font-weight: 700;
   font-size: 14px;
+  background: linear-gradient(135deg, $primary-color, $secondary-color);
+  flex-shrink: 0;
+
+  @include mobile {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
 }
 
 .dayName {
   font-weight: 600;
   color: $text-dark;
+
+  @include mobile {
+    font-weight: 500;
+  }
 }
 
 .dailySales, .dailyRevenue {
@@ -675,6 +933,17 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-size: 14px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+
+  @include tablet {
+    font-size: 11px;
+    padding: 12px 16px;
+  }
+
+  @include mobile {
+    font-size: 10px;
+    padding: 10px 12px;
+    gap: 6px;
+  }
 }
 
 .monthlyBody {
@@ -702,13 +971,24 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   transition: background-color 0.2s ease;
   align-items: center;
 
+  @include tablet {
+    font-size: 11px;
+    padding: 12px 16px;
+  }
+
+  @include mobile {
+    font-size: 10px;
+    padding: 10px 12px;
+    gap: 6px;
+  }
+
   &:hover {
     background: rgba($primary-color, 0.05);
   }
 
   &.even {
     background: #fafafa;
-    
+
     &:hover {
       background: rgba($primary-color, 0.05);
     }
@@ -716,7 +996,7 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   &.odd {
     background: white;
-    
+
     &:hover {
       background: rgba($primary-color, 0.05);
     }
@@ -760,14 +1040,9 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 1000;
   padding: 20px;
   animation: fadeIn 0.2s ease;
-}
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
+  @include mobile {
+    padding: 12px;
   }
 }
 
@@ -795,6 +1070,12 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     background: linear-gradient(135deg, $primary-color, $accent-color);
     border-radius: 10px;
   }
+
+  @include mobile {
+    max-width: 95vw;
+    max-height: 90vh;
+    border-radius: $border-radius-lg;
+  }
 }
 
 .graphModalContent {
@@ -819,6 +1100,11 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   &::-webkit-scrollbar-thumb {
     background: linear-gradient(135deg, $primary-color, $accent-color);
     border-radius: 10px;
+  }
+
+  @include mobile {
+    max-width: 95vw;
+    max-height: 95vh;
   }
 }
 
@@ -845,16 +1131,10 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     background: linear-gradient(135deg, $primary-color, $accent-color);
     border-radius: 10px;
   }
-}
 
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  @include mobile {
+    max-width: 95vw;
+    max-height: 95vh;
   }
 }
 
@@ -864,7 +1144,7 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   right: 16px;
   width: 36px;
   height: 36px;
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.3);
   border: none;
   border-radius: 50%;
   display: flex;
@@ -874,8 +1154,14 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   transition: $transition-default;
   z-index: 10;
   color: white;
-  background: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(4px);
+
+  @include mobile {
+    top: 12px;
+    right: 12px;
+    width: 32px;
+    height: 32px;
+  }
 
   &:hover {
     background: rgba(0, 0, 0, 0.5);
@@ -897,17 +1183,29 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     margin: 0;
     font-size: 24px;
     font-weight: 700;
+
+    @include mobile {
+      font-size: 20px;
+    }
   }
 }
 
 .hourlyProductsContainer {
   padding: 24px;
 
+  @include mobile {
+    padding: 16px;
+  }
+
   h4 {
     margin: 0 0 16px 0;
     font-size: 18px;
     font-weight: 600;
     color: $text-dark;
+
+    @include mobile {
+      font-size: 16px;
+    }
   }
 }
 
@@ -925,6 +1223,11 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-weight: 600;
   color: $text-dark;
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+
+  @include mobile {
+    font-size: 12px;
+    padding: 10px 12px;
+  }
 }
 
 .hourlyProductRow {
@@ -933,6 +1236,11 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   padding: 10px 16px;
   transition: $transition-default;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+
+  @include mobile {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
 
   &:hover {
     background: rgba($primary-color, 0.05);
@@ -943,151 +1251,62 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 
-.productName {
-  font-weight: 500;
-  color: $text-dark;
-}
-
 .productCount {
   font-weight: 600;
   color: $primary-color;
 }
 
-// Responsive Design
-@media (max-width: 1024px) {
-  .metricsGrid {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 16px;
-  }
-
-  .hourlyHeader, .hourlyRow {
-    grid-template-columns: 0.8fr 1fr 1.2fr 1fr;
-    font-size: 12px;
-  }
-
-  .dailyHeader, .dailyRow {
-    grid-template-columns: 1.2fr 1fr 1.2fr;
-  }
-
-  .monthlyHeader, .monthlyRow {
-    grid-template-columns: 1fr 0.8fr 1fr 1fr;
-  }
-}
-
-@media (max-width: 768px) {
+// Dark Mode Support
+@media (prefers-color-scheme: dark) {
   .dashboard {
-    padding: 20px;
+    background: #1a1a2e;
   }
 
-  .metricsGrid {
-    grid-template-columns: 1fr;
+  .productsCard, .hourlyCard, .dailyCard, .monthlyCard, .dateRangeCard {
+    background: #2d2d44;
+  }
+
+  .productName, .hourSales, .hourRevenue, .hourProducts,
+  .dailySales, .dailyRevenue, .monthName, .monthSales,
+  .monthRevenue, .monthProfit, .dayName {
+    color: #e0e0e0;
+  }
+
+  .productRow.even, .hourlyRow.even, .dailyRow.even, .monthlyRow.even {
+    background: #25253a;
+  }
+
+  .productRow.odd, .hourlyRow.odd, .dailyRow.odd, .monthlyRow.odd {
+    background: #2d2d44;
   }
 
   .sectionTitle {
-    font-size: 20px;
+    background: linear-gradient(135deg, #8E44AD, #482691);
+    background-clip: text;
+    -webkit-background-clip: text;
   }
 
-  .productsHeader, .productRow {
-    grid-template-columns: 1.5fr 1fr 1fr;
-    font-size: 12px;
-    padding: 12px 16px;
+  .modalContent {
+    background: #2d2d44;
   }
 
-  .hourlyHeader, .hourlyRow {
-    grid-template-columns: 0.6fr 0.8fr 1fr 0.8fr;
-    font-size: 11px;
-    padding: 12px 16px;
+  .hourlyProductsContainer h4 {
+    color: #e0e0e0;
   }
 
-  .hourBadge {
-    font-size: 11px;
-    padding: 3px 8px;
+  .hourlyProductsHeader {
+    background: #25253a;
+    color: #e0e0e0;
   }
 
-  .dailyHeader, .dailyRow {
-    grid-template-columns: 1fr 0.8fr 1fr;
-    font-size: 12px;
-    padding: 12px 16px;
+  .hourlyProductRow {
+    color: #e0e0e0;
   }
 
-  .monthlyHeader, .monthlyRow {
-    grid-template-columns: 0.8fr 0.6fr 0.8fr 0.8fr;
-    font-size: 11px;
-    padding: 12px 16px;
-  }
-
-  .dayNumber {
-    width: 28px;
-    height: 28px;
-    font-size: 12px;
-  }
-
-  .productRank {
-    width: 24px;
-    height: 24px;
-    font-size: 12px;
-  }
-
-  .modalContent, .graphModalContent, .fullModalContent {
-    max-width: 95vw;
-    max-height: 95vh;
-  }
-
-  .graphModalContent {
-    max-width: 95vw;
-  }
-}
-
-@media (max-width: 480px) {
-  .dashboard {
-    padding: 12px;
-  }
-
-  .duration {
-    padding: 8px 16px;
-    font-size: 12px;
-  }
-
-  .metricValue {
-    font-size: 22px;
-  }
-
-  .subscriptionCard {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .sectionHeader {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .viewAllBtn, .viewChartBtn {
-    justify-content: center;
-  }
-
-  .productsHeader, .productRow {
-    grid-template-columns: 1.2fr 0.8fr 0.8fr;
-    font-size: 11px;
-    gap: 8px;
-  }
-
-  .hourlyHeader, .hourlyRow {
-    grid-template-columns: 0.5fr 0.6fr 0.8fr 0.6fr;
-    font-size: 10px;
-    gap: 8px;
-  }
-
-  .dailyHeader, .dailyRow {
-    grid-template-columns: 0.9fr 0.7fr 0.9fr;
-    font-size: 11px;
-    gap: 8px;
-  }
-
-  .monthlyHeader, .monthlyRow {
-    grid-template-columns: 0.7fr 0.5fr 0.7fr 0.7fr;
-    font-size: 10px;
-    gap: 8px;
+  .dateInput {
+    background: #2d2d44;
+    color: #e0e0e0;
+    border-color: rgba(142, 68, 173, 0.3);
   }
 }
 
@@ -1110,53 +1329,5 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   .section {
     break-inside: avoid;
     page-break-inside: avoid;
-  }
-}
-
-// Dark Mode Support (Optional)
-@media (prefers-color-scheme: dark) {
-  .dashboard {
-    background: #1a1a2e;
-  }
-
-  .productsCard, .hourlyCard, .dailyCard, .monthlyCard, .dateRangeCard {
-    background: #2d2d44;
-  }
-
-  .productName, .hourSales, .hourRevenue, .hourProducts, 
-  .dailySales, .dailyRevenue, .monthName, .monthSales, 
-  .monthRevenue, .monthProfit, .dayName {
-    color: #e0e0e0;
-  }
-
-  .productRow.even, .hourlyRow.even, .dailyRow.even, .monthlyRow.even {
-    background: #25253a;
-  }
-
-  .productRow.odd, .hourlyRow.odd, .dailyRow.odd, .monthlyRow.odd {
-    background: #2d2d44;
-  }
-
-  .sectionTitle {
-    background: linear-gradient(135deg, #8E44AD, #482691);
-    -webkit-background-clip: text;
-    background-clip: text;
-  }
-
-  .modalContent {
-    background: #2d2d44;
-  }
-
-  .hourlyProductsContainer h4 {
-    color: #e0e0e0;
-  }
-
-  .hourlyProductsHeader {
-    background: #25253a;
-    color: #e0e0e0;
-  }
-
-  .hourlyProductRow {
-    color: #e0e0e0;
   }
 }
