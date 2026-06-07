@@ -25,6 +25,7 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 $mobile: 480px;
 $tablet: 768px;
 $desktop: 1024px;
+$large-mobile: 640px;
 
 // Mixins
 @mixin mobile {
@@ -41,6 +42,12 @@ $desktop: 1024px;
 
 @mixin desktop {
   @media (max-width: $desktop) {
+    @content;
+  }
+}
+
+@mixin large-mobile {
+  @media (max-width: $large-mobile) {
     @content;
   }
 }
@@ -89,8 +96,13 @@ $desktop: 1024px;
   background: linear-gradient(135deg, $background-color, darken($background-color, 2%));
   color: $text-dark;
   min-height: 100vh;
+  box-sizing: border-box;
 
   @include tablet {
+    padding: 24px;
+  }
+
+  @include large-mobile {
     padding: 20px;
   }
 
@@ -121,8 +133,16 @@ $desktop: 1024px;
       box-shadow: $shadow-xl;
       animation: slideUp 240ms ease both;
 
+      @include tablet {
+        width: 70%;
+      }
+
+      @include large-mobile {
+        width: 85%;
+      }
+
       @include mobile {
-        width: 90%;
+        width: 95%;
         padding: 25px 16px 16px;
       }
 
@@ -144,7 +164,7 @@ $desktop: 1024px;
         transition: $transition-default;
 
         &:hover {
-          background: $warning-color;
+          background: $info-color;
           color: white;
         }
       }
@@ -159,6 +179,10 @@ $desktop: 1024px;
           display: flex;
           gap: 12px;
           margin-top: 8px;
+
+          @include mobile {
+            flex-direction: column;
+          }
 
           button {
             flex: 1;
@@ -252,10 +276,16 @@ $desktop: 1024px;
       border-radius: $border-radius-lg;
       width: 100%;
       max-width: 1100px;
+      max-height: 90vh;
+      overflow-y: auto;
       padding: 20px;
       position: relative;
       box-shadow: $shadow-xl;
       animation: slideUp 240ms ease both;
+
+      @include tablet {
+        max-width: 95%;
+      }
 
       @include mobile {
         padding: 16px;
@@ -280,7 +310,7 @@ $desktop: 1024px;
         z-index: 10;
 
         &:hover {
-          background: $warning-color;
+          background: $info-color;
           color: white;
         }
       }
@@ -314,6 +344,10 @@ $desktop: 1024px;
           align-items: center;
           box-shadow: $shadow-sm;
 
+          @include mobile {
+            padding: 12px;
+          }
+
           .mainImageWrapper {
             width: 100%;
             height: 360px;
@@ -325,6 +359,10 @@ $desktop: 1024px;
             justify-content: center;
             align-items: center;
             background: linear-gradient(180deg, $background-color, white);
+
+            @include tablet {
+              height: 320px;
+            }
 
             @include mobile {
               height: 280px;
@@ -366,6 +404,12 @@ $desktop: 1024px;
             z-index: 5;
             cursor: pointer;
             transition: $transition-default;
+
+            @include mobile {
+              width: 36px;
+              height: 36px;
+              font-size: 24px;
+            }
 
             &:hover {
               transform: translateY(-50%) scale(1.05);
@@ -475,6 +519,10 @@ $desktop: 1024px;
             vertical-align: top;
             font-size: 0.95rem;
 
+            @include tablet {
+              font-size: 0.9rem;
+            }
+
             @include mobile {
               font-size: 0.85rem;
               padding: 8px 6px;
@@ -536,6 +584,11 @@ $desktop: 1024px;
       align-items: stretch;
     }
 
+    @include mobile {
+      margin-bottom: 24px;
+      gap: 16px;
+    }
+
     .title_container {
       h1 {
         font-size: 2rem;
@@ -547,8 +600,12 @@ $desktop: 1024px;
         margin-bottom: 8px;
         letter-spacing: -0.02em;
 
-        @include mobile {
+        @include tablet {
           font-size: 1.75rem;
+        }
+
+        @include mobile {
+          font-size: 1.5rem;
         }
       }
 
@@ -556,6 +613,10 @@ $desktop: 1024px;
         font-size: 0.95rem;
         color: $text-light;
         font-weight: 400;
+
+        @include mobile {
+          font-size: 0.85rem;
+        }
       }
     }
 
@@ -630,9 +691,14 @@ $desktop: 1024px;
     gap: 20px;
     margin-bottom: 32px;
 
+    @include tablet {
+      gap: 16px;
+    }
+
     @include mobile {
       grid-template-columns: 1fr;
-      gap: 16px;
+      gap: 12px;
+      margin-bottom: 24px;
     }
 
     .card {
@@ -644,6 +710,10 @@ $desktop: 1024px;
       position: relative;
       overflow: hidden;
       border: 1px solid $border-color;
+
+      @include mobile {
+        padding: 16px;
+      }
 
       &:hover {
         transform: translateY(-4px);
@@ -667,6 +737,10 @@ $desktop: 1024px;
         margin-bottom: 8px;
         text-transform: uppercase;
         letter-spacing: 0.5px;
+
+        @include mobile {
+          font-size: 0.75rem;
+        }
       }
 
       p {
@@ -697,6 +771,10 @@ $desktop: 1024px;
       min-width: 800px;
       font-size: 0.9rem;
 
+      @include tablet {
+        min-width: 700px;
+      }
+
       thead {
         background: linear-gradient(135deg, $primary-color, $secondary-color);
 
@@ -706,6 +784,11 @@ $desktop: 1024px;
           font-weight: 600;
           color: white;
           position: relative;
+
+          @include tablet {
+            padding: 12px 14px;
+            font-size: 0.85rem;
+          }
 
           @include mobile {
             padding: 10px 12px;
@@ -738,6 +821,11 @@ $desktop: 1024px;
             padding: 12px 16px;
             vertical-align: middle;
             color: $text-dark;
+
+            @include tablet {
+              padding: 10px 14px;
+              font-size: 0.85rem;
+            }
 
             @include mobile {
               padding: 8px 12px;
@@ -777,67 +865,75 @@ $desktop: 1024px;
               }
             }
 
-            // Action Buttons - Your exact styles
             .actions {
-  display: flex;
-  gap: 8px;
-  align-items: center;
+              display: flex;
+              gap: 8px;
+              align-items: center;
+              flex-wrap: wrap;
 
-  .actionBtn {
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    background: #f1f5f9;
+              @include mobile {
+                gap: 6px;
+              }
 
-    svg {
-      transition: all 0.2s ease;
-    }
+              .actionBtn {
+                width: 36px;
+                height: 36px;
+                border-radius: 10px;
+                border: none;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transition: all 0.2s ease;
 
-    &:hover {
-      transform: translateY(-2px);
-    }
+                @include mobile {
+                  width: 32px;
+                  height: 32px;
+                }
 
-    &:active {
-      transform: translateY(0);
-    }
-  }
+                svg {
+                  transition: all 0.2s ease;
+                }
 
-  .deleteBtn {
-    background: #fee2e2;
-    color: #e74c3c;
-    &:hover {
-      background: #e74c3c;
-      color: white;
-      box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
-    }
-  }
+                &:hover {
+                  transform: translateY(-2px);
+                }
 
-  .viewBtn {
-    background: #ede7f6;
-    color: $primary-color;
-    &:hover {
-      background: $primary-color;
-      color: white;
-      box-shadow: 0 4px 12px rgba(72, 38, 145, 0.3);
-    }
-  }
+                &:active {
+                  transform: translateY(0);
+                }
+              }
 
-  .stockBtn {
-    background: #e0f2e9;
-    color: #27ae60;
-    &:hover {
-      background: #27ae60;
-      color: white;
-      box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
-    }
-  }
-}
+              .deleteBtn {
+                background: #fee2e2;
+                color: #e74c3c;
+                &:hover {
+                  background: #e74c3c;
+                  color: white;
+                  box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+                }
+              }
+
+              .viewBtn {
+                background: #ede7f6;
+                color: $primary-color;
+                &:hover {
+                  background: $primary-color;
+                  color: white;
+                  box-shadow: 0 4px 12px rgba(72, 38, 145, 0.3);
+                }
+              }
+
+              .stockBtn {
+                background: #e0f2e9;
+                color: #27ae60;
+                &:hover {
+                  background: #27ae60;
+                  color: white;
+                  box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
+                }
+              }
+            }
           }
         }
       }
@@ -877,6 +973,10 @@ $desktop: 1024px;
       justify-content: center;
       text-align: center;
 
+      @include mobile {
+        padding: 32px;
+      }
+
       h3 {
         font-size: 1.25rem;
         margin: 0 0 16px 0;
@@ -905,12 +1005,17 @@ $desktop: 1024px;
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 16px;
+      padding: 20px;
       gap: 8px;
       flex-wrap: wrap;
 
+      @include mobile {
+        padding: 16px;
+        gap: 6px;
+      }
+
       button {
-        padding: 6px 12px;
+        padding: 8px 14px;
         border: 1.5px solid $border-color;
         background: white;
         border-radius: 8px;
@@ -918,6 +1023,11 @@ $desktop: 1024px;
         font-weight: 500;
         color: $text-dark;
         transition: $transition-default;
+
+        @include mobile {
+          padding: 6px 12px;
+          font-size: 0.8rem;
+        }
 
         &:hover:not(:disabled) {
           background: $primary-color;
@@ -966,6 +1076,10 @@ $desktop: 1024px;
       gap: 16px;
       animation: scaleIn 220ms ease both;
 
+      @include tablet {
+        max-width: 90%;
+      }
+
       @include mobile {
         padding: 16px;
       }
@@ -1006,7 +1120,7 @@ $desktop: 1024px;
         transition: $transition-default;
 
         &:hover {
-          background: $warning-color;
+          background: $info-color;
           color: white;
           transform: rotate(90deg);
         }
@@ -1113,7 +1227,7 @@ $desktop: 1024px;
                 transition: $transition-default;
 
                 &:hover {
-                  background: $warning-color;
+                  background: $info-color;
                 }
               }
             }
@@ -1185,6 +1299,11 @@ $desktop: 1024px;
         padding-top: 16px;
         border-top: 1px solid $border-color;
 
+        @include mobile {
+          flex-direction: column;
+          gap: 10px;
+        }
+
         .cancelBtn {
           background: white;
           color: $text-dark;
@@ -1194,6 +1313,10 @@ $desktop: 1024px;
           cursor: pointer;
           font-weight: 600;
           transition: $transition-default;
+
+          @include mobile {
+            padding: 12px;
+          }
 
           &:hover {
             background: $border-color;
@@ -1214,6 +1337,10 @@ $desktop: 1024px;
           align-items: center;
           justify-content: center;
           transition: $transition-default;
+
+          @include mobile {
+            padding: 12px;
+          }
 
           &:hover:not(:disabled) {
             transform: translateY(-2px);
@@ -1244,80 +1371,56 @@ $desktop: 1024px;
   .products_page {
     background: #1a1a2e;
 
+    .stockOverlay .content,
+    .overlay .content,
+    .modal .modal_content {
+      background: #2d2d44;
+    }
+
+    .stockOverlay .content .stock_content .stock_item input,
+    .modal .modal_form .inputsColumn label input,
+    .modal .modal_form .inputsColumn label select,
+    .modal .modal_form .inputsColumn label textarea {
+      background: #1a1a2e;
+      color: #e0e0e0;
+      border-color: rgba(142, 68, 173, 0.3);
+    }
+
     .tableWrapper {
       background: #2d2d44;
 
-      .table {
-        tbody {
-          tr {
-            td {
-              .actions {
-  display: none;
-  gap: 8px;
-  align-items: center;
+      .table tbody tr td {
+        color: #e0e0e0;
+      }
 
-  button.actionBtn {
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    background: #f1f5f9;
-
-    svg {
-      transition: all 0.2s ease;
-    }
-
-    &:hover {
-      transform: translateY(-2px);
-    }
-
-    &:active {
-      transform: translateY(0);
-    }
-  }
-
-  .deleteBtn {
-    background: #fee2e2;
-    color: #e74c3c;
-
-    &:hover {
-      background: #e74c3c;
-      color: white;
-      box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
-    }
-  }
-
-  .viewBtn {
-    background: #ede7f6;
-    color: $primary-color;
-
-    &:hover {
-      background: $primary-color;
-      color: white;
-      box-shadow: 0 4px 12px rgba(72, 38, 145, 0.3);
-    }
-  }
-
-  .stockBtn {
-    background: #e0f2e9;
-    color: #27ae60;
-
-    &:hover {
-      background: #27ae60;
-      color: white;
-      box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
-    }
-  }
-}
-            }
-          }
+      .empty_state {
+        background: #2d2d44;
+        
+        h3 {
+          color: #e0e0e0;
         }
       }
+    }
+
+    .analytics .card,
+    .header .right .search input {
+      background: #2d2d44;
+      color: #e0e0e0;
+    }
+
+    .analytics .card p,
+    .analytics .card h2 {
+      color: #e0e0e0;
+    }
+
+    .header .title_container .subtitle {
+      color: #9ca3af;
+    }
+
+    .modal .modal_header h2 {
+      background: linear-gradient(135deg, #8E44AD, #FF9800);
+      background-clip: text;
+      -webkit-background-clip: text;
     }
   }
 }

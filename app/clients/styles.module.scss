@@ -1,6 +1,6 @@
 // clients.module.scss
 
-// Variables (matching first component)
+// Variables
 $primary-color: #482691;
 $secondary-color: #6C4AB6;
 $accent-color: #8E44AD;
@@ -25,6 +25,7 @@ $transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 $mobile: 480px;
 $tablet: 768px;
 $desktop: 1024px;
+$large-mobile: 640px;
 
 // Mixins
 @mixin mobile {
@@ -41,6 +42,12 @@ $desktop: 1024px;
 
 @mixin desktop {
   @media (max-width: $desktop) {
+    @content;
+  }
+}
+
+@mixin large-mobile {
+  @media (max-width: $large-mobile) {
     @content;
   }
 }
@@ -88,8 +95,13 @@ $desktop: 1024px;
   background: linear-gradient(135deg, $background-color, darken($background-color, 2%));
   color: $text-dark;
   min-height: 100vh;
+  box-sizing: border-box;
 
   @include tablet {
+    padding: 24px;
+  }
+
+  @include large-mobile {
     padding: 20px;
   }
 
@@ -112,6 +124,11 @@ $desktop: 1024px;
     align-items: stretch;
   }
 
+  @include mobile {
+    margin-bottom: 24px;
+    gap: 16px;
+  }
+
   .title_container {
     h1 {
       font-size: 2rem;
@@ -123,8 +140,12 @@ $desktop: 1024px;
       margin-bottom: 8px;
       letter-spacing: -0.02em;
 
-      @include mobile {
+      @include tablet {
         font-size: 1.75rem;
+      }
+
+      @include mobile {
+        font-size: 1.5rem;
       }
     }
 
@@ -132,6 +153,10 @@ $desktop: 1024px;
       font-size: 0.95rem;
       color: $text-light;
       font-weight: 400;
+
+      @include mobile {
+        font-size: 0.85rem;
+      }
     }
   }
 
@@ -151,6 +176,10 @@ $desktop: 1024px;
       position: relative;
       width: 300px;
 
+      @include tablet {
+        width: 260px;
+      }
+
       @include mobile {
         width: 100%;
       }
@@ -163,6 +192,11 @@ $desktop: 1024px;
         width: 100%;
         background: white;
         transition: $transition-default;
+
+        @include mobile {
+          padding: 12px 16px 12px 40px;
+          font-size: 1rem;
+        }
 
         &:focus {
           border-color: $primary-color;
@@ -183,6 +217,11 @@ $desktop: 1024px;
         width: 18px;
         height: 18px;
         color: $text-light;
+
+        @include mobile {
+          width: 16px;
+          height: 16px;
+        }
       }
     }
 
@@ -205,6 +244,7 @@ $desktop: 1024px;
       @include mobile {
         justify-content: center;
         width: 100%;
+        padding: 12px 20px;
       }
 
       &:hover {
@@ -232,12 +272,18 @@ $desktop: 1024px;
   flex-wrap: wrap;
   gap: 16px;
 
+  @include mobile {
+    margin-bottom: 20px;
+    gap: 12px;
+  }
+
   .stats {
     display: flex;
     gap: 16px;
 
     @include mobile {
       width: 100%;
+      gap: 12px;
     }
 
     .card {
@@ -251,10 +297,18 @@ $desktop: 1024px;
       border: 1px solid $border-color;
       min-width: 160px;
 
-      @include mobile {
-        flex: 1;
+      @include tablet {
+        min-width: 140px;
+        padding: 14px 16px;
+      }
+
+      @include large-mobile {
         min-width: auto;
-        padding: 12px 16px;
+        flex: 1;
+      }
+
+      @include mobile {
+        padding: 12px;
       }
 
       &:hover {
@@ -283,6 +337,12 @@ $desktop: 1024px;
         margin-bottom: 12px;
         color: $primary-color;
 
+        @include mobile {
+          width: 32px;
+          height: 32px;
+          margin-bottom: 8px;
+        }
+
         .spin {
           animation: spin 1s linear infinite;
         }
@@ -295,6 +355,10 @@ $desktop: 1024px;
         margin-bottom: 4px;
         text-transform: uppercase;
         letter-spacing: 0.5px;
+
+        @include mobile {
+          font-size: 0.7rem;
+        }
       }
 
       p {
@@ -302,6 +366,10 @@ $desktop: 1024px;
         font-weight: 800;
         color: $text-dark;
         margin: 0;
+
+        @include tablet {
+          font-size: 1.35rem;
+        }
 
         @include mobile {
           font-size: 1.25rem;
@@ -323,6 +391,12 @@ $desktop: 1024px;
     border-radius: $border-radius-sm;
     border: 1px solid $border-color;
     transition: $transition-default;
+
+    @include mobile {
+      width: 100%;
+      justify-content: center;
+      padding: 10px 12px;
+    }
 
     &:hover {
       background: rgba($primary-color, 0.05);
@@ -373,9 +447,12 @@ $desktop: 1024px;
   border-radius: $border-radius-md;
   box-shadow: $shadow-sm;
   border: 1px solid $border-color;
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
 
   .table {
+    min-width: 600px;
+
     .row {
       display: grid;
       grid-template-columns: 60px 60px 1fr 180px 120px;
@@ -391,11 +468,15 @@ $desktop: 1024px;
         font-size: 0.85rem;
       }
 
+      @include large-mobile {
+        grid-template-columns: 45px 45px 1fr 140px 90px;
+        padding: 10px 14px;
+      }
+
       @include mobile {
-        grid-template-columns: 40px 40px 1fr 140px 90px;
+        grid-template-columns: 40px 40px 1fr 130px 80px;
         padding: 10px 12px;
         font-size: 0.75rem;
-        gap: 4px;
       }
 
       &:hover {
@@ -443,10 +524,20 @@ $desktop: 1024px;
           transition: $transition-default;
           background: white;
 
+          @include mobile {
+            width: 16px;
+            height: 16px;
+          }
+
           svg {
             color: white;
             opacity: 0;
             transition: $transition-default;
+
+            @include mobile {
+              width: 12px;
+              height: 12px;
+            }
           }
         }
 
@@ -470,6 +561,11 @@ $desktop: 1024px;
     gap: 16px;
     border-top: 1px solid $border-color;
     background: rgba($primary-color, 0.02);
+
+    @include mobile {
+      padding: 12px 16px;
+      gap: 12px;
+    }
 
     button {
       width: 36px;
@@ -519,6 +615,10 @@ $desktop: 1024px;
     text-align: center;
     color: $text-light;
 
+    @include mobile {
+      padding: 32px 20px;
+    }
+
     .spinner {
       width: 44px;
       height: 44px;
@@ -527,6 +627,12 @@ $desktop: 1024px;
       border-radius: 50%;
       animation: spin 1s ease-in-out infinite;
       margin: 0 auto 16px;
+
+      @include mobile {
+        width: 36px;
+        height: 36px;
+        border-width: 3px;
+      }
     }
 
     .empty_icon {
@@ -537,6 +643,11 @@ $desktop: 1024px;
       display: flex;
       align-items: center;
       justify-content: center;
+
+      @include mobile {
+        width: 48px;
+        height: 48px;
+      }
     }
 
     h3 {
@@ -544,6 +655,10 @@ $desktop: 1024px;
       font-weight: 600;
       color: $text-dark;
       margin: 0 0 8px;
+
+      @include mobile {
+        font-size: 1.1rem;
+      }
     }
 
     p {
@@ -551,6 +666,10 @@ $desktop: 1024px;
       max-width: 400px;
       margin: 0 auto;
       font-size: 0.9rem;
+
+      @include mobile {
+        font-size: 0.85rem;
+      }
     }
   }
 }
@@ -566,12 +685,17 @@ $desktop: 1024px;
   align-items: center;
   z-index: 1000;
   animation: fadeIn 0.2s ease;
+  padding: 20px;
+
+  @include mobile {
+    padding: 16px;
+  }
 
   .modal_content {
     background: white;
     border-radius: $border-radius-lg;
     max-width: 500px;
-    width: 90%;
+    width: 100%;
     box-shadow: $shadow-xl;
     animation: slideUp 0.3s ease-out;
 
@@ -586,6 +710,10 @@ $desktop: 1024px;
       align-items: center;
       border-bottom: 1px solid $border-color;
       background: linear-gradient(135deg, $background-color, darken($background-color, 2%));
+
+      @include mobile {
+        padding: 16px 20px;
+      }
 
       h2 {
         font-size: 1.35rem;
@@ -613,6 +741,11 @@ $desktop: 1024px;
         color: $primary-color;
         transition: $transition-default;
 
+        @include mobile {
+          width: 32px;
+          height: 32px;
+        }
+
         &:hover {
           background: $warning-color;
           color: white;
@@ -622,6 +755,11 @@ $desktop: 1024px;
         svg {
           width: 20px;
           height: 20px;
+
+          @include mobile {
+            width: 18px;
+            height: 18px;
+          }
         }
       }
     }
@@ -634,6 +772,7 @@ $desktop: 1024px;
 
       @include mobile {
         padding: 20px;
+        gap: 16px;
       }
 
       .modal_subtitle {
@@ -643,6 +782,10 @@ $desktop: 1024px;
         background: rgba($primary-color, 0.05);
         border-radius: $border-radius-sm;
         text-align: center;
+
+        @include mobile {
+          font-size: 0.85rem;
+        }
       }
 
       textarea {
@@ -654,6 +797,11 @@ $desktop: 1024px;
         background: white;
         transition: $transition-default;
         font-family: inherit;
+
+        @include mobile {
+          padding: 12px;
+          font-size: 1rem;
+        }
 
         &:focus {
           outline: none;
@@ -671,6 +819,11 @@ $desktop: 1024px;
         justify-content: flex-end;
         gap: 12px;
 
+        @include mobile {
+          flex-direction: column;
+          gap: 10px;
+        }
+
         .cancel_btn,
         .submit_button {
           padding: 10px 24px;
@@ -679,6 +832,10 @@ $desktop: 1024px;
           font-size: 0.9rem;
           cursor: pointer;
           transition: $transition-default;
+
+          @include mobile {
+            padding: 12px;
+          }
         }
 
         .cancel_btn {
@@ -722,6 +879,15 @@ $desktop: 1024px;
       h2, p {
         color: #e0e0e0;
       }
+
+      .card_icon {
+        background: rgba(72, 38, 145, 0.2);
+      }
+    }
+
+    .selectAll {
+      border-color: rgba(142, 68, 173, 0.3);
+      color: #e0e0e0;
     }
   }
 
@@ -734,12 +900,58 @@ $desktop: 1024px;
 
         .cell {
           color: #e0e0e0;
+
+          strong {
+            color: #e0e0e0;
+          }
         }
+
+        &.selected {
+          background: rgba(72, 38, 145, 0.15);
+        }
+      }
+    }
+
+    .pagination button {
+      background: #2d2d44;
+      color: #e0e0e0;
+      border-color: rgba(142, 68, 173, 0.3);
+
+      &:disabled {
+        background: #1a1a2e;
       }
     }
   }
 
   .modal_content {
     background: #2d2d44;
+
+    .modal_header {
+      background: linear-gradient(135deg, #2d2d44, #25253a);
+    }
+
+    .modal_body {
+      textarea {
+        background: #1a1a2e;
+        color: #e0e0e0;
+        border-color: rgba(142, 68, 173, 0.3);
+      }
+
+      .modal_actions .cancel_btn {
+        background: #2d2d44;
+        color: #e0e0e0;
+        border-color: rgba(142, 68, 173, 0.3);
+      }
+    }
+  }
+
+  .header .right .search input {
+    background: #2d2d44;
+    color: #e0e0e0;
+    border-color: rgba(142, 68, 173, 0.3);
+  }
+
+  .title_container .subtitle {
+    color: #9ca3af;
   }
 }
