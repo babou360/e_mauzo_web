@@ -4,6 +4,7 @@
   width: 100vw;
   height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
@@ -40,7 +41,7 @@
       0 0 80px rgba($mainColor, 0.2),
       inset 0 0 30px rgba(255, 255, 255, 0.1);
     
-    // Entrance animation
+    // Entrance animation - scale only, no rotation
     animation: 
       logoEntrance 1.8s cubic-bezier(0.25, 0.8, 0.25, 1) forwards,
       logoPulse 3s ease-in-out infinite 2s;
@@ -67,11 +68,43 @@
       height: 92%;
       object-fit: contain;
       border-radius: 50%;
-      animation: 
-        float 4s ease-in-out infinite 2s,
-        subtleRotate 20s linear infinite;
+      animation: float 4s ease-in-out infinite 2s;
       filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
       z-index: 2;
+    }
+  }
+
+  .poweredBy {
+    position: absolute;
+    bottom: 30px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 2;
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    opacity: 0;
+    animation: fadeInUp 1s ease-out 2s forwards;
+    
+    span {
+      display: block;
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: 2px;
+      color: rgba(255, 255, 255, 0.6);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    
+    strong {
+      display: block;
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      background: linear-gradient(135deg, #fff, rgba($mainColor, 0.8));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
   }
 }
@@ -97,7 +130,7 @@
   }
   50% {
     box-shadow: 
-      0 0 60px rgba198 rgba($mainColor, 0.6),
+      0 0 60px rgba($mainColor, 0.6),
       0 0 120px rgba($mainColor, 0.35),
       inset 0 0 40px rgba(255, 255, 255, 0.15);
   }
@@ -113,9 +146,15 @@
   50% { transform: translateY(-12px); }
 }
 
-@keyframes subtleRotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes gradientShift {

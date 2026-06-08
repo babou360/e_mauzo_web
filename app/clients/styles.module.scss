@@ -4,7 +4,7 @@
 $primary-color: #482691;
 $secondary-color: #6C4AB6;
 $accent-color: #8E44AD;
-$background-color: #F8F9FF;
+$background-color: #FFFFFF;
 $text-dark: #2C3E50;
 $text-light: #7F8C8D;
 $success-color: #27AE60;
@@ -92,7 +92,7 @@ $large-mobile: 640px;
 .clients {
   padding: 32px;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: linear-gradient(135deg, $background-color, darken($background-color, 2%));
+  background: $background-color;
   color: $text-dark;
   min-height: 100vh;
   box-sizing: border-box;
@@ -192,6 +192,7 @@ $large-mobile: 640px;
         width: 100%;
         background: white;
         transition: $transition-default;
+        color: black;
 
         @include mobile {
           padding: 12px 16px 12px 40px;
@@ -709,7 +710,7 @@ $large-mobile: 640px;
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid $border-color;
-      background: linear-gradient(135deg, $background-color, darken($background-color, 2%));
+      background: $background-color;
 
       @include mobile {
         padding: 16px 20px;
@@ -861,97 +862,5 @@ $large-mobile: 640px;
         }
       }
     }
-  }
-}
-
-// Dark mode support
-@media (prefers-color-scheme: dark) {
-  .clients {
-    background: #1a1a2e;
-  }
-
-  .toolbar {
-    .card, .selectAll {
-      background: #2d2d44;
-    }
-
-    .card {
-      h2, p {
-        color: #e0e0e0;
-      }
-
-      .card_icon {
-        background: rgba(72, 38, 145, 0.2);
-      }
-    }
-
-    .selectAll {
-      border-color: rgba(142, 68, 173, 0.3);
-      color: #e0e0e0;
-    }
-  }
-
-  .tableWrapper {
-    background: #2d2d44;
-
-    .table {
-      .row {
-        border-bottom-color: rgba(255, 255, 255, 0.1);
-
-        .cell {
-          color: #e0e0e0;
-
-          strong {
-            color: #e0e0e0;
-          }
-        }
-
-        &.selected {
-          background: rgba(72, 38, 145, 0.15);
-        }
-      }
-    }
-
-    .pagination button {
-      background: #2d2d44;
-      color: #e0e0e0;
-      border-color: rgba(142, 68, 173, 0.3);
-
-      &:disabled {
-        background: #1a1a2e;
-      }
-    }
-  }
-
-  .modal_content {
-    background: #2d2d44;
-
-    .modal_header {
-      background: linear-gradient(135deg, #2d2d44, #25253a);
-    }
-
-    .modal_body {
-      textarea {
-        background: #1a1a2e;
-        color: #e0e0e0;
-        border-color: rgba(142, 68, 173, 0.3);
-      }
-
-      .modal_actions .cancel_btn {
-        background: #2d2d44;
-        color: #e0e0e0;
-        border-color: rgba(142, 68, 173, 0.3);
-      }
-    }
-  }
-
-  .header .right .search input {
-    background: #2d2d44;
-    color: #e0e0e0;
-    border-color: rgba(142, 68, 173, 0.3);
-  }
-
-  .title_container .subtitle {
-    color: #9ca3af;
   }
 }

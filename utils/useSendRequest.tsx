@@ -28,7 +28,6 @@ function useSendRequest<T>({ url, params, body,method }: Props) {
           Authorization: `Bearer ${localStorage.getItem('mauzo_token')}`
         }
       }).then((data)=> {
-        console.log(data)
         if (url.includes('/users/login') || url.includes('/users/register')){
           localStorage.setItem("mauzo_token",data.data.token)
           localStorage.setItem("user_status",data.data.status)

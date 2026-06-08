@@ -4,7 +4,7 @@
   position: relative;
   width: 100%;
   padding: 40px;
-  background: linear-gradient(135deg, #ffffff 0%, #faf9ff 100%);
+  background: #FFFFFF;
   border-radius: 48px;
   box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(72, 38, 145, 0.05);
   overflow: hidden;
@@ -167,6 +167,7 @@
   font-size: 13px;
   font-weight: 600;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  color: #374151;
 
   @media (max-width: 768px) {
     padding: 8px 14px;
@@ -896,7 +897,7 @@
   
   &.negative {
     color: #ef4444;
-    background: rgba(68, 68, 68, 0.1);
+    background: rgba(239, 68, 68, 0.1);
   }
   
   svg {
@@ -927,66 +928,5 @@
   100% {
     opacity: 0;
     transform: translate(-50%, -50%) scale(2);
-  }
-}
-
-// Dark Mode Support
-@media (prefers-color-scheme: dark) {
-  .graphContainer {
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-    box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.5);
-  }
-
-  .title {
-    background: linear-gradient(135deg, #8E44AD, #FF9800);
-    -webkit-background-clip: text;
-    background-clip: text;
-  }
-
-  .trendBadge {
-    background: #2d2d44;
-    color: #e0e0e0;
-  }
-
-  .dayLabel {
-    background: #2d2d44;
-    color: #e0e0e0;
-  }
-
-  .statCard {
-    background: #2d2d44;
-  }
-
-  .statValue {
-    color: #e0e0e0;
-  }
-
-  .legend {
-    background: rgba(45, 45, 68, 0.6);
-  }
-
-  .legendValue {
-    color: #e0e0e0;
-  }
-
-  .salesLabel, .revenueLabel {
-    background: rgba(108, 74, 182, 0.2);
-  }
-
-  .xAxisLabel {
-    border-top-color: rgba(255, 255, 255, 0.1);
-    color: #9ca3af;
-  }
-
-  .yTickLine {
-    background: linear-gradient(90deg, #404040, transparent);
-
-    @media (max-width: 768px) {
-      background: linear-gradient(180deg, #404040, transparent);
-    }
-  }
-
-  .yTickValue, .yAxisLabel {
-    color: #9ca3af;
   }
 }

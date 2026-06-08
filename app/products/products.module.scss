@@ -4,7 +4,7 @@
 $primary-color: #482691;
 $secondary-color: #6C4AB6;
 $accent-color: #8E44AD;
-$background-color: #F8F9FF;
+$background-color: #FFFFFF;
 $text-dark: #2C3E50;
 $text-light: #7F8C8D;
 $success-color: #27AE60;
@@ -93,7 +93,7 @@ $large-mobile: 640px;
 .products_page {
   padding: 32px;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: linear-gradient(135deg, $background-color, darken($background-color, 2%));
+  background: $background-color;
   color: $text-dark;
   min-height: 100vh;
   box-sizing: border-box;
@@ -221,6 +221,7 @@ $large-mobile: 640px;
             border: 1.5px solid $border-color;
             border-radius: $border-radius-sm;
             background: white;
+            color: $text-dark;
             transition: $transition-default;
 
             &:focus {
@@ -647,6 +648,7 @@ $large-mobile: 640px;
           font-size: 0.9rem;
           width: 100%;
           background: white;
+          color: $text-dark;
           transition: $transition-default;
 
           &:focus {
@@ -1253,13 +1255,26 @@ $large-mobile: 640px;
               padding: 10px 14px;
               font-size: 0.9rem;
               color: $text-dark;
+              background: white;
               outline: none;
               transition: $transition-default;
-              background: white;
 
               &:focus {
                 border-color: $primary-color;
                 box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+              }
+
+              &::placeholder {
+                color: $text-light;
+              }
+            }
+
+            select {
+              color: $text-dark;
+              
+              option {
+                color: $text-dark;
+                background: white;
               }
             }
 
@@ -1362,65 +1377,6 @@ $large-mobile: 640px;
           }
         }
       }
-    }
-  }
-}
-
-// Dark mode support
-@media (prefers-color-scheme: dark) {
-  .products_page {
-    background: #1a1a2e;
-
-    .stockOverlay .content,
-    .overlay .content,
-    .modal .modal_content {
-      background: #2d2d44;
-    }
-
-    .stockOverlay .content .stock_content .stock_item input,
-    .modal .modal_form .inputsColumn label input,
-    .modal .modal_form .inputsColumn label select,
-    .modal .modal_form .inputsColumn label textarea {
-      background: #1a1a2e;
-      color: #e0e0e0;
-      border-color: rgba(142, 68, 173, 0.3);
-    }
-
-    .tableWrapper {
-      background: #2d2d44;
-
-      .table tbody tr td {
-        color: #e0e0e0;
-      }
-
-      .empty_state {
-        background: #2d2d44;
-        
-        h3 {
-          color: #e0e0e0;
-        }
-      }
-    }
-
-    .analytics .card,
-    .header .right .search input {
-      background: #2d2d44;
-      color: #e0e0e0;
-    }
-
-    .analytics .card p,
-    .analytics .card h2 {
-      color: #e0e0e0;
-    }
-
-    .header .title_container .subtitle {
-      color: #9ca3af;
-    }
-
-    .modal .modal_header h2 {
-      background: linear-gradient(135deg, #8E44AD, #FF9800);
-      background-clip: text;
-      -webkit-background-clip: text;
     }
   }
 }

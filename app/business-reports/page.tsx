@@ -92,9 +92,6 @@ export default function SalesReport() {
 
   // Simulate data
   useEffect(() => {
-    if(!attendLoading){
-        console.log(attendData)
-    }
     setTimeout(() => {
       setSales([
         { total_price: 425000, discount: 20000, createdAt: new Date().toISOString(), products: [{ buying_price: 280000, quantity: 3 }], seller: 'Babou' },
@@ -321,7 +318,6 @@ export default function SalesReport() {
               onClick={() => {
                 if (startDate && endDate) {
                   // Trigger re-fetch or filter logic here in real app
-                  console.log('Apply custom range:', startDate, endDate);
                 }
               }}
               className={styles.applyBtn}

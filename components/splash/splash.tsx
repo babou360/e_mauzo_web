@@ -8,6 +8,10 @@ export default function SplashScreen() {
       <div className={styles.logo}>
         <img src="/white.png" alt="" />
       </div>
+      <div className={styles.poweredBy}>
+        <span>Powered By</span>
+        <strong>Swahilicodes</strong>
+      </div>
     </div>
   );
 }

@@ -32,7 +32,7 @@ const AllHoursGraph: React.FC<Props> = ({
 }) => {
   
   useEffect(()=> {
-    console.log('hourly sales are ',hourly_sales,language)
+    
   },[hourly_sales])
 
   if (!hourly_sales || hourly_sales.length === 0) {

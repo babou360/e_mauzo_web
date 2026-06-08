@@ -4,7 +4,7 @@
 $primary-color: #482691;
 $secondary-color: #6C4AB6;
 $accent-color: #8E44AD;
-$background-color: #F8F9FF;
+$background-color: #FFFFFF;
 $text-dark: #2C3E50;
 $text-light: #7F8C8D;
 $success-color: #27AE60;
@@ -78,7 +78,7 @@ $large-mobile: 640px;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #f8f9ff 0%, #f0f2ff 100%);
+  background: $background-color;
   position: fixed;
   top: 0;
   left: 0;
@@ -184,7 +184,7 @@ $large-mobile: 640px;
   backdrop-filter: blur(10px);
   background: white;
   border: 1.5px solid rgba($primary-color, 0.2);
-  color: #666;
+  color: $text-dark;
   white-space: nowrap;
 
   @include large-mobile {
@@ -233,6 +233,7 @@ $large-mobile: 640px;
   font-size: 14px;
   transition: $transition-default;
   background: white;
+  color: $text-dark;
   cursor: pointer;
 
   @include mobile {
@@ -245,6 +246,10 @@ $large-mobile: 640px;
     outline: none;
     border-color: $primary-color;
     box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+  }
+
+  &::placeholder {
+    color: $text-light;
   }
 }
 
@@ -535,6 +540,7 @@ $large-mobile: 640px;
   font-size: 14px;
   cursor: pointer;
   transition: $transition-default;
+  color: #FF9800;
 
   @include mobile {
     width: 100%;
@@ -1441,6 +1447,7 @@ $large-mobile: 640px;
   padding: 10px 16px;
   transition: $transition-default;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  color: $text-dark;
 
   @include mobile {
     padding: 8px 12px;
@@ -1459,63 +1466,4 @@ $large-mobile: 640px;
 .productCount {
   font-weight: 600;
   color: $primary-color;
-}
-
-// Dark Mode Support - Component specific overrides only
-@media (prefers-color-scheme: dark) {
-  .dashboard {
-    background: #1a1a2e;
-  }
-
-  .productsCard, .hourlyCard, .dailyCard, .monthlyCard, .dateRangeCard {
-    background: #2d2d44;
-  }
-
-  .productName, .hourSales, .hourRevenue, .hourProducts,
-  .dailySales, .dailyRevenue, .monthName, .monthSales,
-  .monthRevenue, .monthProfit, .dayName {
-    color: #e0e0e0;
-  }
-
-  .productRow.even, .hourlyRow.even, .dailyRow.even, .monthlyRow.even {
-    background: #25253a;
-  }
-
-  .productRow.odd, .hourlyRow.odd, .dailyRow.odd, .monthlyRow.odd {
-    background: #2d2d44;
-  }
-
-  .sectionTitle {
-    background: linear-gradient(135deg, #8E44AD, #482691);
-    background-clip: text;
-    -webkit-background-clip: text;
-  }
-
-  .modalContent {
-    background: #2d2d44;
-  }
-
-  .hourlyProductsContainer h4 {
-    color: #e0e0e0;
-  }
-
-  .hourlyProductsHeader {
-    background: #25253a;
-    color: #e0e0e0;
-  }
-
-  .hourlyProductRow {
-    color: #e0e0e0;
-  }
-
-  .dateInput {
-    background: #2d2d44;
-    color: #e0e0e0;
-    border-color: rgba(142, 68, 173, 0.3);
-  }
-  
-  .duration {
-    background: #2d2d44;
-    color: #e0e0e0;
-  }
 }

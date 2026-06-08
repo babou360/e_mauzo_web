@@ -71,7 +71,6 @@ function useSendMultipartRequest<T>({ url, params, body, method }: Props) {
 
       location.reload();
     } catch (err: any) {
-      console.log(err)
       const message =
         err?.response?.data?.error ||
         err?.message ||
