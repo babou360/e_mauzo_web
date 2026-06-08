@@ -1,4 +1,4 @@
-// 'use client';
+//'use client';
 // import { Merriweather } from 'next/font/google';
 // import { useEffect, useState } from 'react';
 // import LayoutComponent from '@/components/layout/layout';
@@ -85,12 +85,13 @@
 
 
 'use client';
-import { Merriweather } from 'next/font/google';
+import { Merriweather, Open_Sans } from 'next/font/google';
 import { useEffect, useState } from 'react';
 import LayoutComponent from '@/components/layout/layout';
 import SplashScreen from '@/components/splash/splash';
+// import './global.css'
 
-const merriweather = Merriweather({
+const merriweather = Open_Sans({
   subsets: ['latin'],
   weight: '300',
   display: 'swap',
