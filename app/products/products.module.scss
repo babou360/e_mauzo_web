@@ -54,8 +54,13 @@ $large-mobile: 640px;
 
 // Keyframes
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideUp {
@@ -63,6 +68,7 @@ $large-mobile: 640px;
     transform: translateY(8px);
     opacity: 0;
   }
+
   to {
     transform: translateY(0);
     opacity: 1;
@@ -74,6 +80,7 @@ $large-mobile: 640px;
     transform: scale(0.98);
     opacity: 0;
   }
+
   to {
     transform: scale(1);
     opacity: 1;
@@ -81,12 +88,147 @@ $large-mobile: 640px;
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+// Searchable Select Component Styles
+.searchableSelect {
+  position: relative;
+  width: 100%;
+
+  label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: $text-dark;
+    margin-bottom: 6px;
+  }
+
+  .selectTrigger {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    border: 1.5px solid $border-color;
+    border-radius: $border-radius-sm;
+    background: white;
+    cursor: pointer;
+    transition: $transition-default;
+
+    &:hover {
+      border-color: $primary-color;
+    }
+
+    .selectedValue {
+      color: $text-dark;
+    }
+
+    .placeholder {
+      color: $text-light;
+    }
+
+    .arrow {
+      font-size: 10px;
+      color: $text-light;
+      transition: $transition-default;
+    }
+  }
+
+  .selectDropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid $border-color;
+    border-radius: $border-radius-sm;
+    box-shadow: $shadow-lg;
+    z-index: 1000;
+    max-height: 280px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+
+    .searchInputWrapper {
+      padding: 8px 12px;
+      border-bottom: 1px solid $border-color;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: white;
+
+      .searchIcon {
+        color: $text-light;
+        flex-shrink: 0;
+      }
+
+      .clearIcon {
+        color: $text-light;
+        cursor: pointer;
+        flex-shrink: 0;
+        transition: $transition-default;
+
+        &:hover {
+          color: $warning-color;
+        }
+      }
+
+      .searchInput {
+        flex: 1;
+        border: none;
+        outline: none;
+        padding: 8px 0;
+        font-size: 0.85rem;
+        background: transparent;
+
+        &::placeholder {
+          color: $text-light;
+        }
+      }
+    }
+
+    .optionsList {
+      overflow-y: auto;
+      max-height: 220px;
+
+      .option {
+        padding: 10px 14px;
+        cursor: pointer;
+        transition: $transition-default;
+        font-size: 0.85rem;
+        color: $text-dark;
+
+        &:hover {
+          background: rgba($primary-color, 0.05);
+        }
+
+        &.selectedOption {
+          background: rgba($primary-color, 0.1);
+          color: $primary-color;
+          font-weight: 500;
+        }
+      }
+
+      .noOptions {
+        padding: 12px;
+        text-align: center;
+        color: $text-light;
+        font-size: 0.8rem;
+      }
+    }
+  }
 }
 
 // Main Container
@@ -388,7 +530,8 @@ $large-mobile: 640px;
             }
           }
 
-          .prev, .next {
+          .prev,
+          .next {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
@@ -418,8 +561,13 @@ $large-mobile: 640px;
             }
           }
 
-          .prev { left: 8px; }
-          .next { right: 8px; }
+          .prev {
+            left: 8px;
+          }
+
+          .next {
+            right: 8px;
+          }
         }
 
         .thumbnailWrapper {
@@ -514,7 +662,8 @@ $large-mobile: 640px;
           border-collapse: collapse;
           background: transparent;
 
-          td, th {
+          td,
+          th {
             text-align: left;
             padding: 10px 8px;
             vertical-align: top;
@@ -623,9 +772,9 @@ $large-mobile: 640px;
 
     .right {
       display: flex;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
+      align-items: space-between;
+      //gap: 16px;
+      flex-wrap: nowrap;
 
       @include mobile {
         flex-direction: column;
@@ -633,12 +782,12 @@ $large-mobile: 640px;
         gap: 12px;
       }
 
-      .search {
-        position: relative;
-        width: 260px;
+      .search_add {
+        //position: relative;
+        width: 230px;
 
         @include mobile {
-          width: 100%;
+          width: 90%;
         }
 
         input {
@@ -882,7 +1031,7 @@ $large-mobile: 640px;
                 height: 36px;
                 border-radius: 10px;
                 border: none;
-                display: flex;
+                display: inline-flex;
                 align-items: center;
                 justify-content: center;
                 cursor: pointer;
@@ -909,6 +1058,7 @@ $large-mobile: 640px;
               .deleteBtn {
                 background: #fee2e2;
                 color: #e74c3c;
+
                 &:hover {
                   background: #e74c3c;
                   color: white;
@@ -919,6 +1069,7 @@ $large-mobile: 640px;
               .viewBtn {
                 background: #ede7f6;
                 color: $primary-color;
+
                 &:hover {
                   background: $primary-color;
                   color: white;
@@ -929,6 +1080,7 @@ $large-mobile: 640px;
               .stockBtn {
                 background: #e0f2e9;
                 color: #27ae60;
+
                 &:hover {
                   background: #27ae60;
                   color: white;
@@ -1249,7 +1401,9 @@ $large-mobile: 640px;
             color: $text-dark;
             font-size: 0.85rem;
 
-            input, select, textarea {
+            input,
+            select,
+            textarea {
               border: 1.5px solid $border-color;
               border-radius: $border-radius-sm;
               padding: 10px 14px;
@@ -1271,7 +1425,7 @@ $large-mobile: 640px;
 
             select {
               color: $text-dark;
-              
+
               option {
                 color: $text-dark;
                 background: white;
@@ -1289,17 +1443,21 @@ $large-mobile: 640px;
             align-items: center;
             justify-content: space-between;
             gap: 14px;
+            width: 100%;
 
-            label {
-              width: 49%;
+            // This ensures each child has equal width
+            >* {
+              flex: 1;
+              min-width: 0; // Prevents overflow
             }
 
             @include mobile {
               flex-direction: column;
               gap: 12px;
 
-              label {
+              >* {
                 width: 100%;
+                flex: none;
               }
             }
           }

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './products.module.scss';
 import useSendRequest from '@/utils/useSendRequest';
 import useFetch from '@/utils/fetch';
@@ -10,7 +10,7 @@ import { FaChevronLeft, FaChevronRight, FaEye } from 'react-icons/fa6';
 import useSelectedBusinessStore from '@/store/atoms/selected_business';
 import useLanguageStore from '@/store/atoms/language';
 import useSendMultipartRequest from '@/utils/useSendMultipartRequest';
-import { CopyX, Plus } from 'lucide-react';
+import { CopyX, Plus, Search, X } from 'lucide-react';
 import cx from 'classnames'
 
 interface Measurement {
@@ -47,6 +47,112 @@ interface Product {
   page: number;
   pageSize: number;
 }
+
+interface SearchableSelectProps {
+  options: any[];
+  value: any;
+  onChange: (value: any) => void;
+  placeholder: string;
+  language: string;
+  label?: string;
+  required?: boolean;
+}
+
+const SearchableSelect: React.FC<SearchableSelectProps> = ({
+  options,
+  value,
+  onChange,
+  placeholder,
+  language,
+  label,
+  required = false,
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+        setSearchTerm('');
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const filteredOptions = options.filter(option => {
+    const searchLower = searchTerm.toLowerCase();
+    const name = language === 'Swahili' ? option.swahili : option.english;
+    return name?.toLowerCase().includes(searchLower);
+  });
+
+  const selectedOption = options.find(opt => opt.id === value);
+  const displayValue = selectedOption
+    ? (language === 'Swahili' ? selectedOption.swahili : selectedOption.english)
+    : '';
+
+  return (
+    <div className={styles.searchableSelect} ref={dropdownRef}>
+      {label && <label>{label}</label>}
+      <div
+        className={styles.selectTrigger}
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <span className={displayValue ? styles.selectedValue : styles.placeholder}>
+          {displayValue || placeholder}
+        </span>
+        <span className={styles.arrow}>{isOpen ? '▲' : '▼'}</span>
+      </div>
+      {isOpen && (
+        <div className={styles.selectDropdown}>
+          <div className={styles.searchInputWrapper}>
+            <Search size={14} className={styles.searchIcon} />
+            <input
+              ref={inputRef}
+              type="text"
+              placeholder={`Search...`}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onClick={(e) => e.stopPropagation()}
+              className={styles.searchInput}
+              autoFocus
+            />
+            {searchTerm && (
+              <X 
+                size={14} 
+                className={styles.clearIcon} 
+                onClick={() => setSearchTerm('')}
+              />
+            )}
+          </div>
+          <div className={styles.optionsList}>
+            {filteredOptions.length > 0 ? (
+              filteredOptions.map(option => (
+                <div
+                  key={option.id}
+                  className={cx(styles.option, { [styles.selectedOption]: option.id === value })}
+                  onClick={() => {
+                    onChange(option.id);
+                    setIsOpen(false);
+                    setSearchTerm('');
+                  }}
+                >
+                  {language === 'Swahili' ? option.swahili : option.english}
+                </div>
+              ))
+            ) : (
+              <div className={styles.noOptions}>No options found</div>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
 
 export default function ProductsPage() {
   const [fields, setFields] = useState({
@@ -144,6 +250,8 @@ export default function ProductsPage() {
     id: fields.item.id
   },
 });
+const categoriesList = !catLoading && categories?.all ? categories.all : [];
+const measurementsList = !measureLoading && measurements?.all ? measurements.all : [];
 
   const handlePageChange = (page: number) => {
     if (page < 1 || page > totalPages) return;
@@ -183,6 +291,7 @@ export default function ProductsPage() {
       setImgLoading([]);
     }
   }, [selectedProduct]);
+  
 
   const nextImage = () => {
     if (!selectedProduct) return;
@@ -453,7 +562,7 @@ export default function ProductsPage() {
           </p>
         </div>
         <div className={styles.right}>
-          <div className={styles.search}>
+          <div className={styles.search_add}>
             <input
               type="text"
               placeholder={language === 'Swahili' ? 'Tafuta Bidhaa..' : 'Search Products..'}
@@ -684,7 +793,6 @@ export default function ProductsPage() {
             </div>
             <form onSubmit={(e) => submit(e)} className={styles.modal_form}>
               <div className={styles.formGrid}>
-                {/* left: upload + previews */}
                 <div className={styles.images_section}>
                   <label className={styles.image_upload}>
                     <input type="file" multiple accept="image/*" onChange={handleImageChange} />
@@ -703,82 +811,74 @@ export default function ProductsPage() {
                   </div>
                 </div>
 
-                {/* right: inputs */}
                 <div className={styles.inputsColumn}>
                   <div className={styles.rowTwo}>
                     <label>
-                    {language === 'Swahili' ? 'Jina' : 'Name'}
-                    <input type="text" name="name" value={formData.name} onChange={e => setFormData({...formData,name: e.target.value})} required />
-                  </label>
+                      {language === 'Swahili' ? 'Jina' : 'Name'}
+                      <input type="text" name="name" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} required />
+                    </label>
                     <label>
                       {language === 'Swahili' ? 'Kiasi' : 'Quantity'}
-                      <input type="text" name="quantity" value={formData.quantity} onChange={e => setFormData({...formData,quantity: Number(e.target.value)})} required />
+                      <input type="number" name="quantity" value={formData.quantity} onChange={e => setFormData({ ...formData, quantity: Number(e.target.value) })} required />
                     </label>
                   </div>
                   <div className={styles.rowTwo}>
                     <label>
-                    {language === 'Swahili' ? 'Kiwango Cha Chini' : 'Minmum Stock'}
-                    <input type="text" name="name" value={formData.min_stock} onChange={e => setFormData({...formData,min_stock: Number(e.target.value)})} required />
-                  </label>
-                    <label>
-                      {language === 'Swahili' ? 'Kipimo' : 'Measurement'}
-                      <select name="measurement" value={formData.measurement.id} required onChange={e => setFormData({
-                        ...formData,
-                        measurement: { ...formData.measurement, id: Number(e.target.value) }
-                      })}>
-                        <option value="">{language === 'Swahili' ? '-- Chagua Kipimo --' : '-- Select Measurement --'}</option>
-                        {
-                          !measureLoading && measurements.all.map((item:any,index:number)=> (
-                            <option value={item.id} key={index}>{language==="Swahili"?item.swahili:item.english}</option>
-                          ))
-                        }
-                      </select>
+                      {language === 'Swahili' ? 'Kiwango Cha Chini' : 'Minimum Stock'}
+                      <input type="number" name="min_stock" value={formData.min_stock} onChange={e => setFormData({ ...formData, min_stock: Number(e.target.value) })} required />
                     </label>
+                    <SearchableSelect
+                      options={measurementsList}
+                      value={formData.measurement.id}
+                      onChange={(id) => setFormData({
+                        ...formData,
+                        measurement: { ...formData.measurement, id }
+                      })}
+                      placeholder={language === 'Swahili' ? 'Chagua Kipimo' : 'Select Measurement'}
+                      language={language}
+                      label={language === 'Swahili' ? 'Kipimo' : 'Measurement'}
+                      required
+                    />
                   </div>
-
                   <div className={styles.rowTwo}>
                     <label>
                       {language === 'Swahili' ? 'Bei ya Kununua' : 'Buying Price'}
-                      <input type="text" name="buying_price" value={formData.buying_price} onChange={e => setFormData({...formData,buying_price: Number(e.target.value)})} required />
+                      <input type="number" name="buying_price" value={formData.buying_price} onChange={e => setFormData({ ...formData, buying_price: Number(e.target.value) })} required />
                     </label>
                     <label>
                       {language === 'Swahili' ? 'Bei ya Kuuza' : 'Selling Price'}
-                      <input type="text" name="selling_price" value={formData.selling_price} onChange={e => setFormData({...formData,selling_price: Number(e.target.value)})} required />
+                      <input type="number" name="selling_price" value={formData.selling_price} onChange={e => setFormData({ ...formData, selling_price: Number(e.target.value) })} required />
                     </label>
                   </div>
                   <div className={styles.rowTwo}>
+                    <SearchableSelect
+                      options={categoriesList}
+                      value={formData.category.id}
+                      onChange={(id) => setFormData({
+                        ...formData,
+                        category: { ...formData.category, id }
+                      })}
+                      placeholder={language === 'Swahili' ? 'Chagua Kundi' : 'Select Category'}
+                      language={language}
+                      label={language === 'Swahili' ? 'Kundi' : 'Category'}
+                      required
+                    />
                     <label>
-                    {language === 'Swahili' ? 'Kundi' : 'Category'}
-                    <select name="category" value={formData.category.id} required onChange={e => setFormData({
-                      ...formData,
-                      category: { ...formData.category, id: Number(e.target.value) }
-                    })}>
-                      <option value="">{language === 'Swahili' ? '-- Chagua Kundi --' : '-- Select Category --'}</option>
-                      {
-                        !catLoading && categories.all.map((item:any,index:number)=> (
-                          <option value={item.id} key={index}>{language==="Swahili"?item.swahili:item.english}</option>
-                        ))
-                      }
-                    </select>
-                  </label>
-                  <label>
-                    {language === 'Swahili' ? 'Mwisho wa Matumizi (Sio Lazima)' : 'Expire Date (optional)'}
-                    <input type="date" name="expire_date" value={formData.expire_date} onChange={e => setFormData({...formData,expire_date: e.target.value})} />
-                  </label>
+                      {language === 'Swahili' ? 'Mwisho wa Matumizi (Sio Lazima)' : 'Expire Date (optional)'}
+                      <input type="date" name="expire_date" value={formData.expire_date} onChange={e => setFormData({ ...formData, expire_date: e.target.value })} />
+                    </label>
                   </div>
                   <label>
                     {language === 'Swahili' ? 'Maelezo (Sio Lazima)' : 'Description (optional)'}
-                    <textarea name="description" value={formData.description} onChange={e => setFormData({...formData,description: e.target.value})} />
+                    <textarea name="description" value={formData.description} onChange={e => setFormData({ ...formData, description: e.target.value })} />
                   </label>
                 </div>
               </div>
-
-              {/* Actions */}
               <div className={styles.modal_actions}>
                 <button type="button" onClick={() => setShowModal(false)} className={styles.cancelBtn}>
                   {language === 'Swahili' ? 'Ghairi' : 'Cancel'}
                 </button>
-                <button type="submit" className={styles.submitBtn}>
+                <button type="submit" className={styles.submitBtn} disabled={createLoading}>
                   {createLoading ? <span className={styles.spinner}></span> : (language === 'Swahili' ? 'Ongeza' : 'Submit')}
                 </button>
               </div>

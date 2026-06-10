@@ -40,8 +40,8 @@
   }
 
   .logo {
-    width: 300px;
-    height: 300px;
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
     background: $mainColor;
     display: flex;
@@ -79,7 +79,10 @@
       animation: glowRing 3s ease-in-out infinite 2s;
       pointer-events: none;
     }
-
+    @include mobile{
+      width: 150px;
+      height: 150px;
+    }
     img {
       width: 92%;
       height: 92%;
@@ -104,17 +107,20 @@
     
     span {
       display: block;
-      font-size: 14px;
+      font-size: 10px;
       font-weight: 400;
       letter-spacing: 2px;
       color: rgba(255, 255, 255, 0.6);
       text-transform: uppercase;
       margin-bottom: 6px;
+      @include mobile{
+        font-size: 10px;
+      }
     }
     
     strong {
       display: block;
-      font-size: 22px;
+      font-size: 18px;
       font-weight: 600;
       letter-spacing: 1px;
       background: linear-gradient(135deg, #fff, rgba($mainColor, 0.8));
@@ -122,6 +128,9 @@
       background-clip: text;
       color: transparent;
       text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      @include mobile{
+        font-size: 15px;
+      }
     }
   }
 }
