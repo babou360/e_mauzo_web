@@ -29,9 +29,8 @@ interface Sale {
   products: Product[];
   total_price: number;
   discount: number;
-  seller_id: string;
-  buyer_name?: string;
-  buyer_phone?: string;
+  seller: any;
+  buyer?: any;
   paid: boolean;
   payment_method?: string;
   createdAt?: string;
@@ -61,6 +60,8 @@ interface Fields {
   isPaid: string;
   paymentMethod: string;
   order_no: string;
+  toggleType: number;
+  paidAmount: number;
 }
 
 interface Duration {
@@ -92,8 +93,10 @@ const Sales: React.FC = () => {
     discount: 0,
     clientType: 'old',
     isPaid: 'Cash',
-    paymentMethod: '',
-    order_no: ''
+    paymentMethod: 'Cash',
+    order_no: '',
+    toggleType: 1,
+    paidAmount: 0
   });
   const [sellerId, setSellerId] = useState<string>('all');
   const [paymentFilter, setPaymentFilter] = useState<'all' | 'cash' | 'loan'>('all');
@@ -155,8 +158,13 @@ const Sales: React.FC = () => {
       buyer_phone: buyerPhone,
       isPaid: fields.isPaid === 'Cash' ? true : false,
       payment_method: fields.paymentMethod,
+      paid_amount: fields.paidAmount
     },
   });
+
+  useEffect(()=> {
+    console.log('sales data ',salesData)
+  },[salesData])
 
   const handleSelect = (item: Product) => {
     setFields((prev) => {
@@ -180,32 +188,45 @@ const Sales: React.FC = () => {
     });
   };
 
+  const handleToggle = () => {
+    if(fields.toggleType===1){
+      setFields({...fields,toggleType: 0.25})
+    }else{
+      setFields({...fields,toggleType: 1})
+    }
+  }
+
   const handleQuantityChange = (isIncrease: boolean, item: Product) => {
-    setFields((prev) => ({
-      ...prev,
-      products: prev.products.map((product) => {
-        if (product.id !== item.id) return product;
+  setFields((prev) => ({
+    ...prev,
+    products: prev.products.map((product) => {
+      if (product.id !== item.id) return product;
 
-        const maxQuantity = productsData?.data.find((p: { id: number }) => p.id === item.id)?.quantity || 0;
-        let newQuantity = product.quantity;
+      const maxQuantity = productsData?.data.find((p: { id: number }) => p.id === item.id)?.quantity || 0;
+      let newQuantity = product.quantity;
+      
+      // Determine the step value based on toggleType
+      const step = prev.toggleType === 0.25 ? 0.25 : 1;
 
-        if (isIncrease) {
-          if (newQuantity < maxQuantity) {
-            newQuantity += 0.25;
-          } else {
-            setError({ message: 'Cannot exceed available quantity', title: 'Error' });
-          }
+      if (isIncrease) {
+        if (newQuantity + step <= maxQuantity) {
+          newQuantity += step;
         } else {
-          newQuantity = Math.max(0.25, newQuantity - 0.25);
-          if (newQuantity < 0.25) {
-            setError({ message: 'Quantity cannot be less than 0.25', title: 'Error' });
-          }
+          setError({ message: 'Cannot exceed available quantity', title: 'Error' });
         }
+      } else {
+        const minQuantity = step === 0.25 ? 0.25 : 1;
+        if (newQuantity - step >= minQuantity) {
+          newQuantity -= step;
+        } else {
+          setError({ message: `Quantity cannot be less than ${minQuantity}`, title: 'Error' });
+        }
+      }
 
-        return { ...product, quantity: newQuantity };
-      }),
-    }));
-  };
+      return { ...product, quantity: newQuantity };
+    }),
+  }));
+};
 
   const handleNext = () => {
     if (fields.products.length > 0) {
@@ -236,7 +257,7 @@ const Sales: React.FC = () => {
         <head><title>Receipt</title></head>
         <body style="font-family: Arial, sans-serif; padding: 20px;">
           <h1 style="text-align: center;">Receipt</h1>
-          <p><strong>Customer:</strong> ${sale.buyer_name || 'N/A'} - ${sale.buyer_phone || 'N/A'}</p>
+          <p><strong>Customer:</strong> ${sale.buyer.name || 'N/A'} - ${sale.buyer.phone || 'N/A'}</p>
           <p><strong>Shop:</strong> ${selected?.name || 'Shop'}</p>
           <p><strong>Address:</strong> Address</p>
           <p><strong>Phone:</strong> 1 012 345 67 89</p>
@@ -613,11 +634,25 @@ const Sales: React.FC = () => {
                     <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                   </svg>
                 </div>
+                <div className={styles.second}>
+                   <div 
+                    className={styles.toggleSwitch} 
+                    onClick={handleToggle}
+                  >
+                    <div className={styles.valueDisplay}>
+                      {fields.toggleType}
+                    </div>
+
+                    <div className={`${styles.switch} ${fields.toggleType === 0.25 ? styles.active : ''}`}>
+                      <div className={styles.knob} />
+                    </div>
+                  </div>
                 {fields.products.length > 0 && (
                   <button className={styles.submit} onClick={handleNext}>
                     {sellLoading ? (language === 'Swahili' ? 'Inapakia...' : 'Loading...') : (language === 'Swahili' ? 'Endelea' : 'Next')}
                   </button>
                 )}
+                </div>
               </div>
               {fields.products.length > 0 && (
                 <div className={styles.selected_list}>
@@ -636,7 +671,7 @@ const Sales: React.FC = () => {
                       <p>{language === 'Swahili' ? 'Inapakia bidhaa...' : 'Loading products...'}</p>
                     </div>
                   ) : (
-                    productsData?.data
+                    productsData?.all
                       .filter((p: { id: number }) => fields.products.some((item) => item.id === p.id))
                       .map((item: Product, index: number) => (
                         <div className={styles.list_item} key={item.id}>
@@ -655,11 +690,11 @@ const Sales: React.FC = () => {
                           <div className={styles.inside_item}>{item.selling_price.toLocaleString()} TZS</div>
                           <div className={styles.inside_item}>
                             <div className={styles.item_button}>
-                              <button className={styles.button} onClick={() => handleQuantityChange(false, item)}>
+                              <button className={cx(styles.button,styles.decrease)} onClick={() => handleQuantityChange(false, item)}>
                                 -
                               </button>
                               <p>{fields.products.find((p) => p.id === item.id)?.quantity.toFixed(2) || '0.00'}</p>
-                              <button className={styles.button} onClick={() => handleQuantityChange(true, item)}>
+                              <button className={cx(styles.button,styles.increase)} onClick={() => handleQuantityChange(true, item)}>
                                 +
                               </button>
                             </div>
@@ -786,8 +821,7 @@ const Sales: React.FC = () => {
                 {fields.clientType === 'new' && (
                   <div className={styles.input_group}>
                     <label>
-                      {language === 'Swahili' ? 'Jina la Mteja' : 'Client Name'}{' '}
-                      <span>({language === 'Swahili' ? 'Hiari' : 'Optional'})</span>
+                      {language === 'Swahili' ? 'Jina la Mteja' : 'Client Name'}
                       <input
                         type="text"
                         placeholder={language === 'Swahili' ? 'Jina la Mteja' : 'Client Name'}
@@ -796,8 +830,7 @@ const Sales: React.FC = () => {
                       />
                     </label>
                     <label>
-                      {language === 'Swahili' ? 'Namba ya Simu' : 'Phone Number'}{' '}
-                      <span>({language === 'Swahili' ? 'Hiari' : 'Optional'})</span>
+                      {language === 'Swahili' ? 'Namba ya Simu' : 'Phone Number'}
                       <input
                         type="text"
                         placeholder={language === 'Swahili' ? 'Namba ya Simu' : 'Phone Number'}
@@ -812,8 +845,7 @@ const Sales: React.FC = () => {
                 <h3 className={styles.title}>{language === 'Swahili' ? 'Punguzo' : 'Discount'}</h3>
                 <div className={styles.input_group}>
                   <label>
-                    {language === 'Swahili' ? 'Ingiza Punguzo' : 'Enter Discount'}{' '}
-                    <span>({language === 'Swahili' ? 'Hiari' : 'Optional'})</span>
+                    {language === 'Swahili' ? 'Ingiza Punguzo' : 'Enter Discount'}
                     <div className={styles.price_input}>
                       <span className={styles.currency}>TZS</span>
                       <input
@@ -862,7 +894,22 @@ const Sales: React.FC = () => {
                     </div>
                   </label>
                 </div>
-                {fields.isPaid === 'Cash' && (
+                {
+                  fields.isPaid==="Loan" && 
+                  <div className={styles.initial_pay}>
+                    <div className={styles.label}>
+                      <p>{language === 'Swahili' ? 'Kiasi Kilicho Lipwa' : 'Initial Payment'}</p>
+                      <span>{language === 'Swahili' ? '(Hiari)' : '(Optional)'}</span>
+                    </div>
+                    <input
+                        type="number"
+                        value={fields.paidAmount}
+                        onChange={(e) => setFields({ ...fields, paidAmount: Number(e.target.value) })}
+                        placeholder={language === 'Swahili' ? 'Kiasi Kilicho Lipwa' : 'Initial Payment'}
+                        min="0"
+                      />
+                  </div>
+                }
                   <label>
                     {language === 'Swahili' ? 'Njia ya Malipo' : 'Payment Method'}
                     <select
@@ -882,7 +929,6 @@ const Sales: React.FC = () => {
                       ))}
                     </select>
                   </label>
-                )}
               </div>
               <div className={styles.modal_actions}>
                 <button
@@ -933,11 +979,11 @@ const Sales: React.FC = () => {
                 <div className={styles.divider}></div>
                 <div className={styles.info_row}>
                   <span className={styles.info_label}>{language === 'Swahili' ? 'Jina' : 'Name'}</span>
-                  <span className={styles.info_value}>{selectedSale.buyer_name || 'N/A'}</span>
+                  <span className={styles.info_value}>{selectedSale.buyer !== null ?selectedSale.buyer.name : 'N/A'}</span>
                 </div>
                 <div className={styles.info_row}>
                   <span className={styles.info_label}>{language === 'Swahili' ? 'Simu' : 'Phone'}</span>
-                  <span className={styles.info_value}>{selectedSale.buyer_phone || 'N/A'}</span>
+                  <span className={styles.info_value}>{selectedSale.buyer !==null?selectedSale.buyer.phone : 'N/A'}</span>
                 </div>
               </div>
               <div className={styles.info_card}>
@@ -946,7 +992,7 @@ const Sales: React.FC = () => {
                 <div className={styles.info_row}>
                   <span className={styles.info_label}>{language === 'Swahili' ? 'Muuzaji' : 'Seller'}</span>
                   <span className={styles.info_value}>
-                    {attendantsData?.data.find((a: Attendant) => a.id.toString() === selectedSale.seller_id)?.name || 'N/A'}
+                    {selectedSale.seller || 'N/A'}
                   </span>
                 </div>
                 <div className={styles.info_row}>

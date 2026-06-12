@@ -9,6 +9,7 @@ import {
   Lock,
   Building2,
   ChevronRight,
+  DollarSign,
 } from 'lucide-react'
 
 const termsContent = {
@@ -112,6 +113,63 @@ const termsContent = {
           title: '19. Contact Information',
           body:
             'For questions regarding these Terms, please contact Bazenga support.',
+        },
+      ],
+      'Refund Policy': [
+        {
+          title: '1. General Refund Policy',
+          body:
+            'Bazenga offers subscription-based services. Unless otherwise stated, all subscription fees are non-refundable. However, we may consider refunds on a case-by-case basis for unused portions of a subscription term.',
+        },
+        {
+          title: '2. 14-Day Money-Back Guarantee',
+          body:
+            'New subscribers may request a full refund within 14 days of their first payment if they are not satisfied with the service. This guarantee applies only to the initial subscription and not to renewals.',
+        },
+        {
+          title: '3. Partial Refunds',
+          body:
+            'If you cancel your subscription mid-cycle, you will not receive a refund for the remaining days of the current billing period. Your access will continue until the end of the paid period.',
+        },
+        {
+          title: '4. Service Downtime Refunds',
+          body:
+            'If Bazenga experiences a total service outage exceeding 48 consecutive hours due to our fault, you may be eligible for a pro-rated refund or service credit for the downtime period.',
+        },
+        {
+          title: '5. Technical Issues',
+          body:
+            'If a critical feature is non-functional and we cannot resolve it within a reasonable timeframe (typically 7 business days), you may request a partial or full refund for the affected period.',
+        },
+        {
+          title: '6. Duplicate Charges',
+          body:
+            'In the event of an accidental duplicate charge, we will refund the extra amount immediately upon verification. Please contact support within 30 days of the charge.',
+        },
+        {
+          title: '7. Fraudulent or Unauthorized Charges',
+          body:
+            'If you believe a charge was made fraudulently or without your authorization, please notify us immediately. After verification, we will refund the full amount and secure your account.',
+        },
+        {
+          title: '8. How to Request a Refund',
+          body:
+            'To request a refund, contact Bazenga support with your account email, transaction ID (if available), and a detailed reason for the request. Refund requests must be submitted within 60 days of the original charge.',
+        },
+        {
+          title: '9. Processing Time',
+          body:
+            'Approved refunds will be processed within 7-14 business days to the original payment method. Depending on your bank, it may take additional time for the refund to appear in your account.',
+        },
+        {
+          title: '10. Changes to Refund Policy',
+          body:
+            'Bazenga reserves the right to modify this Refund Policy at any time. Changes become effective immediately upon posting. Continued use of the service constitutes acceptance of the updated policy.',
+        },
+        {
+          title: '11. Contact for Refund Questions',
+          body:
+            'For all refund-related inquiries, please email our support team. We aim to respond to all refund requests within 2 business days.',
         },
       ],
     },
@@ -219,6 +277,63 @@ const termsContent = {
             'Kwa maswali kuhusu masharti haya, wasiliana na timu ya Bazenga.',
         },
       ],
+      'Sera ya Marejesho': [
+        {
+          title: '1. Sera Kuu ya Marejesho',
+          body:
+            'Bazenga inatoa huduma za usajili. Isipokuwa kama imeelezwa vinginevyo, ada zote za usajili hazirejeshwi. Hata hivyo, tunaweza kuzingatia marejesho kwa kila kesi kwa sehemu ambazo hazijatumika.',
+        },
+        {
+          title: '2. Dhamana ya Marejesho ya Siku 14',
+          body:
+            'Wateja wapya wanaweza kuomba marejesho kamili ndani ya siku 14 tangu malipo yao ya kwanza kama hawaridhiki na huduma. Dhamana hii inatumika tu kwa usajili wa kwanza na si kwa usajili unaofuata.',
+        },
+        {
+          title: '3. Marejesho ya Sehemu',
+          body:
+            'Ukighairi usajili wako katikati ya mzunguko, hutapata marejesho kwa siku zilizobaki za kipindi cha malipo cha sasa. Ufikiaji wako utaendelea hadi mwisho wa kipindi ulicholipa.',
+        },
+        {
+          title: '4. Marejesho kwa Muda wa Huduma Ulikatika',
+          body:
+            'Ikiwa Bazenga itakuwa na usumbufu kamili wa huduma unaozidi saa 48 mfululizo kutokana na makosa yetu, unaweza kustahiki marejesho au mkopo wa huduma kwa kipindi hicho.',
+        },
+        {
+          title: '5. Changamoto za Kiufundi',
+          body:
+            'Ikiwa kipengele muhimu hakifanyi kazi na hatuwezi kukitatua kwa muda unaokubalika (kawaida siku 7 za kazi), unaweza kuomba marejesho kamili au ya sehemu kwa kipindi kilichoathirika.',
+        },
+        {
+          title: '6. Malipo Yanayorudiwa kwa Makosa',
+          body:
+            'Ikitokea malipo yanayorudiwa kwa makosa, tutarejesha kiasi cha ziada mara moja baada ya uthibitisho. Tafadhali wasiliana na msaada ndani ya siku 30 tangu malipo.',
+        },
+        {
+          title: '7. Malipo ya Ulaghai au Bila Idhini',
+          body:
+            'Ikiwa unaamini malipo yalifanywa kwa ulaghai au bila idhini yako, tafadhali tujulishe mara moja. Baada ya uthibitisho, tutarejesha kiasi chote na kulinda akaunti yako.',
+        },
+        {
+          title: '8. Jinsi ya Kuomba Marejesho',
+          body:
+            'Kuomba marejesho, wasiliana na msaada wa Bazenga kwa barua pepe yako ya akaunti, kitambulisho cha malipo (kikipatikana), na sababu ya kina ya ombi. Maombi ya marejesho lazima yawasilishwe ndani ya siku 60 tangu malipo ya awali.',
+        },
+        {
+          title: '9. Muda wa Usindikaji',
+          body:
+            'Marejesho yaliyokubaliwa yatasindikwa ndani ya siku 7-14 za kazi kwa njia ya malipo ya awali. Kulingana na benki yako, inaweza kuchukua muda zaidi kwa marejesho kuonekana katika akaunti yako.',
+        },
+        {
+          title: '10. Mabadiliko ya Sera ya Marejesho',
+          body:
+            'Bazenga inahaki ya kubadilisha Sera hii ya Marejesho wakati wowote. Mabadiliko yanaanza kutumika mara baada ya kuchapishwa. Kuendelea kutumia huduma kunamaanisha kukubali sera iliyobadilishwa.',
+        },
+        {
+          title: '11. Mawasiliano kwa Maswali ya Marejesho',
+          body:
+            'Kwa maswali yote kuhusu marejesho, tafadhali wasiliana na timu yetu ya msaada. Tunajitahidi kujibu maombi yote ya marejesho ndani ya siku 2 za kazi.',
+        },
+      ],
     },
   },
 }
@@ -278,15 +393,15 @@ function TermsAndConditionsPage() {
           : 'Privacy comes first',
     },
     {
-      icon: <Building2 size={24} />,
+      icon: <DollarSign size={24} />,
       title:
         language === 'Swahili'
-          ? 'Biashara'
-          : 'Business',
+          ? 'Marejesho'
+          : 'Refunds',
       description:
         language === 'Swahili'
-          ? 'Mfumo wa biashara'
-          : 'Business management',
+          ? 'Sera ya marejesho ya fedha'
+          : 'Money-back policy',
     },
   ]
 

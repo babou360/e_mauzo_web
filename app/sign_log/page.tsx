@@ -328,6 +328,11 @@ function SignLog() {
 
       <div className={styles.rightSection}>
         <div className={styles.formContainer}>
+          <div className={styles.logo}>
+            <div className={styles.inside_logo}>
+              <img src="/white.png" alt="" />
+            </div>
+          </div>
           <div className={styles.topTabs}>
             <button
               className={cx(

@@ -1,12 +1,25 @@
 @import '../../global.scss';
 
 $primary: #505BE3;
+$primary-light: #6974ff;
+$primary-dark: #3844d6;
+$gradient-start: #505BE3;
+$gradient-end: #3844d6;
+$text-dark: #111827;
+$text-gray: #6b7280;
+$text-light: #4b5563;
+$border-light: #e5e7eb;
+$bg-light: #fafbff;
+$bg-gray: #f5f7ff;
+$shadow-sm: 0 10px 30px rgba(80, 91, 227, 0.12);
+$shadow-md: 0 18px 40px rgba(80, 91, 227, 0.28);
+$shadow-lg: 0 25px 50px rgba(0, 0, 0, 0.12);
 
 .authContainer {
   width: 100%;
   min-height: 100vh;
   display: flex;
-  background: #f5f7ff;
+  background: $bg-gray;
 
   @include mobile {
     flex-direction: column;
@@ -14,15 +27,10 @@ $primary: #505BE3;
 }
 
 .leftSection {
-  width: 55%;
+  width: 45%;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(
-    135deg,
-    #505BE3 0%,
-    #3844d6 45%,
-    #6974ff 100%
-  );
+  background: linear-gradient(135deg, $gradient-start 0%, $primary-dark 45%, $primary-light 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -30,9 +38,7 @@ $primary: #505BE3;
   color: white;
 
   @include mobile {
-    width: 100%;
-    min-height: 320px;
-    padding: 2rem;
+    display: none;
   }
 
   &::before {
@@ -129,22 +135,63 @@ $primary: #505BE3;
 }
 
 .rightSection {
-  width: 45%;
+  flex: 1;
   background: white;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 2rem;
+  min-height: 100vh;
 
   @include mobile {
     width: 100%;
     padding: 1.5rem;
+    min-height: 100vh;
   }
 
   .formContainer {
     width: 100%;
     max-width: 470px;
     animation: fadeIn 0.5s ease;
+    margin: 0 auto;
+
+    @include mobile {
+      max-width: 100%;
+      padding: 0 0.5rem;
+    }
+
+    // Logo wrapper - centered and improved
+    .logo {
+      width: 90px;
+      height: 90px;
+      background: $primary;
+      border-radius: 50%;
+      margin: 0 auto 1.5rem auto;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 25px -5px rgba(80, 91, 227, 0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+      &:hover {
+        transform: scale(1.02);
+        box-shadow: 0 15px 30px -5px rgba(80, 91, 227, 0.4);
+      }
+
+      .inside_logo {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        overflow: hidden;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+    }
 
     .topTabs {
       background: #f2f4ff;
@@ -161,29 +208,38 @@ $primary: #505BE3;
         border-radius: 14px;
         cursor: pointer;
         font-weight: 700;
-        color: #6b7280;
+        color: $text-gray;
         transition: 0.3s ease;
 
         &.activeTab {
           background: white;
           color: $primary;
-          box-shadow: 0 10px 30px rgba(80, 91, 227, 0.12);
+          box-shadow: $shadow-sm;
         }
       }
     }
 
     .formHeader {
       margin-bottom: 2rem;
+      text-align: center;
+
+      @include mobile {
+        text-align: center;
+      }
 
       h2 {
-        font-size: 2.1rem;
+        font-size: 2rem;
         font-weight: 800;
-        color: #111827;
+        color: $text-dark;
         margin-bottom: 0.55rem;
+
+        @include mobile {
+          font-size: 1.75rem;
+        }
       }
 
       p {
-        color: #6b7280;
+        color: $text-gray;
         line-height: 1.7;
       }
     }
@@ -201,15 +257,15 @@ $primary: #505BE3;
         label {
           font-size: 0.92rem;
           font-weight: 700;
-          color: #374151;
+          color: $text-light;
         }
       }
 
       .inputBox {
-        height: 60px;
+        height: 56px;
         border-radius: 18px;
-        border: 1px solid #e5e7eb;
-        background: #fafbff;
+        border: 1px solid $border-light;
+        background: $bg-light;
         display: flex;
         align-items: center;
         gap: 0.8rem;
@@ -234,7 +290,7 @@ $primary: #505BE3;
           outline: none;
           background: transparent;
           font-size: 1rem;
-          color: #111827;
+          color: $text-dark;
 
           &::placeholder {
             color: #9ca3af;
@@ -245,6 +301,19 @@ $primary: #505BE3;
       .phoneGroup {
         display: flex;
         gap: 0.8rem;
+        flex-wrap: wrap;
+
+        @include mobile {
+          flex-direction: column;
+        }
+
+        .countryPicker {
+          flex-shrink: 0;
+          
+          @include mobile {
+            width: 100%;
+          }
+        }
 
         .inputBox {
           flex: 1;
@@ -255,12 +324,16 @@ $primary: #505BE3;
         position: relative;
         width: 145px;
 
+        @include mobile {
+          width: 100%;
+        }
+
         .countryButton {
           width: 100%;
-          height: 60px;
+          height: 56px;
           border-radius: 18px;
-          border: 1px solid #e5e7eb;
-          background: #fafbff;
+          border: 1px solid $border-light;
+          background: $bg-light;
           display: flex;
           align-items: center;
           justify-content: space-between;
@@ -277,12 +350,12 @@ $primary: #505BE3;
             align-items: center;
             gap: 0.55rem;
             font-weight: 700;
-            color: #374151;
+            color: $text-light;
           }
 
           .chevron {
             transition: 0.3s ease;
-            color: #6b7280;
+            color: $text-gray;
 
             &.rotate {
               transform: rotate(180deg);
@@ -297,13 +370,19 @@ $primary: #505BE3;
           width: 320px;
           background: white;
           border-radius: 22px;
-          box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12);
+          box-shadow: $shadow-lg;
           border: 1px solid #eef1f6;
           overflow: hidden;
           z-index: 100;
 
+          @include mobile {
+            width: 100%;
+            left: 0;
+            right: 0;
+          }
+
           .searchCountry {
-            height: 60px;
+            height: 56px;
             border-bottom: 1px solid #f1f3f8;
             display: flex;
             align-items: center;
@@ -324,7 +403,7 @@ $primary: #505BE3;
           }
 
           .countryList {
-            max-height: 300px;
+            max-height: 280px;
             overflow-y: auto;
 
             &::-webkit-scrollbar {
@@ -340,7 +419,7 @@ $primary: #505BE3;
               width: 100%;
               border: none;
               background: white;
-              padding: 1rem;
+              padding: 0.85rem 1rem;
               display: flex;
               align-items: center;
               justify-content: space-between;
@@ -358,18 +437,21 @@ $primary: #505BE3;
                 text-align: left;
 
                 span {
-                  font-size: 1.4rem;
+                  font-size: 1.3rem;
                 }
 
-                h4 {
-                  font-size: 0.96rem;
-                  color: #111827;
-                  margin-bottom: 0.15rem;
-                }
+                div {
+                  h4 {
+                    font-size: 0.95rem;
+                    color: $text-dark;
+                    margin-bottom: 0.15rem;
+                    font-weight: 600;
+                  }
 
-                p {
-                  font-size: 0.82rem;
-                  color: #6b7280;
+                  p {
+                    font-size: 0.8rem;
+                    color: $text-gray;
+                  }
                 }
               }
 
@@ -387,17 +469,17 @@ $primary: #505BE3;
         gap: 1rem;
 
         .selectButton {
-          height: 58px;
+          height: 56px;
           border-radius: 18px;
-          border: 1px solid #e5e7eb;
-          background: #fafbff;
+          border: 1px solid $border-light;
+          background: $bg-light;
           display: flex;
           align-items: center;
           justify-content: center;
           gap: 0.65rem;
           cursor: pointer;
           font-weight: 700;
-          color: #4b5563;
+          color: $text-light;
           transition: 0.3s ease;
 
           &:hover {
@@ -417,35 +499,35 @@ $primary: #505BE3;
         align-items: center;
         gap: 0.7rem;
         font-size: 0.93rem;
-        color: #4b5563;
+        color: $text-light;
         margin-top: 0.3rem;
 
         input {
           accent-color: $primary;
           width: 18px;
           height: 18px;
+          cursor: pointer;
         }
 
-        a {
-          color: $primary;
-          text-decoration: none;
-          font-weight: 700;
+        span {
+          a {
+            color: $primary;
+            text-decoration: none;
+            font-weight: 700;
+            margin-left: 0.25rem;
 
-          &:hover {
-            text-decoration: underline;
+            &:hover {
+              text-decoration: underline;
+            }
           }
         }
       }
 
       .submitButton {
-        height: 62px;
+        height: 56px;
         border: none;
         border-radius: 20px;
-        background: linear-gradient(
-          135deg,
-          #505BE3,
-          #3f49d3
-        );
+        background: linear-gradient(135deg, $gradient-start, $primary-dark);
         color: white;
         font-size: 1rem;
         font-weight: 700;
@@ -456,16 +538,17 @@ $primary: #505BE3;
         justify-content: center;
         gap: 0.7rem;
         transition: 0.3s ease;
-        box-shadow: 0 18px 40px rgba(80, 91, 227, 0.28);
+        box-shadow: $shadow-md;
 
-        &:hover {
+        &:hover:not(:disabled) {
           transform: translateY(-2px);
           box-shadow: 0 22px 50px rgba(80, 91, 227, 0.35);
         }
 
-        &.disabled {
+        &:disabled {
           opacity: 0.6;
           cursor: not-allowed;
+          transform: none;
         }
       }
     }
@@ -473,7 +556,7 @@ $primary: #505BE3;
     .bottomText {
       margin-top: 2rem;
       text-align: center;
-      color: #6b7280;
+      color: $text-gray;
       font-size: 0.95rem;
 
       button {
@@ -492,12 +575,134 @@ $primary: #505BE3;
   }
 }
 
+// When login is active on mobile, ensure full white background and centered content
+@media (max-width: 768px) {
+  .rightSection {
+    width: 100%;
+    min-height: 100vh;
+    padding: 1.5rem;
+    
+    .formContainer {
+      max-width: 100%;
+      margin: auto;
+      
+      .authForm {
+        .phoneGroup {
+          flex-direction: column;
+        }
+        
+        .selectionGrid {
+          gap: 0.75rem;
+          
+          .selectButton {
+            height: 50px;
+            font-size: 0.9rem;
+          }
+        }
+        
+        .inputBox {
+          height: 52px;
+        }
+      }
+      
+      .bottomText {
+        margin-top: 1.5rem;
+      }
+    }
+  }
+}
+
+// Extra small devices
+@media (max-width: 480px) {
+  .rightSection {
+    padding: 1rem;
+    min-height: 100vh;
+    
+    .formContainer {
+      .logo {
+        width: 70px;
+        height: 70px;
+        padding: 10px;
+        margin-bottom: 1rem;
+      }
+      
+      .topTabs {
+        .tabButton {
+          height: 48px;
+          font-size: 0.9rem;
+        }
+      }
+      
+      .formHeader {
+        margin-bottom: 1.5rem;
+        
+        h2 {
+          font-size: 1.5rem;
+        }
+        
+        p {
+          font-size: 0.85rem;
+        }
+      }
+      
+      .authForm {
+        gap: 1rem;
+        
+        .inputWrapper {
+          label {
+            font-size: 0.85rem;
+          }
+        }
+        
+        .inputBox {
+          height: 48px;
+          padding: 0 0.85rem;
+          
+          svg {
+            width: 16px;
+            height: 16px;
+          }
+          
+          input {
+            font-size: 0.9rem;
+          }
+        }
+        
+        .selectionGrid {
+          .selectButton {
+            height: 46px;
+            font-size: 0.85rem;
+            
+            svg {
+              width: 16px;
+              height: 16px;
+            }
+          }
+        }
+        
+        .terms {
+          font-size: 0.85rem;
+        }
+        
+        .submitButton {
+          height: 50px;
+          font-size: 0.95rem;
+        }
+      }
+      
+      .bottomText {
+        font-size: 0.85rem;
+        margin-top: 1.25rem;
+      }
+    }
+  }
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
     transform: translateY(15px);
   }
-
   to {
     opacity: 1;
     transform: translateY(0);

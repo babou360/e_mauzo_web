@@ -1,5 +1,7 @@
+// layout_component.module.scss
 @import '../../global.scss';
 
+// Variables
 $primary-color: #4f46e5;
 $mainColor: #505BE3;
 $sidebar-width: 280px;
@@ -7,6 +9,39 @@ $sidebar-compact: 84px;
 $header-height: 92px;
 $mobile-breakpoint: 768px;
 
+// Mixins
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin glass-effect {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: saturate(1.5) blur(6px);
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+// Main Layout Container
 .layout {
   width: 100vw;
   height: 100vh;
@@ -16,28 +51,8 @@ $mobile-breakpoint: 768px;
   overflow: hidden;
 }
 
-/* Full-screen loading while deciding redirect */
-.loadingWrapper {
-  width: 100vw;
-  height: 100vh;
-  background: #f8fafc;
-  display: grid;
-  place-items: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 9999;
-
-  .spinner {
-    width: 50px;
-    height: 50px;
-    border: 5px solid #e2e8f0;
-    border-top: 5px solid $primary-color;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-  }
-}
-
+// Loading States
+.loadingWrapper,
 .loadingScreen {
   width: 100vw;
   height: 100vh;
@@ -59,17 +74,13 @@ $mobile-breakpoint: 768px;
   }
 }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
+// Container
 .container {
   display: flex;
   width: 100%;
   height: 100%;
   position: relative;
 
-  /* Full-width mode: sign_log, verify, subscription */
   &.fullWidth {
     .content {
       margin-left: 0 !important;
@@ -80,6 +91,7 @@ $mobile-breakpoint: 768px;
   }
 }
 
+// Hamburger Menu Button
 .hamburger {
   display: none;
   position: fixed;
@@ -98,6 +110,7 @@ $mobile-breakpoint: 768px;
   }
 }
 
+// Sidebar
 .sidebar {
   width: $sidebar-width;
   height: 100vh;
@@ -123,6 +136,7 @@ $mobile-breakpoint: 768px;
   }
 }
 
+// Sidebar Header
 .sidebarHeader {
   display: flex;
   align-items: center;
@@ -153,13 +167,13 @@ $mobile-breakpoint: 768px;
     width: 36px;
     height: 36px;
     border-radius: 10px;
-    display: grid;
-    place-items: center;
+    @include flex-center;
     font-weight: 800;
     color: #ffffff;
     background: $primary-color;
-    box-shadow: 0 1px 2px rgba(0,0,0,.06);
-    img{
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+
+    img {
       width: 100%;
       height: 100%;
       object-fit: contain;
@@ -167,6 +181,7 @@ $mobile-breakpoint: 768px;
   }
 }
 
+// Navigation
 .navigation {
   flex: 1;
   padding: 16px 0;
@@ -202,6 +217,7 @@ $mobile-breakpoint: 768px;
   }
 }
 
+// Navigation Link
 .navLink {
   display: flex;
   align-items: center;
@@ -233,6 +249,7 @@ $mobile-breakpoint: 768px;
   white-space: nowrap;
 }
 
+// Global Tooltip
 .globalTooltip {
   position: fixed;
   transform: translateY(-50%);
@@ -243,29 +260,30 @@ $mobile-breakpoint: 768px;
   font-size: 13px;
   white-space: nowrap;
   pointer-events: none;
-  box-shadow: 0 8px 24px rgba(0,0,0,.2);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
   z-index: 1000;
   display: inline-flex;
   align-items: center;
   gap: 8px;
+
+  .globalTooltipArrow {
+    position: absolute;
+    left: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-right: 6px solid $mainColor;
+  }
+
+  .globalTooltipText {
+    line-height: 1;
+  }
 }
 
-.globalTooltipArrow {
-  position: absolute;
-  left: -6px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 0;
-  height: 0;
-  border-top: 6px solid transparent;
-  border-bottom: 6px solid transparent;
-  border-right: 6px solid $mainColor;
-}
-
-.globalTooltipText {
-  line-height: 1;
-}
-
+// Main Content Area
 .content {
   flex: 1;
   height: 100vh;
@@ -287,30 +305,33 @@ $mobile-breakpoint: 768px;
   }
 }
 
+// Header
 .header {
   position: sticky;
   top: 0;
   height: $header-height;
-  background: #ffffffaa;
-  backdrop-filter: saturate(1.5) blur(6px);
+  @include glass-effect;
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
   z-index: 20;
   display: flex;
   align-items: center;
   padding: 0 28px;
-  transition: background .25s ease, height .25s ease, padding .25s ease;
+  transition: background 0.25s ease, height 0.25s ease, padding 0.25s ease;
   flex-shrink: 0;
 
   &.scrolled {
     height: 74px;
-    background: #ffffffee;
+    background: rgba(255, 255, 255, 0.95);
     padding: 0 20px;
   }
 
   @media (max-width: $mobile-breakpoint) {
     padding: 0 16px;
     height: 88px;
-    &.scrolled { height: 66px; }
+
+    &.scrolled {
+      height: 66px;
+    }
   }
 }
 
@@ -336,10 +357,9 @@ $mobile-breakpoint: 768px;
   width: 36px;
   height: 36px;
   border-radius: 10px;
-  display: grid;
-  place-items: center;
+  @include flex-center;
   cursor: pointer;
-  box-shadow: 0 1px 2px rgba(0,0,0,.06);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
 }
 
 .businessSelector {
@@ -358,7 +378,7 @@ $mobile-breakpoint: 768px;
 
   p {
     color: #2d2d2d;
-    font-size: .95rem;
+    font-size: 0.95rem;
     font-weight: 600;
     margin: 0;
     white-space: nowrap;
@@ -382,8 +402,13 @@ $mobile-breakpoint: 768px;
   }
 }
 
-.headerRight { display: flex; align-items: center; gap: 10px; }
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
+// User Menu
 .userMenu {
   display: flex;
   align-items: center;
@@ -396,8 +421,16 @@ $mobile-breakpoint: 768px;
   margin-right: 12px;
   text-align: right;
 
-  .greeting { font-size: 12px; color: #64748b; }
-  .userName { font-size: 13px; font-weight: 600; color: #1f2937; }
+  .greeting {
+    font-size: 12px;
+    color: #64748b;
+  }
+
+  .userName {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1f2937;
+  }
 }
 
 .avatar {
@@ -417,15 +450,19 @@ $mobile-breakpoint: 768px;
   cursor: pointer;
   margin-left: 12px;
   transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include flex-center;
   width: 32px;
   height: 32px;
   border-radius: 50%;
 
-  &:hover { background-color: #f1f5f9; }
-  &.active { transform: rotate(180deg); background-color: #f1f5f9; }
+  &:hover {
+    background-color: #f1f5f9;
+  }
+
+  &.active {
+    transform: rotate(180deg);
+    background-color: #f1f5f9;
+  }
 }
 
 .dropdownMenu {
@@ -459,10 +496,13 @@ $mobile-breakpoint: 768px;
       color: $primary-color;
     }
 
-    svg { margin-right: 12px; }
+    svg {
+      margin-right: 12px;
+    }
   }
 }
 
+// Main Wrapper
 .mainWrapper {
   flex: 1;
   display: flex;
@@ -470,6 +510,7 @@ $mobile-breakpoint: 768px;
   min-height: 0;
 }
 
+// Page Content
 .pageContent {
   flex: 1;
   padding: 24px 20px;
@@ -483,7 +524,249 @@ $mobile-breakpoint: 768px;
   }
 }
 
-/* Footer Styles */
+// Floating Button
+// Floating Button - Enhanced with beautiful animations
+.floatingButton {
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+  background: linear-gradient(135deg, $primary-color, $mainColor);
+  color: white;
+  padding: 12px;
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  z-index: 90;
+  border: none;
+  font-weight: 500;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  background: linear-gradient(135deg, rgba(79, 70, 229, 0.95), rgba(80, 91, 227, 0.95));
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s ease;
+  }
+
+  &:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+    background: linear-gradient(135deg, $primary-color, $mainColor);
+
+    &::before {
+      left: 100%;
+    }
+  }
+
+  &:active {
+    transform: translateY(0) scale(0.98);
+  }
+
+  .floatingButtonIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    svg {
+      width: 22px;
+      height: 22px;
+    }
+  }
+
+  .floatingButtonText {
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+
+  @media (max-width: $mobile-breakpoint) {
+    padding: 10px;
+    bottom: 16px;
+    right: 16px;
+
+    .floatingButtonIcon svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .floatingButtonText {
+      font-size: 12px;
+    }
+  }
+}
+
+// Contact Modal
+.contactModalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  z-index: 2000;
+  @include flex-center;
+}
+
+.contactModal {
+  background: #ffffff;
+  border-radius: 24px;
+  width: 90%;
+  max-width: 500px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+
+  @media (max-width: $mobile-breakpoint) {
+    width: 92%;
+    border-radius: 20px;
+  }
+}
+
+.contactModalClose {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: #f1f5f9;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  @include flex-center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 10;
+  color: #64748b;
+
+  &:hover {
+    background: #e2e8f0;
+    transform: scale(1.05);
+  }
+}
+
+.contactModalHeader {
+  background: linear-gradient(135deg, $primary-color, $mainColor);
+  color: white;
+  padding: 32px 24px;
+  text-align: center;
+
+  h2 {
+    margin: 0 0 8px 0;
+    font-size: 28px;
+    font-weight: 700;
+
+    @media (max-width: $mobile-breakpoint) {
+      font-size: 24px;
+    }
+  }
+
+  p {
+    margin: 0;
+    font-size: 14px;
+    opacity: 0.9;
+  }
+}
+
+.contactModalContent {
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.contactInfoItem {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: #f8fafc;
+  border-radius: 16px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: #f1f5f9;
+    transform: translateX(4px);
+  }
+}
+
+.contactInfoIcon {
+  font-size: 32px;
+  width: 50px;
+  height: 50px;
+  @include flex-center;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.contactInfoDetails {
+  flex: 1;
+
+  h4 {
+    margin: 0 0 4px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  a, p {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+    color: #1f2937;
+    text-decoration: none;
+
+    &:hover {
+      color: $primary-color;
+    }
+  }
+
+  a {
+    word-break: break-all;
+  }
+}
+
+.contactModalFooter {
+  padding: 0 24px 24px 24px;
+  @include flex-center;
+}
+
+.contactModalButton {
+  background: $primary-color;
+  color: white;
+  border: none;
+  padding: 12px 32px;
+  border-radius: 40px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+  max-width: 200px;
+
+  &:hover {
+    background: darken($primary-color, 10%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba($primary-color, 0.3);
+  }
+}
+
+// Footer
 .footer {
   background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
   color: #ffffff;
@@ -558,9 +841,7 @@ $mobile-breakpoint: 768px;
   height: 40px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include flex-center;
   color: #ffffff;
   transition: all 0.3s ease;
   font-size: 20px;
@@ -572,15 +853,17 @@ $mobile-breakpoint: 768px;
   }
 }
 
+// Modal Overlay
 .modalOverlay {
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(4px);
   z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include flex-center;
 }
 
 .modalContent {
@@ -594,6 +877,7 @@ $mobile-breakpoint: 768px;
   }
 }
 
+// Business Selection Modal
 .businessSelection {
   width: 100%;
   position: fixed;
@@ -604,18 +888,14 @@ $mobile-breakpoint: 768px;
   background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(8px);
   z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include flex-center;
   animation: fadeIn 0.2s ease;
 
   .container {
     background: white;
     border-radius: 24px;
     position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include flex-center;
     width: 90%;
     height: 300px;
     max-width: 480px;
@@ -642,9 +922,7 @@ $mobile-breakpoint: 768px;
       background: #ef4444;
       color: white;
       border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      @include flex-center;
       font-size: 20px;
       font-weight: bold;
       cursor: pointer;
@@ -665,7 +943,7 @@ $mobile-breakpoint: 768px;
         font-weight: 700;
         text-align: center;
         margin-bottom: 24px;
-        background: linear-gradient(135deg, #482691, #8E44AD);
+        background: linear-gradient(135deg, #482691, #8e44ad);
         background-clip: text;
         -webkit-background-clip: text;
         color: transparent;
@@ -757,25 +1035,5 @@ $mobile-breakpoint: 768px;
         }
       }
     }
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes slideUp {
-  from {
-    transform: translateY(30px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
   }
 }
