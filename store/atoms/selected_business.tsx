@@ -1,33 +1,155 @@
-// store/useErrorStore.js
-import { create } from 'zustand'
+import { create } from 'zustand';
 
-type SelectedBusinessState = {
-  selected: {
-    id: number,
-    name: string,
-    category: string,
-    type: string,
-    country: string,
-    city: string,
-    district: string,
-    ward: string,
-    street: string,
-    latlong: string,
-    phone: string,
-    email: string,
-    status: string,
-    pricingCategory: string,
-    createdAt: string,
-    lastPaid: string
+type OpeningHours = Record<
+  string,
+  {
+    open: string;
+    close: string;
   }
-  setSelected: (selected: any) => void
-  clearBusiness: () => void
+>;
+
+interface type {
+  id: number,
+  slug: string,
+  image: string,
+  status: string,
+  createdAt: string,
+  updatedAt: string,
+  english_name: string,
+  swahili_name: string,
+  english_description: string,
+  swahili_description: string
+}
+interface category {
+  id: number,
+  slug: string,
+  image: string,
+  status: string,
+  createdAt: string,
+  updatedAt: string,
+  english_name: string,
+  swahili_name: string,
+  english_description: string,
+  swahili_description: string
+}
+interface salesCategory {
+  value: string, 
+  english: string, 
+  swahili: string
 }
 
-const useSelectedBusinessStore = create<SelectedBusinessState>((set) => ({
-  selected: {id:0,name: "",category: '',type: '',country: '',city: '',district: '',ward: '',street: '',latlong: '',phone: '',email: '',status:'',pricingCategory:'',createdAt:'',lastPaid: ''},
-  setSelected: (message) => set({ selected: message }),
-  clearBusiness: () => set({ selected: {id:0,name: "",category: '',type: '',country: '',city: '',district: '',ward: '',street: '',latlong: '',phone: '',email: '',status:'',pricingCategory:'',createdAt:'',lastPaid:''}}),
-}))
+type SelectedBusiness = {
+  id: number;
+  name: string;
+  category: category;
+  type: type;
+  country: string;
+  city: string;
+  district: string;
+  ward: string;
+  street: string;
+  latlong: string;
+  phone: string;
+  email: string;
+  status: string;
+  pricingCategory: string;
+  createdAt: string;
+  lastPaid: string;
+  description: string;
+  currency: string;
+  salesCategory: salesCategory;
+  thumbnail: string;
+  slug: string;
+  referralCode: string;
+  deliveryAvailable: boolean;
+  sellsOnline: boolean;
+  alwaysOpen: boolean;
+  isVerified: boolean;
+  openingHours: OpeningHours;
+};
 
-export default useSelectedBusinessStore
+type SelectedBusinessState = {
+  selected: SelectedBusiness;
+  setSelected: (selected: SelectedBusiness) => void;
+  clearBusiness: () => void;
+};
+
+const defaultBusiness: SelectedBusiness = {
+  id: 0,
+  name: '',
+  category: {
+    id: 0,
+    slug: '',
+    image: '',
+    status: '',
+    createdAt: '',
+    updatedAt: '',
+    english_name: '',
+    swahili_name: '',
+    english_description: '',
+    swahili_description: ''
+  },
+  type: {
+    id: 0,
+    slug: '',
+    image: '',
+    status: '',
+    createdAt: '',
+    updatedAt: '',
+    english_name: '',
+    swahili_name: '',
+    english_description: '',
+    swahili_description: ''
+  },
+  country: '',
+  city: '',
+  district: '',
+  ward: '',
+  street: '',
+  latlong: '',
+  phone: '',
+  email: '',
+  status: '',
+  pricingCategory: '',
+  createdAt: '',
+  lastPaid: '',
+  description: '',
+  currency: 'TZS',
+  salesCategory: {
+    value: '',
+    english: '',
+    swahili: ''
+  },
+  deliveryAvailable: false,
+  sellsOnline: false,
+  alwaysOpen: false,
+  openingHours: {
+    mon: { open: '', close: '' },
+    tue: { open: '', close: '' },
+    wed: { open: '', close: '' },
+    thu: { open: '', close: '' },
+    fri: { open: '', close: '' },
+    sat: { open: '', close: '' },
+    sun: { open: '', close: '' },
+  },
+  isVerified: false,
+  thumbnail: '',
+  slug: '',
+  referralCode: ''
+};
+
+const useSelectedBusinessStore = create<SelectedBusinessState>((set) => ({
+  selected: defaultBusiness,
+
+  setSelected: (selected) =>
+    set({
+      selected,
+    }),
+
+  clearBusiness: () =>
+    set({
+      selected: defaultBusiness,
+    }),
+}));
+
+export default useSelectedBusinessStore;

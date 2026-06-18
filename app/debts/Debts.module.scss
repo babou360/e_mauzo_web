@@ -1,0 +1,935 @@
+.container {
+  min-height: 100vh;
+  background-color: #f8fafc;
+}
+
+.loadingContainer {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8fafc;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #e5e7eb;
+  border-top-color: #482691;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+// .searchSpinner {
+//   position: absolute;
+//   right: 16px;
+//   top: 50%;
+//   transform: translateY(-50%);
+//   width: 16px;
+//   height: 16px;
+//   border: 2px solid #e5e7eb;
+//   border-top-color: #482691;
+//   border-radius: 50%;
+//   animation: spin 0.6s linear infinite;
+// }
+
+.buttonSpinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid white;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// App Bar - Fixed overlapping
+.appBar {
+  background-color: white;
+  border-bottom-left-radius: 24px;
+  border-bottom-right-radius: 24px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.appBarContent {
+  padding: 16px 20px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.searchContainer {
+  flex: 1;
+  position: relative;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #482691;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 12px 16px 12px 44px;
+  background-color: #f5f3ff;
+  border: 1px solid rgba(72, 38, 145, 0.2);
+  border-radius: 24px;
+  outline: none;
+  font-size: 16px;
+  color: #1f2937;
+
+  &::placeholder {
+    color: #9ca3af;
+  }
+
+  &:focus {
+    border-color: #482691;
+    background-color: white;
+  }
+}
+
+.countBadge {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, #482691, #5b3ca0);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(72, 38, 145, 0.25);
+  flex-shrink: 0;
+  z-index: 2000;
+  position: relative;
+}
+
+.countText {
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+  position: relative;
+  z-index: 2;
+}
+
+.loader {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top: 3px solid white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+// Content
+.content {
+  padding-bottom: 32px;
+}
+
+// Overview Section
+.overviewSection {
+  padding: 16px 16px 0 16px;
+}
+
+.overviewGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.card {
+  padding: 16px;
+  border-radius: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.totalCard {
+  background: linear-gradient(135deg, #7f1d1d, #991b1b);
+}
+
+.paidCard {
+  background: linear-gradient(135deg, #064e3b, #065f46);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.cardTitle {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.cardIcon {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.cardValue {
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.progressCard {
+  background-color: white;
+  border-radius: 24px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.progressHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.progressTitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.progressPercent {
+  font-size: 13px;
+  font-weight: 600;
+  color: #10b981;
+}
+
+.progressBar {
+  height: 8px;
+  background-color: #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.progressFill {
+  height: 100%;
+  background-color: #10b981;
+  border-radius: 12px;
+  transition: width 0.3s ease;
+}
+
+.progressStats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.statLabel {
+  font-size: 11px;
+  color: #6b7280;
+  margin-bottom: 2px;
+}
+
+.statValuePaid {
+  font-size: 14px;
+  font-weight: 600;
+  color: #10b981;
+}
+
+.statDivider {
+  width: 1px;
+  height: 20px;
+  background-color: #e5e7eb;
+}
+
+.statRight {
+  text-align: right;
+}
+
+.statValueRemaining {
+  font-size: 14px;
+  font-weight: 600;
+  color: #ef4444;
+}
+
+// Duration Selector
+.durationSection {
+  padding: 20px 16px 0 16px;
+}
+
+.durationChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.durationChip {
+  padding: 6px 16px;
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #4b5563;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: #f9fafb;
+  }
+}
+
+.activeChip {
+  background-color: #1f2937;
+  color: white;
+  border-color: transparent;
+}
+
+// Date Range
+.dateRange {
+  padding: 16px;
+  display: flex;
+  gap: 12px;
+}
+
+.dateInput {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 14px;
+  outline: none;
+
+  &:focus {
+    border-color: #482691;
+  }
+}
+
+// Debts List
+.debtsList {
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.debtCard {
+  background-color: white;
+  border-radius: 24px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  }
+}
+
+.debtCardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.orderBadge {
+  background-color: #f3f4f6;
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.statusBadge {
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.completed {
+  background-color: #d1fae5;
+  color: #10b981;
+}
+
+.pending {
+  background-color: #fef3c7;
+  color: #d97706;
+}
+
+.buyerInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  background-color: #f3f4f6;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6b7280;
+  flex-shrink: 0;
+}
+
+.buyerName {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.buyerPhone {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.progressBarSmall {
+  height: 6px;
+  background-color: #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.progressFillSmall {
+  height: 100%;
+  background-color: #10b981;
+  border-radius: 8px;
+  transition: width 0.3s ease;
+}
+
+.amountSection {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.amountLabel {
+  font-size: 11px;
+  color: #6b7280;
+  margin-bottom: 2px;
+}
+
+.amountValue {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.amountRight {
+  text-align: right;
+}
+
+.remainingNegative {
+  color: #ef4444;
+}
+
+.remainingPositive {
+  color: #10b981;
+}
+
+.repayButton {
+  width: 100%;
+  padding: 12px;
+  background-color: transparent;
+  border: 2px solid #482691;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #482691;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: rgba(72, 38, 145, 0.05);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+// Pagination
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 20px 16px;
+}
+
+.pageButton {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #482691;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover:not(.disabled) {
+    background-color: #5b3ca0;
+  }
+}
+
+.disabled {
+  background-color: #f3f4f6;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.pageNumber {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #1f2937;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: #f9fafb;
+  }
+}
+
+.activePage {
+  background-color: #482691;
+  color: white;
+  border-color: transparent;
+}
+
+// Empty State
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+}
+
+.emptyIcon {
+  color: #9ca3af;
+  margin-bottom: 16px;
+}
+
+.emptyText {
+  font-size: 16px;
+  color: #6b7280;
+  text-align: center;
+}
+
+// Modals
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background-color: white;
+  border-top-left-radius: 32px;
+  border-top-right-radius: 32px;
+  width: 100%;
+  max-width: 500px;
+  padding: 24px;
+  animation: slideUp 0.3s ease-out;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.modalHandle {
+  width: 50px;
+  height: 4px;
+  background-color: #e5e7eb;
+  border-radius: 10px;
+  margin: 0 auto 24px auto;
+}
+
+.modalTitle {
+  font-size: 24px;
+  font-weight: bold;
+  color: #1f2937;
+  margin-bottom: 8px;
+}
+
+.modalSubtitle {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 24px;
+}
+
+// Repay Modal Specific
+.summaryCard {
+  background-color: #f9fafb;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 24px;
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.summaryValue {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.summaryPaid {
+  font-weight: 600;
+  color: #10b981;
+}
+
+.summaryDivider {
+  height: 1px;
+  background-color: #e5e7eb;
+  margin: 12px 0;
+}
+
+.summaryBold {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.summaryRight {
+  text-align: right;
+}
+
+.summaryRemaining {
+  font-weight: 600;
+  color: #ef4444;
+}
+
+.remainingPreview {
+  margin-top: 4px;
+  padding: 2px 8px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.remainingPreviewPositive {
+  background-color: #d1fae5;
+  color: #10b981;
+}
+
+.remainingPreviewNegative {
+  background-color: #fee2e2;
+  color: #ef4444;
+}
+
+.inputLabel {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 8px;
+}
+
+.amountInput {
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  margin-bottom: 24px;
+}
+
+.input {
+  width: 100%;
+  padding: 16px;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  font-size: 18px;
+  font-weight: 600;
+
+  &:disabled {
+    opacity: 0.5;
+  }
+}
+
+.modalButtons {
+  display: flex;
+  gap: 12px;
+}
+
+.cancelButton {
+  flex: 1;
+  padding: 14px;
+  background-color: transparent;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover:not(:disabled) {
+    background-color: #f9fafb;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.confirmButton {
+  flex: 1;
+  padding: 14px;
+  background-color: #482691;
+  border: none;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover:not(:disabled) {
+    background-color: #5b3ca0;
+  }
+
+  &:disabled {
+    background-color: #e5e7eb;
+    cursor: not-allowed;
+  }
+}
+
+// Details Modal Specific
+.detailsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.detailsOrderLabel {
+  font-size: 12px;
+  color: #6b7280;
+  margin-bottom: 4px;
+}
+
+.detailsOrderNo {
+  font-size: 20px;
+  font-weight: bold;
+  color: #1f2937;
+}
+
+.detailsStatus {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.detailsStatusPaid {
+  background-color: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+}
+
+.detailsStatusPartial {
+  background-color: rgba(245, 158, 11, 0.1);
+  color: #f59e0b;
+}
+
+.detailsBuyerCard {
+  background-color: #f9fafb;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.detailsBuyerRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.detailsLabel {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.detailsValue {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.productsTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 12px;
+}
+
+.productsList {
+  margin-bottom: 20px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.productRow {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.productName {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1f2937;
+}
+
+.productQty {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.productTotal {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.detailsDivider {
+  height: 1px;
+  background-color: #e5e7eb;
+  margin: 16px 0;
+}
+
+.detailsTotals {
+  margin-bottom: 24px;
+}
+
+.detailsTotalRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.detailsTotalValue {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.detailsPaidValue {
+  font-weight: 600;
+  color: #10b981;
+}
+
+.detailsRemainingValue {
+  font-weight: 600;
+  color: #ef4444;
+}
+
+.detailsRepayButton {
+  width: 100%;
+  padding: 14px;
+  background-color: #482691;
+  border: none;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: #5b3ca0;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 480px) {
+  .appBarContent {
+    padding: 12px 16px;
+  }
+
+  .countBadge {
+    width: 42px;
+    height: 42px;
+  }
+
+  .countText {
+    font-size: 14px;
+  }
+
+  .cardValue {
+    font-size: 14px;
+  }
+
+  .modalContent {
+    padding: 20px;
+  }
+}
