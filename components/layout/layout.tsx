@@ -721,7 +721,7 @@ const LayoutComponent = ({ children }: { children: React.ReactNode }) => {
         }
 
         // Allow navigation to allowed pages only
-        const allowed = ['/', '/sales', '/products', '/attendants', '/clients', '/expenses', '/damages', '/business', '/deleted', '/businesses', '/business-reports','/terms-and-conditions','/debts'];
+        const allowed = ['/', '/sales', '/products', '/attendants', '/clients', '/expenses', '/damages', '/business', '/deleted', '/business-reports','/terms-and-conditions','/debts'];
         if (!allowed.includes(pathname)) {
           safeRedirect('/');
           return;
@@ -911,7 +911,6 @@ const LayoutComponent = ({ children }: { children: React.ReactNode }) => {
     { path: '/damages', icon: <BrushCleaning />, label: language === "Swahili" ? "Uharibifu" : "Damages" },
     { path: '/business', icon: <BriefcaseBusiness />, label: language === "Swahili" ? "Biashara Yangu" : "My Business" },
     { path: '/deleted', icon: <Trash />, label: language === "Swahili" ? "Zilizo Futwa" : "Deleted" },
-    { path: '/businesses', icon: <Volleyball />, label: language === "Swahili" ? "Biashara Zangu" : "My Businesses" },
     { path: '/debts', icon: <HandCoins />, label: language === "Swahili" ? "Madeni" : "Debts" },
     { path: '/business-reports', icon: <Anvil />, label: language === "Swahili" ? "Ripoti" : "Reports" },
     { path: '/terms-and-conditions', icon: <ClipboardPen />, label: language === "Swahili" ? "Vigezo & Masharti" : "Terms & Conditions" },

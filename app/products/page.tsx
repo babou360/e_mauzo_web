@@ -10,7 +10,7 @@ import { FaChevronLeft, FaChevronRight, FaEye } from 'react-icons/fa6';
 import useSelectedBusinessStore from '@/store/atoms/selected_business';
 import useLanguageStore from '@/store/atoms/language';
 import useSendMultipartRequest from '@/utils/useSendMultipartRequest';
-import { CopyX, Plus, Search, X } from 'lucide-react';
+import { CopyX, Download, Plus, Search, X } from 'lucide-react';
 import cx from 'classnames'
 
 interface Measurement {
@@ -158,6 +158,7 @@ export default function ProductsPage() {
   const [fields, setFields] = useState({
     isAddStock: false,
     isDelete: false,
+    showDownload: false,
     item: {
       selling_price: '',
       buying_price: '',
@@ -346,6 +347,51 @@ const measurementsList = !measureLoading && measurements?.all ? measurements.all
     }
   },[catLoading,measureLoading,formData])
 
+
+  const handleDownloadPDF = () => {
+  const printContents = `
+    <div style="padding: 40px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid #e2e8f0;">
+        <h1 style="font-size: 24px; color: #0b1a33; font-weight: 600;">${selected.name}</h1>
+        <span style="font-size: 12px; color: #94a3b8;">Generated: ${new Date().toLocaleString()}</span>
+      </div>
+      
+      <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+        <thead>
+          <tr>
+            <th style="background: #f8fafc; padding: 12px 16px; text-align: left; font-weight: 600; color: #1e293b; border-bottom: 2px solid #e2e8f0; text-transform: uppercase; font-size: 11px;">#</th>
+            <th style="background: #f8fafc; padding: 12px 16px; text-align: left; font-weight: 600; color: #1e293b; border-bottom: 2px solid #e2e8f0; text-transform: uppercase; font-size: 11px;">${language==="Swahili"?"Jina":"Name"}</th>
+            <th style="background: #f8fafc; padding: 12px 16px; text-align: left; font-weight: 600; color: #1e293b; border-bottom: 2px solid #e2e8f0; text-transform: uppercase; font-size: 11px;">${language==="Swahili"?"Bei ya Kununua":"Buying Price"}</th>
+            <th style="background: #f8fafc; padding: 12px 16px; text-align: left; font-weight: 600; color: #1e293b; border-bottom: 2px solid #e2e8f0; text-transform: uppercase; font-size: 11px;">${language==="Swahili"?"Bei ya Kuuza":"Selling Price"}</th>
+            <th style="background: #f8fafc; padding: 12px 16px; text-align: left; font-weight: 600; color: #1e293b; border-bottom: 2px solid #e2e8f0; text-transform: uppercase; font-size: 11px;">${language==="Swahili"?"Kiasi":"Quantity"}</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${data.all.map((item: any,index:number) => `
+            <tr>
+              <td style="padding: 12px 16px; border-bottom: 1px solid #ecf1f7; color: #1e293b;">#${index+1}</td>
+              <td style="padding: 12px 16px; border-bottom: 1px solid #ecf1f7; color: #1e293b;">${item.name}</td>
+              <td style="padding: 12px 16px; border-bottom: 1px solid #ecf1f7; color: #1e293b;">${item.buying_price?.toFixed(2) || item.buying_price}</td>
+              <td style="padding: 12px 16px; border-bottom: 1px solid #ecf1f7; color: #1e293b;">${item.selling_price?.toFixed(2) || item.selling_price}</td>
+              <td style="padding: 12px 16px; border-bottom: 1px solid #ecf1f7; color: #1e293b;">${item.quantity}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+      
+      <div style="margin-top: 30px; padding-top: 20px; border-top: 2px solid #e2e8f0; text-align: right; font-size: 12px; color: #94a3b8;">
+        <span>✦ ${data.all.length} entries • Bazenga</span>
+      </div>
+    </div>
+  `;
+
+  const originalContents = document.body.innerHTML;
+  document.body.innerHTML = printContents;
+  window.print();
+  document.body.innerHTML = originalContents;
+  window.location.reload(); // Reload to restore React state
+};
+
   return (
     <div className={styles.products_page}>
       {
@@ -427,7 +473,6 @@ const measurementsList = !measureLoading && measurements?.all ? measurements.all
     </div>
   </div>
 )}
-
       {/* Product Detail Modal */}
       {selectedProduct && (
         <div className={styles.overlay} role="dialog" aria-modal="true">
@@ -571,7 +616,10 @@ const measurementsList = !measureLoading && measurements?.all ? measurements.all
             />
           </div>
           <button className={styles.add_btn} onClick={() => setShowModal(true)}>
-            <span>{language === 'Swahili' ? '+ Ongeza Bidhaa' : '+ Add Product'}</span>
+            <span>{language === 'Swahili' ? 'Ongeza Bidhaa' : 'Add Product'}</span>
+          </button>
+          <button className={styles.add_btn} onClick={handleDownloadPDF} style={{marginLeft:"5px"}}>
+            <Download />
           </button>
         </div>
       </div>
