@@ -7,11 +7,6 @@ import { SiNamecheap } from 'react-icons/si';
 import { FaCriticalRole, FaLock, FaPhone } from 'react-icons/fa';
 import { MdOutlineMailOutline } from 'react-icons/md';
 
-export const metadata = {
-  title: "Login",
-  description: "Browse all about login page",
-};
-
 function Login() {
  const [fields, setFields] = useState({
     name: "",

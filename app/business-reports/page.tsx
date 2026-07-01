@@ -6,10 +6,6 @@ import styles from './style.module.scss';
 import useFetch from '@/utils/fetch';
 import useLanguageStore from '@/store/atoms/language';
 
-export const metadata = {
-  title: "Business-Reports",
-  description: "Browse all available Business reports.",
-};
 
 const TIME_FILTERS = [
     {

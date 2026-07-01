@@ -11,11 +11,6 @@ import { FaChevronLeft, FaChevronRight, FaPlus } from 'react-icons/fa6';
 import { MdDelete } from 'react-icons/md';
 import useSelectedBusinessStore from '@/store/atoms/selected_business';
 
-export const metadata = {
-  title: "Expenses",
-  description: "Browse all about expenses information",
-};
-
 interface Expense {
   id: number;
   name: string;

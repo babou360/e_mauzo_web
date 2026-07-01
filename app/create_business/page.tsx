@@ -21,11 +21,6 @@ import {
   MdLocationOn,
 } from 'react-icons/md';
 
-export const metadata = {
-  title: "Create Business",
-  description: "create business page",
-};
-
 import { motion, AnimatePresence } from 'framer-motion';
 
 import useFetch from '@/utils/fetch';

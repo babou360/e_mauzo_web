@@ -19,11 +19,6 @@ import useFetch from '@/utils/fetch';
 import useSendMultipartRequest from '@/utils/useSendMultipartRequest';
 import Link from 'next/link';
 
-export const metadata = {
-  title: "Business",
-  description: "Browse all available Business information.",
-};
-
 interface BusinessData {
   id: number;
   name: string;

@@ -6,11 +6,6 @@ import useLanguageStore from "@/store/atoms/language";
 import useSelectedBusinessStore from "@/store/atoms/selected_business";
 import useSendRequest from "@/utils/useSendRequest";
 
-export const metadata = {
-  title: "Subscription",
-  description: "Browse all about subscription information",
-};
-
 type Plan = {
   id: string;
   name: string;

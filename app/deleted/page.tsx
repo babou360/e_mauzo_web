@@ -10,10 +10,6 @@ import DeletedSales from '@/components/deleted/sales/page';
 import useLanguageStore from '@/store/atoms/language';
 import DeletedAttendants from '@/components/deleted/attendants/page';
 
-export const metadata = {
-  title: "Deleted",
-  description: "Browse all about deleted data",
-};
 
 export default function DeletedHomePage() {
   const [activeTab, setActiveTab] = useState(0);

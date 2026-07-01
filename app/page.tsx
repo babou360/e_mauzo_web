@@ -32,11 +32,6 @@ import AllHours from '../components/home/allHours/allHours';
 import AllHoursGraph from '../components/home/allHours/allHours';
 import Link from 'next/link';
 
-export const metadata = {
-  title: "Dashboard",
-  description: "Browse all the business statistics.",
-};
-
 const Home = () => {
   const { selected } = useSelectedBusinessStore();
   const { language } = useLanguageStore();

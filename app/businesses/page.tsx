@@ -12,11 +12,6 @@ import useSelectedBusinessStore from '@/store/atoms/selected_business';
 import useLanguageStore from '@/store/atoms/language';
 import useSendRequest from '@/utils/useSendRequest';
 
-export const metadata = {
-  title: "Businesses",
-  description: "Browse all available Businesses information.",
-};
-
 interface Business {
   id: string;
   name: string;

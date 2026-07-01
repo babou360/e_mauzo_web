@@ -12,11 +12,6 @@ import useSendMultipartRequest from '@/utils/useSendMultipartRequest';
 import { Download, Plus, Search, X } from 'lucide-react';
 import cx from 'classnames'
 
-export const metadata = {
-  title: "Products",
-  description: "Browse all about products information",
-};
-
 interface Measurement {
   id: number;
   name: string;

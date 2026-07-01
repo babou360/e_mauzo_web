@@ -7,11 +7,6 @@ import useFetch from '@/utils/fetch';
 import useSelectedBusinessStore from '@/store/atoms/selected_business';
 import useLanguageStore from '@/store/atoms/language';
 
-export const metadata = {
-  title: "Debts",
-  description: "Browse all about debts information",
-};
-
 const DebtsPage: React.FC = () => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');

@@ -24,11 +24,6 @@ interface Attendant {
   updatedAt: string;
 }
 
-export const metadata = {
-  title: "Attendants",
-  description: "Browse all the business attendants data.",
-};
-
 export default function AttendantsPage() {
   const [name, setName] = useState('');
   const [formData, setFormData] = useState({ 

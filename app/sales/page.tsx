@@ -13,11 +13,6 @@ import { MdQrCodeScanner } from 'react-icons/md';
 import useLanguageStore from '@/store/atoms/language';
 import { Layers, NotebookPen, PackageOpen } from 'lucide-react';
 
-export const metadata = {
-  title: "Sales",
-  description: "Browse all about sales information",
-};
-
 interface Product {
   id: number;
   name: string;

@@ -21,11 +21,6 @@ import styles from './styles.module.scss';
 import useFetch from '@/utils/fetch';
 import useSelectedBusinessStore from '@/store/atoms/selected_business';
 
-export const metadata = {
-  title: "Clients",
-  description: "Browse all available clients information.",
-};
-
 interface Client {
   id: number;
   name: string;
