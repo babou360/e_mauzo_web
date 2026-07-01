@@ -14,30 +14,30 @@ const merriweather = Open_Sans({
 
 // app/layout.tsx
 
-export const metadata: Metadata = {
-  title: "Bazenga-pos",
-  description: "Best Business management system in Tanzania",
-  keywords: [
-    "inventory",
-    "POS",
-    "stock management",
-    "Settlo",
-    "Luvanda Pos",
-    "Kuza Business",
-    "Tawala",
-    "Kaunta",
-    "SmartBusiness",
-    "CodeLab Business ERP",
-    "VISION XPOS",
-    "Business management",
-    "Tanzania"
-  ],
-  authors: [{ name: "Swahilicodes" }],
-  robots: {
-    index: true,
-    follow: true,
-  },
-};
+// export const metadata: Metadata = {
+//   title: "Bazenga-pos",
+//   description: "Best Business management system in Tanzania",
+//   keywords: [
+//     "inventory",
+//     "POS",
+//     "stock management",
+//     "Settlo",
+//     "Luvanda Pos",
+//     "Kuza Business",
+//     "Tawala",
+//     "Kaunta",
+//     "SmartBusiness",
+//     "CodeLab Business ERP",
+//     "VISION XPOS",
+//     "Business management",
+//     "Tanzania"
+//   ],
+//   authors: [{ name: "Swahilicodes" }],
+//   robots: {
+//     index: true,
+//     follow: true,
+//   },
+// };
 
 export default function RootLayout({
   children,
