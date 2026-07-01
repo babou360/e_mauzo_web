@@ -1,5 +1,4 @@
 'use client';
-
 import React, { useEffect, useState } from 'react';
 import styles from './sales.module.scss';
 import cx from 'classnames';
@@ -13,7 +12,11 @@ import { BsEye } from 'react-icons/bs';
 import { MdQrCodeScanner } from 'react-icons/md';
 import useLanguageStore from '@/store/atoms/language';
 import { Layers, NotebookPen, PackageOpen } from 'lucide-react';
-import Head from 'next/head';
+
+export const metadata = {
+  title: "Sales",
+  description: "Browse all about sales information",
+};
 
 interface Product {
   id: number;

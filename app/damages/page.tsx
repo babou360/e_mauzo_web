@@ -27,9 +27,10 @@ import useFetch from '@/utils/fetch';
 import useSelectedBusinessStore from '@/store/atoms/selected_business';
 import useSendMultipartRequest from '@/utils/useSendMultipartRequest';
 
-/* ------------------------------------------------------------------ */
-/*  Types                                                            */
-/* ------------------------------------------------------------------ */
+export const metadata = {
+  title: "Damages",
+  description: "Browse all about damages information",
+};
 interface Product {
   id: number;
   name: string;

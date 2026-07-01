@@ -7,10 +7,14 @@ import {
   FileText,
   Scale,
   Lock,
-  Building2,
   ChevronRight,
   DollarSign,
 } from 'lucide-react'
+
+export const metadata = {
+  title: "Terms-and-conditions",
+  description: "Browse all about damages information",
+};
 
 const termsContent = {
   English: {

@@ -17,6 +17,12 @@ import styles from './style.module.scss';
 import useSelectedBusinessStore from '@/store/atoms/selected_business';
 import useFetch from '@/utils/fetch';
 import useSendMultipartRequest from '@/utils/useSendMultipartRequest';
+import Link from 'next/link';
+
+export const metadata = {
+  title: "Business",
+  description: "Browse all available Business information.",
+};
 
 interface BusinessData {
   id: number;
@@ -148,7 +154,8 @@ export default function MyBusinessPage() {
   const categories = categoriesData?.data || [];
   const types = typesData?.data || [];
 
-  const [form, setForm] = useState<FormData>({
+  // Initialize form with default values
+  const defaultForm: FormData = {
     name: '',
     description: '',
     category: {
@@ -203,18 +210,20 @@ export default function MyBusinessPage() {
       sat: { open: '10:00', close: '14:00' },
       sun: { open: '', close: '' },
     },
-  });
+  };
+
+  const [form, setForm] = useState<FormData>(defaultForm);
 
   const { sendRequest: editBusiness, loading: editLoading, error: editError, data: editResponse } =
     useSendMultipartRequest({
       url: `${process.env.NEXT_PUBLIC_HOST}/business/edit_business`,
       method: 'POST',
       body: {
-        business_id: selected.id,
+        business_id: selected?.id,
         always_open: form.alwaysOpen,
         name: form.name,
-        category: form.category,
-        type: form.type,
+        category: JSON.stringify(categories.find((item: any) => item.slug === form.category.slug)),
+        type: JSON.stringify(types.find((item: any) => item.slug === form.type.slug)),
         country: form.country,
         city: form.city,
         district: form.district,
@@ -223,13 +232,13 @@ export default function MyBusinessPage() {
         latlong: form.latlong,
         phone: form.phone,
         email: form.email,
-        sales_category: form.sales_category,
+        sales_category: JSON.stringify(salesCategories.find((item) => item.value === form.sales_category.value)),
         currency: form.currency,
-        opening_hours: form.openingHours,
+        opening_hours: JSON.stringify(form.openingHours),
         delivery_available: form.deliveryAvailable,
         description: form.description,
         sells_online: form.sellsOnline,
-        images: thumbnail
+        thumbnail: thumbnail
       }
     });
 
@@ -241,19 +250,35 @@ export default function MyBusinessPage() {
 
   // Initialize form with selected business data
   useEffect(() => {
+    console.log('selected business is ', selected);
     const language = localStorage.getItem('mauzo_language');
     setIsSwahili(language === 'Swahili');
     
     if (selected) {
       setSelectedBusiness(selected as unknown as BusinessData);
       
+      // Find the full category object
+      const selectedCategory = categories.find(
+        (cat: any) => cat.slug === (selected.category as any)?.slug
+      );
+      
+      // Find the full type object
+      const selectedType = types.find(
+        (type: any) => type.slug === (selected.type as any)?.slug
+      );
+      
+      // Find the full sales category object
+      const selectedSalesCategory = salesCategories.find(
+        (sc: any) => sc.value === (selected.sales_category as any)?.value
+      );
+      
       // Map the business data correctly to form fields
       setForm({
         name: selected.name || '',
         description: selected.description || '',
-        category: selected.category || {},
-        type: selected.type || '',
-        sales_category: selected.salesCategory || '',
+        category: selectedCategory || defaultForm.category,
+        type: selectedType || defaultForm.type,
+        sales_category: selectedSalesCategory || defaultForm.sales_category,
         country: selected.country || '',
         city: selected.city || '',
         district: selected.district || '',
@@ -263,20 +288,12 @@ export default function MyBusinessPage() {
         phone: selected.phone || '',
         email: selected.email || '',
         currency: selected.currency || 'TZS',
-        deliveryAvailable: selected.deliveryAvailable === true,
-        sellsOnline: selected.sellsOnline === true,
-        alwaysOpen: selected.alwaysOpen === true,
+        deliveryAvailable: selected.delivery_available === true,
+        sellsOnline: selected.sells_online === true,
+        alwaysOpen: selected.always_open === true,
         isTheSameContact: false,
         urls: [],
-        openingHours: selected.openingHours || {
-          mon: { open: '09:00', close: '17:00' },
-          tue: { open: '09:00', close: '17:00' },
-          wed: { open: '09:00', close: '17:00' },
-          thu: { open: '09:00', close: '17:00' },
-          fri: { open: '09:00', close: '17:00' },
-          sat: { open: '10:00', close: '14:00' },
-          sun: { open: '', close: '' },
-        },
+        openingHours: selected.opening_hours || defaultForm.openingHours,
       });
       
       if (selected.thumbnail) {
@@ -284,55 +301,32 @@ export default function MyBusinessPage() {
       }
     }
     setIsLoading(false);
-  }, [selected]);
+  }, [selected, categories, types]);
 
-  const handleSaveEdit = async () => {
-    // Find the full objects for API
-    const selectedCategory = categories.find((item: any) => item.slug === form.category.slug);
-    const selectedType = types.find((item: any) => item.slug === form.type.slug);
-    const selectedSalesCategory = salesCategories.find((item) => item.value === form.sales_category.value);
-
-    // Prepare form data for multipart request
-    const formData = new FormData();
-    formData.append('business_id', String(selected?.id));
-    formData.append('name', form.name);
-    formData.append('description', form.description);
-    formData.append('category', JSON.stringify(selectedCategory || {}));
-    formData.append('type', JSON.stringify(selectedType || {}));
-    formData.append('sales_category', JSON.stringify(selectedSalesCategory || {}));
-    formData.append('country', form.country);
-    formData.append('city', form.city);
-    formData.append('district', form.district);
-    formData.append('ward', form.ward);
-    formData.append('street', form.street);
-    formData.append('latlong', form.latlong);
-    formData.append('phone', form.isTheSameContact ? user?.user?.phone : form.phone);
-    formData.append('email', form.isTheSameContact ? user?.user?.email : form.email);
-    formData.append('currency', form.currency);
-    formData.append('delivery_available', String(form.deliveryAvailable));
-    formData.append('sells_online', String(form.sellsOnline));
-    formData.append('always_open', String(form.alwaysOpen));
-    formData.append('opening_hours', JSON.stringify(form.openingHours));
-    
-    if (thumbnail) {
-      formData.append('thumbnail', thumbnail);
-    }
-
-    const result = await editBusiness();
-    
-    if (result !== null) {
-      setEditSuccess(true);
-      setTimeout(() => {
-        setEditSuccess(false);
-        setShowEdit(false);
-        // Update the selected business in store
-        if (result!==null) {
-          //setSelected(result);
-        }
-        window.location.reload();
-      }, 1500);
+  // Helper function to update category
+  const updateCategory = (slug: string) => {
+    const category = categories.find((c: any) => c.slug === slug);
+    if (category) {
+      setForm({ ...form, category });
     }
   };
+
+  // Helper function to update type
+  const updateType = (slug: string) => {
+    const type = types.find((t: any) => t.slug === slug);
+    if (type) {
+      setForm({ ...form, type });
+    }
+  };
+
+  // Helper function to update sales category
+  const updateSalesCategory = (value: string) => {
+    const salesCategory = salesCategories.find((sc) => sc.value === value);
+    if (salesCategory) {
+      setForm({ ...form, sales_category: salesCategory });
+    }
+  };
+
 
   const getDisplayValue = (obj: any) => {
     if (!obj) return '—';
@@ -405,11 +399,12 @@ export default function MyBusinessPage() {
   };
 
   const calculateDaysRemaining = () => {
-    if (!selectedBusiness?.lastPaid) return 0;
-    const lastPaid = new Date(selectedBusiness.lastPaid);
+    if (!selected?.lastPaid) return 0;
+    const lastPaid = new Date(selected.lastPaid);
     const now = new Date();
-    const diffDays = Math.ceil((now.getTime() - lastPaid.getTime()) / (1000 * 60 * 60 * 24));
-    return Math.max(0, 30 - diffDays);
+    console.log('last paid ',lastPaid)
+    const diffDays = Math.round((lastPaid.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
+    return diffDays;
   };
 
   const handleThumbnailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -748,7 +743,9 @@ export default function MyBusinessPage() {
                     whileTap={{ scale: 0.98 }}
                     className={styles.payBtn}
                   >
-                    {t('Renew Now', 'Sasisha Sasa')}
+                    <Link href="/subscription" style={{textDecoration:"none"}}>
+                      {t('Renew Now', 'Sasisha Sasa')}
+                    </Link>
                   </motion.button>
                 </div>
               </div>
@@ -885,13 +882,16 @@ export default function MyBusinessPage() {
         types={types}
         thumbnailPreview={thumbnailPreview}
         onThumbnailChange={handleThumbnailChange}
-        onSave={handleSaveEdit}
+        onSave={editBusiness}
         updateLoading={editLoading}
         editSuccess={editSuccess}
         editError={editError}
         isSwahili={isSwahili}
         t={t}
         user={user}
+        updateCategory={updateCategory}
+        updateType={updateType}
+        updateSalesCategory={updateSalesCategory}
       />
 
       {/* Delete Dialog */}
@@ -925,25 +925,12 @@ const DetailCard = ({ icon: Icon, label, value }: any) => (
 // Edit Modal Component
 const EditModal = ({ 
   show, onClose, form, setForm, categories, types,
-  thumbnailPreview, onThumbnailChange, onSave, updateLoading, editSuccess, editError, isSwahili, t, user
+  thumbnailPreview, onThumbnailChange, onSave, updateLoading, editSuccess, editError, isSwahili, t, user,
+  updateCategory, updateType, updateSalesCategory
 }: any) => {
   const [step, setStep] = useState(1);
 
   if (!show) return null;
-
-  const getCategoryDisplay = (cat: any) => {
-    if (!cat) return '';
-    const category = categories.find((c: any) => c.slug === cat);
-    if (!category) return '';
-    return isSwahili ? category.swahili_name : category.english_name;
-  };
-
-  const getTypeDisplay = (typeSlug: any) => {
-    if (!typeSlug) return '';
-    const type = types.find((t: any) => t.slug === typeSlug);
-    if (!type) return '';
-    return isSwahili ? type.swahili_name : type.english_name;
-  };
 
   return (
     <div className={styles.modalOverlay} onClick={onClose}>
@@ -1023,12 +1010,14 @@ const EditModal = ({
                 <label>{t('Category', 'Kipengele')} *</label>
                 <SearchableDropdown
                   items={categories.map((c: any) => isSwahili ? c.swahili_name : c.english_name)}
-                  value={getCategoryDisplay(form.category_slug)}
-                  onSelect={(val: string, originalItem: any) => {
+                  value={form.category ? (isSwahili ? form.category.swahili_name : form.category.english_name) : ''}
+                  onSelect={(val: string) => {
                     const selected = categories.find((c: any) => 
                       (isSwahili ? c.swahili_name : c.english_name) === val
                     );
-                    if (selected) setForm({ ...form, category_slug: selected.slug });
+                    if (selected) {
+                      updateCategory(selected.slug);
+                    }
                   }}
                   placeholder={t('Select category', 'Chagua kipengele')}
                   t={t}
@@ -1039,12 +1028,14 @@ const EditModal = ({
                 <label>{t('Type', 'Aina')} *</label>
                 <SearchableDropdown
                   items={types.map((t: any) => isSwahili ? t.swahili_name : t.english_name)}
-                  value={getTypeDisplay(form.type_slug)}
+                  value={form.type ? (isSwahili ? form.type.swahili_name : form.type.english_name) : ''}
                   onSelect={(val: string) => {
                     const selected = types.find((t: any) => 
                       (isSwahili ? t.swahili_name : t.english_name) === val
                     );
-                    if (selected) setForm({ ...form, type_slug: selected.slug });
+                    if (selected) {
+                      updateType(selected.slug);
+                    }
                   }}
                   placeholder={t('Select type', 'Chagua aina')}
                   t={t}
@@ -1057,15 +1048,15 @@ const EditModal = ({
                   {salesCategories.map(cat => (
                     <div 
                       key={cat.value}
-                      className={`${styles.salesCategoryCard} ${form.sales_category_value === cat.value ? styles.selected : ''}`}
-                      onClick={() => setForm({ ...form, sales_category_value: cat.value })}
+                      className={`${styles.salesCategoryCard} ${form.sales_category?.value === cat.value ? styles.selected : ''}`}
+                      onClick={() => updateSalesCategory(cat.value)}
                     >
                       <div className={styles.salesCategoryIcon}>{cat.icon}</div>
                       <div className={styles.salesCategoryInfo}>
                         <strong>{isSwahili ? cat.swahili : cat.english}</strong>
                         <small>{cat.description}</small>
                       </div>
-                      {form.sales_category_value === cat.value && <Check size={16} className={styles.salesCategoryCheck} />}
+                      {form.sales_category?.value === cat.value && <Check size={16} className={styles.salesCategoryCheck} />}
                     </div>
                   ))}
                 </div>

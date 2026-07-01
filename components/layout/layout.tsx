@@ -714,14 +714,15 @@ const LayoutComponent = ({ children }: { children: React.ReactNode }) => {
         }
 
         // Valid subscription - redirect from restricted pages to home
-        const restrictedPages = ['/choose_business', '/sign_log', '/create_business', '/subscription'];
+        //const restrictedPages = ['/choose_business', '/sign_log', '/create_business', '/subscription'];
+        const restrictedPages = ['/choose_business', '/sign_log', '/create_business'];
         if (restrictedPages.includes(pathname)) {
           safeRedirect('/');
           return;
         }
 
         // Allow navigation to allowed pages only
-        const allowed = ['/', '/sales', '/products', '/attendants', '/clients', '/expenses', '/damages', '/business', '/deleted', '/business-reports','/terms-and-conditions','/debts'];
+        const allowed = ['/', '/sales', '/products', '/attendants', '/clients', '/expenses', '/damages', '/business', '/deleted', '/business-reports','/terms-and-conditions','/debts','/subscription'];
         if (!allowed.includes(pathname)) {
           safeRedirect('/');
           return;

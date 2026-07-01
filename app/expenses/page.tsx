@@ -9,6 +9,12 @@ import useErrorStore from '@/store/atoms/error';
 import useLanguageStore from '@/store/atoms/language';
 import { FaChevronLeft, FaChevronRight, FaPlus } from 'react-icons/fa6';
 import { MdDelete } from 'react-icons/md';
+import useSelectedBusinessStore from '@/store/atoms/selected_business';
+
+export const metadata = {
+  title: "Expenses",
+  description: "Browse all about expenses information",
+};
 
 interface Expense {
   id: number;
@@ -52,6 +58,7 @@ const Expenses: React.FC = () => {
 
   const [showAddExpense, setShowAddExpense] = useState(false);
   const [showAddGroup, setShowAddGroup] = useState(false);
+  const { selected, setSelected } = useSelectedBusinessStore();
 
   const [expenseName, setExpenseName] = useState('');
   const [expenseAmount, setExpenseAmount] = useState('');
@@ -69,7 +76,8 @@ const Expenses: React.FC = () => {
     end: selectedDuration === 'custom' ? customEnd : undefined,
     page: tabIndex === 0 ? pageExpenses : pageGroups,
     pageSize,
-    business_id: 1
+    business_id: Number(selected?.id),
+    name: ''
   };
 
   const { data: expensesData, loading: expLoading, } = useFetch<{
@@ -79,20 +87,18 @@ const Expenses: React.FC = () => {
 
   const { data: groupsData, loading: groupLoading,  } = useFetch<{
     data: ExpenseGroup[];
-  }>(`${process.env.NEXT_PUBLIC_HOST}/expenses/get_expense_groups`, { page: pageGroups, pageSize,business_id: 1 });
-
-  const { data: totalsData } = useFetch<Totals>(`${process.env.NEXT_PUBLIC_HOST}/expenses/get_totals`, fetchParams);
+  }>(`${process.env.NEXT_PUBLIC_HOST}/expenses/get_expense_groups`, { page: pageGroups, pageSize,business_id: selected.id });
 
   const { sendRequest: createExpense, loading: creatingExp } = useSendRequest({
     url: `${process.env.NEXT_PUBLIC_HOST}/expenses/create_expense`,
     method: 'POST',
-    body: { name: expenseName, amount: expenseAmount, category: selectedCategory,business_id: 1 },
+    body: { name: expenseName, amount: expenseAmount, category: selectedCategory,business_id: selected.id },
   });
 
   const { sendRequest: createGroup, loading: creatingGroup } = useSendRequest({
     url: `${process.env.NEXT_PUBLIC_HOST}/expenses/create_expense_group`,
     method: 'POST',
-    body: { name: groupName, description: groupDesc, business_id: 1 },
+    body: { name: groupName, description: groupDesc, business_id: selected.id },
   });
   const { sendRequest: deleteGroup, loading: deleteLoading } = useSendRequest({
     url: `${process.env.NEXT_PUBLIC_HOST}/expenses/delete_expense_group`,
@@ -120,10 +126,10 @@ const Expenses: React.FC = () => {
       return;
     }
     await createExpense();
-    setShowAddExpense(false);
-    setExpenseName('');
-    setExpenseAmount('');
-    setSelectedCategory(null);
+    // setShowAddExpense(false);
+    // setExpenseName('');
+    // setExpenseAmount('');
+    // setSelectedCategory(null);
   };
 
   const handleCreateGroup = async () => {
@@ -132,9 +138,9 @@ const Expenses: React.FC = () => {
       return;
     }
     await createGroup();
-    setShowAddGroup(false);
-    setGroupName('');
-    setGroupDesc('');
+    // setShowAddGroup(false);
+    // setGroupName('');
+    // setGroupDesc('');
   };
 
   const handleDeleteExpense = async (id: number) => {
@@ -159,6 +165,10 @@ const Expenses: React.FC = () => {
   const totalGroupPages = groupsData?.data ? Math.ceil(groupsData.data.length / pageSize) : 0;
 
   const formatNumber = (num: number) => num.toLocaleString();
+
+  useEffect(()=> {
+
+  },[selected,expensesData,groupsData])
 
   return (
     <div className={styles.expenses}>
@@ -241,7 +251,7 @@ const Expenses: React.FC = () => {
             </svg>
           </div>
           <h2>{language === 'Swahili' ? 'Jumla Matumizi' : 'Total Expenses'}</h2>
-          <p>{totalsData ? formatNumber(totalsData.total_expenses) : '0'}</p>
+          <p>{!expLoading ? formatNumber(expensesData.summary.total_amount) : '0'}</p>
         </div>
         <div className={styles.card}>
           <div className={styles.card_icon}>
@@ -253,7 +263,7 @@ const Expenses: React.FC = () => {
             </svg>
           </div>
           <h2>{language === 'Swahili' ? 'Idadi' : 'Count'}</h2>
-          <p>{totalsData ? formatNumber(totalsData.count_expenses) : '0'}</p>
+          <p>{!expLoading ? formatNumber(expensesData.summary.total_count) : '0'}</p>
         </div>
       </div>
 
@@ -265,7 +275,7 @@ const Expenses: React.FC = () => {
               <div className={styles.spinner}></div>
               <p>{language === 'Swahili' ? 'Inapakia...' : 'Loading...'}</p>
             </div>
-          ) : !expensesData?.length ? (
+          ) : expensesData.data.length < 1 ? (
             <div className={styles.empty_state}>
               <h3>{language === 'Swahili' ? 'Hakuna Matumizi' : 'No Expenses'}</h3>
               <p>{language === 'Swahili' ? 'Ongeza matumizi ili uanze' : 'Add an expense to get started'}</p>
@@ -273,7 +283,7 @@ const Expenses: React.FC = () => {
           ) : (
             <>
               <div className={styles.list}>
-                {expensesData.map((e: { id: React.Key | null | undefined; name: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined; category: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined; createdAt: string | number | Date; amount: number; }, i: any) => (
+                {expensesData.data.map((e: { id: React.Key | null | undefined; name: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined; category: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined; createdAt: string | number | Date; amount: number; }, i: any) => (
                   <div key={e.id} className={styles.list_item}>
                     <div className={styles.leading}>
                       <div className={styles.avatar}>

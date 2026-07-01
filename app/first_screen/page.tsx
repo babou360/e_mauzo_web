@@ -22,6 +22,11 @@ import {
 } from 'lucide-react'
 import styles from './language.module.scss'
 
+export const metadata = {
+  title: "First-Screen",
+  description: "Browse all about first screen information",
+};
+
 function FirstScreen() {
   const { language, setLanguage } = useLanguageStore()
   const [isLanguageSelected, setIsLanguageSelected] = useState(false)

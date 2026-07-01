@@ -57,15 +57,15 @@ type SelectedBusiness = {
   lastPaid: string;
   description: string;
   currency: string;
-  salesCategory: salesCategory;
+  sales_category: salesCategory;
   thumbnail: string;
   slug: string;
   referralCode: string;
-  deliveryAvailable: boolean;
-  sellsOnline: boolean;
-  alwaysOpen: boolean;
+  delivery_available: boolean;
+  sells_online: boolean;
+  always_open: boolean;
   isVerified: boolean;
-  openingHours: OpeningHours;
+  opening_hours: OpeningHours;
 };
 
 type SelectedBusinessState = {
@@ -115,15 +115,15 @@ const defaultBusiness: SelectedBusiness = {
   lastPaid: '',
   description: '',
   currency: 'TZS',
-  salesCategory: {
+  sales_category: {
     value: '',
     english: '',
     swahili: ''
   },
-  deliveryAvailable: false,
-  sellsOnline: false,
-  alwaysOpen: false,
-  openingHours: {
+  delivery_available: false,
+  sells_online: false,
+  always_open: false,
+  opening_hours: {
     mon: { open: '', close: '' },
     tue: { open: '', close: '' },
     wed: { open: '', close: '' },

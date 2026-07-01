@@ -4,9 +4,13 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Search, ChevronLeft, ChevronRight, Wallet, CheckCircle, User, Phone, Package, CreditCard } from 'lucide-react';
 import styles from './Debts.module.scss';
 import useFetch from '@/utils/fetch';
-import useSendRequest from '@/utils/useSendRequest';
 import useSelectedBusinessStore from '@/store/atoms/selected_business';
-import useLanguageStore from '@/store/atoms/language'; // Assuming this exists
+import useLanguageStore from '@/store/atoms/language';
+
+export const metadata = {
+  title: "Debts",
+  description: "Browse all about debts information",
+};
 
 const DebtsPage: React.FC = () => {
   const [startDate, setStartDate] = useState('');

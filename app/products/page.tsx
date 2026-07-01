@@ -5,13 +5,17 @@ import styles from './products.module.scss';
 import useSendRequest from '@/utils/useSendRequest';
 import useFetch from '@/utils/fetch';
 import { MdOutlineDelete } from 'react-icons/md';
-import { IoPrintOutline } from 'react-icons/io5';
 import { FaChevronLeft, FaChevronRight, FaEye } from 'react-icons/fa6';
 import useSelectedBusinessStore from '@/store/atoms/selected_business';
 import useLanguageStore from '@/store/atoms/language';
 import useSendMultipartRequest from '@/utils/useSendMultipartRequest';
-import { CopyX, Download, Plus, Search, X } from 'lucide-react';
+import { Download, Plus, Search, X } from 'lucide-react';
 import cx from 'classnames'
+
+export const metadata = {
+  title: "Products",
+  description: "Browse all about products information",
+};
 
 interface Measurement {
   id: number;
@@ -349,47 +353,282 @@ const measurementsList = !measureLoading && measurements?.all ? measurements.all
 
 
   const handleDownloadPDF = () => {
+  // Create the complete HTML document with all content
   const printContents = `
-    <div style="padding: 40px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
-      <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid #e2e8f0;">
-        <h1 style="font-size: 24px; color: #0b1a33; font-weight: 600;">${selected.name}</h1>
-        <span style="font-size: 12px; color: #94a3b8;">Generated: ${new Date().toLocaleString()}</span>
-      </div>
-      
-      <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
-        <thead>
-          <tr>
-            <th style="background: #f8fafc; padding: 12px 16px; text-align: left; font-weight: 600; color: #1e293b; border-bottom: 2px solid #e2e8f0; text-transform: uppercase; font-size: 11px;">#</th>
-            <th style="background: #f8fafc; padding: 12px 16px; text-align: left; font-weight: 600; color: #1e293b; border-bottom: 2px solid #e2e8f0; text-transform: uppercase; font-size: 11px;">${language==="Swahili"?"Jina":"Name"}</th>
-            <th style="background: #f8fafc; padding: 12px 16px; text-align: left; font-weight: 600; color: #1e293b; border-bottom: 2px solid #e2e8f0; text-transform: uppercase; font-size: 11px;">${language==="Swahili"?"Bei ya Kununua":"Buying Price"}</th>
-            <th style="background: #f8fafc; padding: 12px 16px; text-align: left; font-weight: 600; color: #1e293b; border-bottom: 2px solid #e2e8f0; text-transform: uppercase; font-size: 11px;">${language==="Swahili"?"Bei ya Kuuza":"Selling Price"}</th>
-            <th style="background: #f8fafc; padding: 12px 16px; text-align: left; font-weight: 600; color: #1e293b; border-bottom: 2px solid #e2e8f0; text-transform: uppercase; font-size: 11px;">${language==="Swahili"?"Kiasi":"Quantity"}</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${data.all.map((item: any,index:number) => `
-            <tr>
-              <td style="padding: 12px 16px; border-bottom: 1px solid #ecf1f7; color: #1e293b;">#${index+1}</td>
-              <td style="padding: 12px 16px; border-bottom: 1px solid #ecf1f7; color: #1e293b;">${item.name}</td>
-              <td style="padding: 12px 16px; border-bottom: 1px solid #ecf1f7; color: #1e293b;">${item.buying_price?.toFixed(2) || item.buying_price}</td>
-              <td style="padding: 12px 16px; border-bottom: 1px solid #ecf1f7; color: #1e293b;">${item.selling_price?.toFixed(2) || item.selling_price}</td>
-              <td style="padding: 12px 16px; border-bottom: 1px solid #ecf1f7; color: #1e293b;">${item.quantity}</td>
-            </tr>
-          `).join('')}
-        </tbody>
-      </table>
-      
-      <div style="margin-top: 30px; padding-top: 20px; border-top: 2px solid #e2e8f0; text-align: right; font-size: 12px; color: #94a3b8;">
-        <span>✦ ${data.all.length} entries • Bazenga</span>
-      </div>
-    </div>
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="UTF-8">
+        <title>Bazenga - ${selected.name}</title>
+        <style>
+          @page {
+            margin: 15mm 20mm;
+            size: A4;
+          }
+          * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+          }
+          body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: white;
+            color: #1e293b;
+          }
+          .document-wrapper {
+            max-width: 100%;
+            padding: 10px 0;
+          }
+          
+          /* Top Purple Line */
+          .top-line {
+            height: 4px;
+            background: linear-gradient(to right, #7c3aed, #8b5cf6, #a78bfa);
+            margin-bottom: 25px;
+            border-radius: 2px;
+          }
+
+          /* Header */
+          .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e2e8f0;
+          }
+          .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+          }
+          .logo {
+            width: 65px;
+            height: 65px;
+            object-fit: contain;
+          }
+          .brand {
+            display: flex;
+            flex-direction: column;
+          }
+          .brand-name {
+            font-size: 22px;
+            font-weight: 700;
+            color: #7c3aed;
+            letter-spacing: -0.5px;
+          }
+          .brand-tagline {
+            font-size: 11px;
+            color: #6b7280;
+            font-weight: 400;
+          }
+          .header-right {
+            text-align: right;
+            font-size: 11px;
+            color: #4b5563;
+            line-height: 1.6;
+          }
+          .header-right .biz-name {
+            font-weight: 600;
+            color: #7c3aed;
+            font-size: 13px;
+          }
+          .header-right .generated {
+            margin-top: 4px;
+            font-size: 10px;
+            color: #9ca3af;
+          }
+
+          /* Content */
+          .content {
+            min-height: 60vh;
+          }
+
+          /* Title Section */
+          .title-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e2e8f0;
+          }
+          .title-section h1 {
+            font-size: 24px;
+            color: #0b1a33;
+            font-weight: 600;
+          }
+          .title-section .generated-date {
+            font-size: 12px;
+            color: #94a3b8;
+          }
+
+          /* Table */
+          table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+          }
+          table thead th {
+            background: #f8fafc;
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+            color: #1e293b;
+            border-bottom: 2px solid #e2e8f0;
+            text-transform: uppercase;
+            font-size: 11px;
+          }
+          table tbody td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #ecf1f7;
+            color: #1e293b;
+          }
+          table tbody tr:last-child td {
+            border-bottom: 2px solid #e2e8f0;
+          }
+
+          /* Footer */
+          .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          }
+          .footer-left {
+            font-size: 12px;
+            color: #94a3b8;
+          }
+          .footer-left .business-detail {
+            color: #7c3aed;
+            font-weight: 500;
+          }
+          .footer-right {
+            text-align: right;
+            font-size: 12px;
+            color: #94a3b8;
+          }
+          .footer-right .entries {
+            color: #7c3aed;
+            font-weight: 600;
+          }
+
+          /* Bottom Purple Line */
+          .bottom-line {
+            height: 4px;
+            background: linear-gradient(to right, #7c3aed, #8b5cf6, #a78bfa);
+            margin-top: 25px;
+            border-radius: 2px;
+          }
+
+          /* Print styles */
+          @media print {
+            body { background: white; }
+            .logo { display: block; }
+          }
+        </style>
+      </head>
+      <body>
+        <div class="document-wrapper">
+          <!-- Top Line -->
+          <div class="top-line"></div>
+
+          <!-- Header -->
+          <div class="header">
+            <div class="header-left">
+              <img src="/gradient.png" alt="Bazenga Logo" class="logo" />
+              <div class="brand">
+                <div class="brand-name">Bazenga</div>
+                <div class="brand-tagline">Business Management System</div>
+              </div>
+            </div>
+            <div class="header-right">
+              <div class="biz-name">Bazenga Business Management System</div>
+              <div>Kibamba, Ubungo Dar-es-salaam, Tanzania</div>
+              <div>https://bazenga-pos.swahilicodes.com</div>
+              <div class="generated">Generated: ${new Date().toLocaleString()}</div>
+            </div>
+          </div>
+
+          <!-- Content -->
+          <div class="content">
+            <!-- Title -->
+            <div class="title-section">
+              <h1>${selected.name}</h1>
+              <span class="generated-date">Generated: ${new Date().toLocaleString()}</span>
+            </div>
+
+            <!-- Table -->
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>${language === "Swahili" ? "Jina" : "Name"}</th>
+                  <th>${language === "Swahili" ? "Bei ya Kununua" : "Buying Price"}</th>
+                  <th>${language === "Swahili" ? "Bei ya Kuuza" : "Selling Price"}</th>
+                  <th>${language === "Swahili" ? "Kiasi" : "Quantity"}</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${data.all && data.all.length > 0 ? data.all.map((item: any, index: number) => `
+                  <tr>
+                    <td>${index + 1}</td>
+                    <td>${item.name || ''}</td>
+                    <td>${item.buying_price?.toFixed(2) || item.buying_price || '0.00'}</td>
+                    <td>${item.selling_price?.toFixed(2) || item.selling_price || '0.00'}</td>
+                    <td>${item.quantity || 0} ${item.measurement?.short_form || ''}</td>
+                  </tr>
+                `).join('') : `
+                  <tr>
+                    <td colspan="5" style="text-align: center; padding: 40px; color: #94a3b8;">
+                      No items to display
+                    </td>
+                  </tr>
+                `}
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Footer -->
+          <div class="footer">
+            <div class="footer-left">
+              <span class="business-detail">${selected.name || 'Business'}</span>
+              ${selected.street ? `• ${selected.ward}` : ''}
+              ${selected.phone ? `• ${selected.phone}` : ''}
+            </div>
+            <div class="footer-right">
+              <span class="entries">✦ ${data.all?.length || 0}</span> entries • Bazenga
+            </div>
+          </div>
+
+          <!-- Bottom Line -->
+          <div class="bottom-line"></div>
+        </div>
+      </body>
+    </html>
   `;
 
-  const originalContents = document.body.innerHTML;
-  document.body.innerHTML = printContents;
-  window.print();
-  document.body.innerHTML = originalContents;
-  window.location.reload(); // Reload to restore React state
+  // Open print window
+  const printWindow = window.open('', '_blank', 'width=800,height=600');
+  
+  if (printWindow) {
+    printWindow.document.write(printContents);
+    printWindow.document.close();
+    printWindow.focus();
+    
+    // Wait for content to load then print
+    setTimeout(() => {
+      printWindow.print();
+    }, 500);
+  } else {
+    // Fallback if popup is blocked
+    const originalContents = document.body.innerHTML;
+    document.body.innerHTML = printContents;
+    window.print();
+    document.body.innerHTML = originalContents;
+  }
 };
 
   return (

@@ -30,6 +30,12 @@ import DailySalesGraph from '../components/home/day/DailySalesGraph';
 import MonthlySalesGraph from '../components/home/month/MonthlySalesGraph';
 import AllHours from '../components/home/allHours/allHours';
 import AllHoursGraph from '../components/home/allHours/allHours';
+import Link from 'next/link';
+
+export const metadata = {
+  title: "Dashboard",
+  description: "Browse all the business statistics.",
+};
 
 const Home = () => {
   const { selected } = useSelectedBusinessStore();
@@ -550,7 +556,7 @@ const Home = () => {
             <div className={styles.subscriptionSubtitle}>{subscription.subtitle}</div>
           </div>
           <button className={styles.subscriptionButton} style={{ color: subscription.color }}>
-            {t.upgrade}
+            <Link href="/subscription" style={{textDecoration:"none"}}>{t.upgrade}</Link>
           </button>
         </div>
 

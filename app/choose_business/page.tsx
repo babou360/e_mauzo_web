@@ -15,6 +15,11 @@ import {
 } from 'lucide-react'
 import cx from 'classnames'
 
+export const metadata = {
+  title: "Choose Business",
+  description: "create business page",
+};
+
 function ChooseBusiness() {
   const { language } = useLanguageStore()
 

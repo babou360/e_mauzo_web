@@ -1,13 +1,16 @@
 'use client'
-import useFetch from '@/utils/fetch';
 import React, { useState } from 'react'
 import styles from './login.module.scss'
 import useSendRequest from '@/utils/useSendRequest';
-import axios from 'axios';
 import Input from '@/components/reusables/input/input';
 import { SiNamecheap } from 'react-icons/si';
 import { FaCriticalRole, FaLock, FaPhone } from 'react-icons/fa';
 import { MdOutlineMailOutline } from 'react-icons/md';
+
+export const metadata = {
+  title: "Login",
+  description: "Browse all about login page",
+};
 
 function Login() {
  const [fields, setFields] = useState({
