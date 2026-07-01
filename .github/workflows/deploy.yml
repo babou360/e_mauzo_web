@@ -1,4 +1,4 @@
-name: Auto Deploy Next.js App on VPS
+name: Auto Deploy Bazenga Web App on VPS
 
 on:
   push:
